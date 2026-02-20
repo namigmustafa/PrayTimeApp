@@ -53,7 +53,7 @@ public partial class MainPage : ContentPage
         var manual = LocationService.GetManualLocation();
         if (manual is not null)
         {
-            LocationLabel.Text = manual.CityLabel;
+            LocationLabel.Text = Truncate(manual.CityLabel);
             _city    = manual.City;
             _country = manual.Country;
             _lat     = manual.Latitude;
@@ -68,7 +68,7 @@ public partial class MainPage : ContentPage
 
         var info = await LocationService.GetLocationInfoAsync(forceRefresh);
 
-        LocationLabel.Text = info.CityLabel;
+        LocationLabel.Text = Truncate(info.CityLabel);
 
         if (string.IsNullOrWhiteSpace(info.City) || string.IsNullOrWhiteSpace(info.Country))
             return;
@@ -231,7 +231,6 @@ public partial class MainPage : ContentPage
             rowB.StrokeThickness    = active ? 1.5  : 0;
             iconB.BackgroundColor   = active ? goldBg   : iconBg;
             nameLbl.TextColor       = active ? gold     : textPrimary;
-            nameLbl.FontAttributes  = active ? FontAttributes.Bold : FontAttributes.None;
             timeLbl.TextColor       = active ? gold     : textSecond;
             timeLbl.FontAttributes  = active ? FontAttributes.Bold : FontAttributes.None;
         }
@@ -286,5 +285,8 @@ public partial class MainPage : ContentPage
         LocationService.ClearCache();
         await LoadAllAsync(forceRefresh: true);
     }
+
+    private static string Truncate(string text, int max = 25)
+        => text.Length > max ? text[..max] + "…" : text;
 
 }

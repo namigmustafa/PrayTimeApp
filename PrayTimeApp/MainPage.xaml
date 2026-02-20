@@ -177,7 +177,7 @@
                     </Border>
                     <Label x:Name="FajrNameLbl" Grid.Column="1" Text="{i18n:Translate Prayer_Fajr}"
                            TextColor="{StaticResource TextPrimary}"
-                           FontSize="15" VerticalOptions="Center"/>
+                           FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Label x:Name="FajrTime" Grid.Column="2" Text="—"
                            TextColor="{StaticResource TextSecondary}"
                            FontSize="14" VerticalOptions="Center"/>
@@ -197,7 +197,7 @@
                     </Border>
                     <Label Grid.Column="1" Text="{i18n:Translate Prayer_Sunrise}"
                            TextColor="{StaticResource TextPrimary}"
-                           FontSize="15" VerticalOptions="Center"/>
+                           FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Label x:Name="SunriseTime" Grid.Column="2" Text="—"
                            TextColor="{StaticResource TextSecondary}"
                            FontSize="14" VerticalOptions="Center"/>
@@ -217,7 +217,7 @@
                     </Border>
                     <Label x:Name="DhuhrNameLbl" Grid.Column="1" Text="{i18n:Translate Prayer_Dhuhr}"
                            TextColor="{StaticResource TextPrimary}"
-                           FontSize="15" VerticalOptions="Center"/>
+                           FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Label x:Name="DhuhrTime" Grid.Column="2" Text="—"
                            TextColor="{StaticResource TextSecondary}"
                            FontSize="14" VerticalOptions="Center"/>
@@ -237,7 +237,7 @@
                     </Border>
                     <Label x:Name="AsrNameLbl" Grid.Column="1" Text="{i18n:Translate Prayer_Asr}"
                            TextColor="{StaticResource TextPrimary}"
-                           FontSize="15" VerticalOptions="Center"/>
+                           FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Label x:Name="AsrTime" Grid.Column="2" Text="—"
                            TextColor="{StaticResource TextSecondary}"
                            FontSize="14" VerticalOptions="Center"/>
@@ -257,7 +257,7 @@
                     </Border>
                     <Label x:Name="MaghribNameLbl" Grid.Column="1" Text="{i18n:Translate Prayer_Maghrib}"
                            TextColor="{StaticResource TextPrimary}"
-                           FontSize="15" VerticalOptions="Center"/>
+                           FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Label x:Name="MaghribTime" Grid.Column="2" Text="—"
                            TextColor="{StaticResource TextSecondary}"
                            FontSize="14" VerticalOptions="Center"/>
@@ -277,7 +277,7 @@
                     </Border>
                     <Label x:Name="IshaNameLbl" Grid.Column="1" Text="{i18n:Translate Prayer_Isha}"
                            TextColor="{StaticResource TextPrimary}"
-                           FontSize="15" VerticalOptions="Center"/>
+                           FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Label x:Name="IshaTime" Grid.Column="2" Text="—"
                            TextColor="{StaticResource TextSecondary}"
                            FontSize="14" VerticalOptions="Center"/>
