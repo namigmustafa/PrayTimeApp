@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:PrayTimeApp.Extensions"
+             x:Class="PrayTimeApp.SettingsPage"
+             BackgroundColor="{StaticResource AppBg}">
+
+    <ContentPage.Resources>
+        <!-- Green-track / gold-thumb toggle -->
+        <Style x:Key="GoldToggle" TargetType="Switch">
+            <Setter Property="OnColor" Value="#2A6B45"/>
+            <Setter Property="ThumbColor" Value="{StaticResource GoldAccent}"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20,16,20,20" Spacing="14">
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  HEADER                                     -->
+            <!-- ═══════════════════════════════════════════ -->
+            <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                <Label Grid.Column="0"
+                       Text="{i18n:Translate Settings}"
+                       FontSize="28" FontAttributes="Bold"
+                       TextColor="{StaticResource TextPrimary}"
+                       VerticalOptions="Center"/>
+
+                <!-- Help / question icon -->
+                <Border Grid.Column="1"
+                        BackgroundColor="{StaticResource CardBg}"
+                        StrokeThickness="0"
+                        WidthRequest="40" HeightRequest="40"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Label Text="?" FontSize="17" FontAttributes="Bold"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+            </Grid>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  APP LANGUAGE CARD                          -->
+            <!-- ═══════════════════════════════════════════ -->
+            <Border BackgroundColor="{StaticResource GreenCard}"
+                    Stroke="{StaticResource GreenCardBorder}"
+                    StrokeThickness="1.5"
+                    Padding="16,14">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="14">
+
+                    <!-- Icon + text + current language badge -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <!-- Globe icon circle -->
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource GoldBadgeBg}"
+                                StrokeThickness="0"
+                                WidthRequest="42" HeightRequest="42">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12"/>
+                            </Border.StrokeShape>
+                            <Label Text="🌐" FontSize="20"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+
+                        <!-- Title + subtitle -->
+                        <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                            <Label Text="{i18n:Translate AppLanguage}"
+                                   TextColor="{StaticResource GoldAccent}"
+                                   FontSize="15" FontAttributes="Bold"/>
+                            <Label Text="{i18n:Translate SelectLanguage}"
+                                   TextColor="{StaticResource GreenCardText}"
+                                   FontSize="12"/>
+                        </VerticalStackLayout>
+
+                        <!-- Current language badge -->
+                        <Border Grid.Column="2"
+                                BackgroundColor="{StaticResource CardBg}"
+                                StrokeThickness="0"
+                                Padding="12,6"
+                                VerticalOptions="Center">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                            <Label x:Name="LanguageBadgeLabel"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="13" FontAttributes="Bold"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- CHANGE button -->
+                    <Border BackgroundColor="{StaticResource GoldAccent}"
+                            StrokeThickness="0"
+                            Padding="0,14">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnChangeLanguageTapped"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="{i18n:Translate Change}"
+                               TextColor="#0D1623"
+                               FontSize="14" FontAttributes="Bold"
+                               CharacterSpacing="1.5"
+                               HorizontalOptions="Center"/>
+                    </Border>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  SECTION: NOTIFICATIONS & PREFERENCES       -->
+            <!-- ═══════════════════════════════════════════ -->
+            <Label Text="{i18n:Translate NotificationsAndPrefs}"
+                   TextColor="{StaticResource TextSecondary}"
+                   FontSize="11" FontAttributes="Bold"
+                   CharacterSpacing="1.2"
+                   Margin="2,6,0,0"/>
+
+            <Border BackgroundColor="{StaticResource CardBg}"
+                    StrokeThickness="0"
+                    Padding="16,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="14"/>
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="0">
+
+                    <!-- Prayer Notifications -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="0,14">
+                        <Border Grid.Column="0" BackgroundColor="{StaticResource GoldBadgeBg}"
+                                StrokeThickness="0" WidthRequest="38" HeightRequest="38">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                            <Label Text="🔔" FontSize="18"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Column="1" Text="{i18n:Translate PrayerNotifications}"
+                               TextColor="{StaticResource TextPrimary}"
+                               FontSize="15" FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+                        <Switch Grid.Column="2"
+                                IsToggled="True"
+                                Style="{StaticResource GoldToggle}"
+                                VerticalOptions="Center"/>
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}" Margin="52,0,0,0"/>
+
+                    <!-- Dark Mode -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="0,14">
+                        <Border Grid.Column="0" BackgroundColor="{StaticResource GoldBadgeBg}"
+                                StrokeThickness="0" WidthRequest="38" HeightRequest="38">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                            <Label Text="🌙" FontSize="18"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Column="1" Text="{i18n:Translate DarkMode}"
+                               TextColor="{StaticResource TextPrimary}"
+                               FontSize="15" FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+                        <Switch Grid.Column="2"
+                                IsToggled="True"
+                                Style="{StaticResource GoldToggle}"
+                                VerticalOptions="Center"/>
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}" Margin="52,0,0,0"/>
+
+                    <!-- Location Services -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="0,14">
+                        <Border Grid.Column="0" BackgroundColor="{StaticResource GoldBadgeBg}"
+                                StrokeThickness="0" WidthRequest="38" HeightRequest="38">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                            <Label Text="📍" FontSize="18"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Column="1" Text="{i18n:Translate LocationServices}"
+                               TextColor="{StaticResource TextPrimary}"
+                               FontSize="15" FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="2" Text="›"
+                               TextColor="{StaticResource TextSecondary}"
+                               FontSize="22" VerticalOptions="Center"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  SECTION: LOCATION THRESHOLD                -->
+            <!-- ═══════════════════════════════════════════ -->
+            <Border BackgroundColor="{StaticResource CardBg}"
+                    StrokeThickness="0"
+                    Padding="16,14">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="14"/>
+                </Border.StrokeShape>
+
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+
+                    <!-- Icon -->
+                    <Border Grid.Column="0"
+                            BackgroundColor="{StaticResource GoldBadgeBg}"
+                            StrokeThickness="0" WidthRequest="42" HeightRequest="42">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Label Text="📍" FontSize="20"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+
+                    <!-- Title + description -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                        <Label Text="{i18n:Translate LocationThreshold}"
+                               TextColor="{StaticResource TextPrimary}"
+                               FontSize="15" FontAttributes="Bold"/>
+                        <Label Text="{i18n:Translate LocationThresholdDesc}"
+                               TextColor="{StaticResource TextSecondary}"
+                               FontSize="11" LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+
+                    <!-- − / value / + -->
+                    <VerticalStackLayout Grid.Column="2" Spacing="6"
+                                         HorizontalOptions="End" VerticalOptions="Center">
+                        <Label x:Name="ThresholdValueLabel"
+                               Text="30 km"
+                               TextColor="{StaticResource GoldAccent}"
+                               FontSize="15" FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"/>
+                        <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="6">
+                            <Border Grid.Column="0"
+                                    BackgroundColor="{StaticResource CardBg}"
+                                    Stroke="{StaticResource GoldAccent}"
+                                    StrokeThickness="1"
+                                    WidthRequest="34" HeightRequest="34">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnThresholdDecrease"/>
+                                </Border.GestureRecognizers>
+                                <Label Text="−" TextColor="{StaticResource GoldAccent}"
+                                       FontSize="18" FontAttributes="Bold"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Border Grid.Column="1"
+                                    BackgroundColor="{StaticResource GoldAccent}"
+                                    StrokeThickness="0"
+                                    WidthRequest="34" HeightRequest="34">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnThresholdIncrease"/>
+                                </Border.GestureRecognizers>
+                                <Label Text="+" TextColor="#0D1623"
+                                       FontSize="18" FontAttributes="Bold"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+
+                </Grid>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  SECTION: CALCULATION METHOD                -->
+            <!-- ═══════════════════════════════════════════ -->
+            <Label Text="{i18n:Translate CalculationMethod}"
+                   TextColor="{StaticResource TextSecondary}"
+                   FontSize="11" FontAttributes="Bold"
+                   CharacterSpacing="1.2"
+                   Margin="2,6,0,0"/>
+
+            <Border BackgroundColor="{StaticResource CardBg}"
+                    StrokeThickness="0"
+                    Padding="16,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="14"/>
+                </Border.StrokeShape>
+
+                <!-- Fajr & Isha Method -->
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="0,14">
+                    <Border Grid.Column="0" BackgroundColor="{StaticResource GoldBadgeBg}"
+                            StrokeThickness="0" WidthRequest="38" HeightRequest="38">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                        <Label Text="⚙️" FontSize="18"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                        <Label Text="{i18n:Translate FajrIshaMethod}"
+                               TextColor="{StaticResource TextPrimary}"
+                               FontSize="15" FontAttributes="Bold"/>
+                        <Label Text="{i18n:Translate MuslimWorldLeague}"
+                               TextColor="{StaticResource TextSecondary}"
+                               FontSize="11" FontAttributes="Bold"
+                               CharacterSpacing="0.5"/>
+                    </VerticalStackLayout>
+                    <Label Grid.Column="2" Text="›"
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="22" VerticalOptions="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  SECTION: ACCOUNT                           -->
+            <!-- ═══════════════════════════════════════════ -->
+            <Label Text="{i18n:Translate Account}"
+                   TextColor="{StaticResource TextSecondary}"
+                   FontSize="11" FontAttributes="Bold"
+                   CharacterSpacing="1.2"
+                   Margin="2,6,0,0"/>
+
+            <Border BackgroundColor="{StaticResource CardBg}"
+                    StrokeThickness="0"
+                    Padding="16,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="14"/>
+                </Border.StrokeShape>
+
+                <!-- Profile Information -->
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="0,14">
+                    <Border Grid.Column="0" BackgroundColor="{StaticResource GoldBadgeBg}"
+                            StrokeThickness="0" WidthRequest="38" HeightRequest="38">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                        <Label Text="👤" FontSize="18"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                        <Label Text="{i18n:Translate ProfileInformation}"
+                               TextColor="{StaticResource TextPrimary}"
+                               FontSize="15" FontAttributes="Bold"/>
+                        <Label Text="{i18n:Translate UpdatePersonalDetails}"
+                               TextColor="{StaticResource TextSecondary}"
+                               FontSize="12"/>
+                    </VerticalStackLayout>
+                    <Label Grid.Column="2" Text="›"
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="22" VerticalOptions="Center"/>
+                </Grid>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

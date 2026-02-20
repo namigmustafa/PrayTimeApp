@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:PrayTimeApp.Extensions"
+             x:Class="PrayTimeApp.QiblaPage"
+             BackgroundColor="{StaticResource AppBg}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20,16,20,20" Spacing="16">
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  HEADER                                     -->
+            <!-- ═══════════════════════════════════════════ -->
+            <HorizontalStackLayout Spacing="4" Margin="0,8,0,0">
+                <Label Text="📍" FontSize="13" TextColor="{StaticResource GoldAccent}"
+                       VerticalOptions="Center"/>
+                <Label x:Name="LocationLabel" Text="…"
+                       FontSize="12" FontAttributes="Bold"
+                       TextColor="{StaticResource GoldAccent}"
+                       CharacterSpacing="1.2" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  INFO CARD                                   -->
+            <!-- ═══════════════════════════════════════════ -->
+            <Border BackgroundColor="{StaticResource CardBg}"
+                    StrokeThickness="0" Padding="18,14">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+                        <Label Text="{i18n:Translate Qibla}"
+                               TextColor="{StaticResource TextSecondary}"
+                               FontSize="11" FontAttributes="Bold" CharacterSpacing="1.2"/>
+                        <Label x:Name="BearingLabel" Text="—"
+                               TextColor="{StaticResource TextPrimary}"
+                               FontSize="28" FontAttributes="Bold"/>
+                    </VerticalStackLayout>
+                    <Label x:Name="StatusLabel" Grid.Column="1"
+                           Text="" TextColor="{StaticResource TextSecondary}"
+                           FontSize="12" VerticalOptions="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  COMPASS                                     -->
+            <!-- ═══════════════════════════════════════════ -->
+            <Grid WidthRequest="300" HeightRequest="300"
+                  HorizontalOptions="Center" Margin="0,10">
+
+                <!-- Outer ring -->
+                <Border WidthRequest="300" HeightRequest="300"
+                        BackgroundColor="{StaticResource CardBg}"
+                        Stroke="{StaticResource GoldAccent}"
+                        StrokeThickness="1.5"
+                        HorizontalOptions="Center" VerticalOptions="Center">
+                    <Border.StrokeShape><Ellipse/></Border.StrokeShape>
+                </Border>
+
+                <!-- Inner ring -->
+                <Border WidthRequest="240" HeightRequest="240"
+                        BackgroundColor="Transparent"
+                        Stroke="{StaticResource GreenCardBorder}"
+                        StrokeThickness="1"
+                        HorizontalOptions="Center" VerticalOptions="Center">
+                    <Border.StrokeShape><Ellipse/></Border.StrokeShape>
+                </Border>
+
+                <!-- Cardinal directions -->
+                <Label Text="N" FontSize="15" FontAttributes="Bold"
+                       TextColor="{StaticResource GoldAccent}"
+                       HorizontalOptions="Center" VerticalOptions="Start"
+                       Margin="0,14,0,0"/>
+                <Label Text="S" FontSize="15" FontAttributes="Bold"
+                       TextColor="{StaticResource TextSecondary}"
+                       HorizontalOptions="Center" VerticalOptions="End"
+                       Margin="0,0,0,14"/>
+                <Label Text="W" FontSize="15" FontAttributes="Bold"
+                       TextColor="{StaticResource TextSecondary}"
+                       HorizontalOptions="Start" VerticalOptions="Center"
+                       Margin="14,0,0,0"/>
+                <Label Text="E" FontSize="15" FontAttributes="Bold"
+                       TextColor="{StaticResource TextSecondary}"
+                       HorizontalOptions="End" VerticalOptions="Center"
+                       Margin="0,0,14,0"/>
+
+                <!-- Intercardinal -->
+                <Label Text="NE" FontSize="10" TextColor="{StaticResource TextSecondary}"
+                       HorizontalOptions="End" VerticalOptions="Start"
+                       Margin="0,36,36,0"/>
+                <Label Text="NW" FontSize="10" TextColor="{StaticResource TextSecondary}"
+                       HorizontalOptions="Start" VerticalOptions="Start"
+                       Margin="36,36,0,0"/>
+                <Label Text="SE" FontSize="10" TextColor="{StaticResource TextSecondary}"
+                       HorizontalOptions="End" VerticalOptions="End"
+                       Margin="0,0,36,36"/>
+                <Label Text="SW" FontSize="10" TextColor="{StaticResource TextSecondary}"
+                       HorizontalOptions="Start" VerticalOptions="End"
+                       Margin="36,0,0,36"/>
+
+                <!-- ── Qibla arrow (whole Grid rotates) ── -->
+                <Grid x:Name="QiblaArrow"
+                      WidthRequest="300" HeightRequest="300"
+                      HorizontalOptions="Center" VerticalOptions="Center">
+
+                    <!-- Kaaba icon at the tip -->
+                    <Label Text="🕋" FontSize="26"
+                           HorizontalOptions="Center" VerticalOptions="Start"
+                           Margin="0,22,0,0"/>
+
+                    <!-- Arrow shaft -->
+                    <BoxView Color="{StaticResource GoldAccent}"
+                             WidthRequest="2" HeightRequest="75"
+                             HorizontalOptions="Center" VerticalOptions="Center"
+                             Margin="0,-50,0,0"
+                             CornerRadius="1"/>
+
+                    <!-- Arrow head (triangle pointing up) -->
+                    <Label Text="▲" FontSize="14"
+                           TextColor="{StaticResource GoldAccent}"
+                           HorizontalOptions="Center" VerticalOptions="Center"
+                           Margin="0,-108,0,0"/>
+
+                    <!-- Tail (opposite direction) -->
+                    <BoxView Color="{StaticResource GreenCardBorder}"
+                             WidthRequest="2" HeightRequest="55"
+                             HorizontalOptions="Center" VerticalOptions="Center"
+                             Margin="0,60,0,0"
+                             CornerRadius="1"/>
+                </Grid>
+
+                <!-- Center dot -->
+                <Border WidthRequest="14" HeightRequest="14"
+                        BackgroundColor="{StaticResource GoldAccent}"
+                        StrokeThickness="0"
+                        HorizontalOptions="Center" VerticalOptions="Center">
+                    <Border.StrokeShape><Ellipse/></Border.StrokeShape>
+                </Border>
+
+            </Grid>
+
+            <!-- Instruction -->
+            <Label x:Name="InstructionLabel"
+                   Text="" TextColor="{StaticResource TextSecondary}"
+                   FontSize="13" HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="456" height="456" viewBox="0 0 456 456" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Crescent moon: large circle minus overlapping offset circle -->
+  <defs>
+    <mask id="crescent">
+      <circle cx="210" cy="235" r="148" fill="white"/>
+      <circle cx="283" cy="200" r="113" fill="black"/>
+    </mask>
+  </defs>
+  <circle cx="210" cy="235" r="148" fill="#D4A017" mask="url(#crescent)"/>
+
+  <!-- Five-pointed star (upper-right of crescent) -->
+  <!-- Center: (345, 132), outer R=27, inner r=11 -->
+  <path d="M 345,105
+           L 351.47,123.10
+           L 370.68,123.66
+           L 355.46,135.40
+           L 360.88,153.84
+           L 345,143
+           L 329.12,153.84
+           L 334.54,135.40
+           L 319.32,123.66
+           L 338.53,123.10 Z"
+        fill="#D4A017"/>
+
+</svg>

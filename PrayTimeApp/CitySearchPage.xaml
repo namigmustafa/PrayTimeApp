@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:PrayTimeApp.Extensions"
+             x:Class="PrayTimeApp.CitySearchPage"
+             BackgroundColor="{StaticResource AppBg}"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="20,16,20,20">
+
+        <!-- ── Header ──────────────────────────────────────────── -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="12" Margin="0,8,0,16">
+            <!-- Back button -->
+            <Border Grid.Column="0"
+                    BackgroundColor="{StaticResource CardBg}"
+                    StrokeThickness="0"
+                    WidthRequest="40" HeightRequest="40">
+                <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackTapped"/>
+                </Border.GestureRecognizers>
+                <Label Text="←" FontSize="20" FontAttributes="Bold"
+                       TextColor="{StaticResource TextPrimary}"
+                       HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Border>
+
+            <Label Grid.Column="1"
+                   Text="{i18n:Translate SelectCity}"
+                   FontSize="22" FontAttributes="Bold"
+                   TextColor="{StaticResource TextPrimary}"
+                   VerticalOptions="Center"/>
+        </Grid>
+
+        <!-- ── Search bar ───────────────────────────────────────── -->
+        <Border Grid.Row="1"
+                BackgroundColor="{StaticResource CardBg}"
+                StrokeThickness="0"
+                Padding="14,12"
+                Margin="0,0,0,12">
+            <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <Label Grid.Column="0" Text="🔍" FontSize="16"
+                       TextColor="{StaticResource TextSecondary}"
+                       VerticalOptions="Center"/>
+                <Entry x:Name="SearchEntry"
+                       Grid.Column="1"
+                       Placeholder="{i18n:Translate SearchCityHint}"
+                       PlaceholderColor="{StaticResource TextSecondary}"
+                       TextColor="{StaticResource TextPrimary}"
+                       BackgroundColor="Transparent"
+                       ReturnType="Search"
+                       TextChanged="OnSearchTextChanged"/>
+            </Grid>
+        </Border>
+
+        <!-- ── Results ──────────────────────────────────────────── -->
+        <Grid Grid.Row="2">
+
+            <!-- Use current location button (always visible at top) -->
+            <VerticalStackLayout Spacing="8">
+                <Border BackgroundColor="{StaticResource CardBg}"
+                        StrokeThickness="0"
+                        Padding="16,14">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnUseCurrentLocationTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Label Grid.Column="0" Text="📍" FontSize="20" VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="{i18n:Translate UseCurrentLocation}"
+                               TextColor="{StaticResource GoldAccent}"
+                               FontSize="15" FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
+
+                <!-- Search results list -->
+                <CollectionView x:Name="ResultsList"
+                                IsVisible="False"
+                                SelectionMode="Single"
+                                SelectionChanged="OnCitySelected">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{StaticResource CardBg}"
+                                    StrokeThickness="0"
+                                    Padding="16,14"
+                                    Margin="0,0,0,8">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                    <Label Grid.Column="0" Text="🌆" FontSize="18" VerticalOptions="Center"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                        <Label Text="{Binding City}"
+                                               TextColor="{StaticResource TextPrimary}"
+                                               FontSize="15" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Country}"
+                                               TextColor="{StaticResource TextSecondary}"
+                                               FontSize="12"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- No results label -->
+                <Label x:Name="NoResultsLabel"
+                       Text="{i18n:Translate NoResults}"
+                       TextColor="{StaticResource TextSecondary}"
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       Margin="0,20,0,0"
+                       IsVisible="False"/>
+
+                <!-- Loading indicator -->
+                <ActivityIndicator x:Name="LoadingIndicator"
+                                   IsRunning="False"
+                                   IsVisible="False"
+                                   Color="{StaticResource GoldAccent}"
+                                   HorizontalOptions="Center"
+                                   Margin="0,20,0,0"/>
+            </VerticalStackLayout>
+
+        </Grid>
+    </Grid>
+
+</ContentPage>

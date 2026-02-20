@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="PrayTimeApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:PrayTimeApp"
+    xmlns:i18n="clr-namespace:PrayTimeApp.Extensions"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarBackgroundColor="{StaticResource TabBarBg}"
+    Shell.TabBarTitleColor="{StaticResource GoldAccent}"
+    Shell.TabBarUnselectedColor="{StaticResource TextSecondary}"
+    Shell.TabBarForegroundColor="{StaticResource GoldAccent}">
+
+    <TabBar>
+        <Tab Title="{i18n:Translate Tab_Home}" Icon="home_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage"/>
+        </Tab>
+        <Tab Title="{i18n:Translate Tab_Monthly}" Icon="monthly_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate local:MonthlyPage}" Route="MonthlyPage"/>
+        </Tab>
+        <Tab Title="{i18n:Translate Tab_Qibla}" Icon="qibla_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate local:QiblaPage}" Route="QiblaPage"/>
+        </Tab>
+<Tab Title="{i18n:Translate Tab_Settings}" Icon="settings_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}" Route="SettingsPage"/>
+        </Tab>
+    </TabBar>
+
+</Shell>

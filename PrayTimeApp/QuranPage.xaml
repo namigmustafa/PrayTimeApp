@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:PrayTimeApp.Extensions"
+             x:Class="PrayTimeApp.QuranPage"
+             BackgroundColor="{StaticResource AppBg}">
+    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="12">
+        <Label Text="{i18n:Translate Quran}" TextColor="{StaticResource TextPrimary}" FontSize="28" FontAttributes="Bold"
+               HorizontalOptions="Center"/>
+        <Label Text="{i18n:Translate ComingSoon}" TextColor="{StaticResource TextSecondary}" FontSize="16"
+               HorizontalOptions="Center"/>
+    </VerticalStackLayout>
+</ContentPage>
