@@ -115,7 +115,18 @@ public static class PrayerTimesService
         var now  = GetCityNow(timeZoneId);
         var date = now.Date;
 
-        foreach (var (name, raw) in PrayerList(today))
+        // Sunrise is included so that Fajr countdown ends at Sunrise, not Dhuhr
+        (string Name, string Raw)[] targets =
+        [
+            ("Fajr",    today.Timings.Fajr),
+            ("Sunrise", today.Timings.Sunrise),
+            ("Dhuhr",   today.Timings.Dhuhr),
+            ("Asr",     today.Timings.Asr),
+            ("Maghrib", today.Timings.Maghrib),
+            ("Isha",    today.Timings.Isha),
+        ];
+
+        foreach (var (name, raw) in targets)
         {
             if (!TryParseTime(raw, out var t)) continue;
             var dt = date + t;
