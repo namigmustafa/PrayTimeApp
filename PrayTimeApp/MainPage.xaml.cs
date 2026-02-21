@@ -278,13 +278,6 @@ public partial class MainPage : ContentPage
         await Shell.Current.GoToAsync(nameof(CitySearchPage));
     }
 
-    // ── Refresh button ────────────────────────────────────────────────────────
-
-    private async void OnRefreshLocationTapped(object sender, TappedEventArgs e)
-    {
-        LocationService.ClearCache();
-        await LoadAllAsync(forceRefresh: true);
-    }
 
     private static string Truncate(string text, int max = 25)
         => text.Length > max ? text[..max] + "…" : text;
