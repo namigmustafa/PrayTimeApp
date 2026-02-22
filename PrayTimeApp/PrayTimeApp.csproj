@@ -50,6 +50,9 @@
 		<MtouchUseLlvm>true</MtouchUseLlvm>
 		<MtouchLink>SdkOnly</MtouchLink>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
+	  <MtouchUseLlvm>False</MtouchUseLlvm>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
