@@ -30,7 +30,7 @@ public static class NotificationService
 
     static readonly string[] Tones =
         ["Default", "Adhan Bayati", "Apple", "Early Riser", "iPhone Alarm",
-         "Revelation", "Apple Hard", "Aranan Zil", "Ezan 1", "Silent"];
+         "Revelation", "Apple Hard", "Silent"];
 
     // ── Permission ────────────────────────────────────────────────────────────
 
@@ -53,8 +53,18 @@ public static class NotificationService
 #if IOS
     static AVFoundation.AVAudioPlayer? _player;
 
+    public static bool IsSoundPlaying => _player?.Playing == true;
+
+    public static void StopSoundNow()
+    {
+        _player?.Stop();
+        _player = null;
+    }
+
     public static void PlaySoundNow(string tone)
     {
+        StopSoundNow();
+
         var fileName = ToneToSoundFileIos(tone);
         if (fileName == null)
         {
@@ -76,6 +86,8 @@ public static class NotificationService
         }
     }
 #else
+    public static bool IsSoundPlaying => false;
+    public static void StopSoundNow() { }
     public static void PlaySoundNow(string tone) { }
 #endif
 
@@ -165,8 +177,7 @@ public static class NotificationService
                             800 + SlotEnds,
                             t,
                             LocalizationService.GetString("Notif_Title"),
-                            string.Format(LocalizationService.GetString("Notif_EndsBody"),
-                                ishName, FormatOffset(endsH, endsM)),
+                            FormatEndsBody(ishName, endsH, endsM),
                             endsTone);
                         scheduled++;
                     }
@@ -211,8 +222,7 @@ public static class NotificationService
                         {
                             await PostAsync(baseId + SlotBefore, t,
                                 LocalizationService.GetString("Notif_Title"),
-                                string.Format(LocalizationService.GetString("Notif_BeforeBody"),
-                                    localName, FormatOffset(beforeH, beforeM)),
+                                FormatBeforeBody(localName, beforeH, beforeM),
                                 beforeTone);
                             scheduled++;
                         }
@@ -281,8 +291,7 @@ public static class NotificationService
                             {
                                 await PostAsync(baseId + SlotEnds, t,
                                     LocalizationService.GetString("Notif_Title"),
-                                    string.Format(LocalizationService.GetString("Notif_EndsBody"),
-                                        localName, FormatOffset(endsH, endsM)),
+                                    FormatEndsBody(localName, endsH, endsM),
                                     endsTone);
                                 scheduled++;
                             }
@@ -456,5 +465,19 @@ public static class NotificationService
         if (h == 0) return $"{m} min";
         if (m == 0) return $"{h} h";
         return $"{h} h {m} min";
+    }
+
+    static string FormatBeforeBody(string localName, int h, int m)
+    {
+        if (h > 0)
+            return string.Format(LocalizationService.GetString("Notif_BeforeBody_H"), localName, h, m);
+        return string.Format(LocalizationService.GetString("Notif_BeforeBody"), localName, m);
+    }
+
+    static string FormatEndsBody(string localName, int h, int m)
+    {
+        if (h > 0)
+            return string.Format(LocalizationService.GetString("Notif_EndsBody_H"), localName, h, m);
+        return string.Format(LocalizationService.GetString("Notif_EndsBody"), localName, m);
     }
 }

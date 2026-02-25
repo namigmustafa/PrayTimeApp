@@ -73,7 +73,6 @@
 
 	<ItemGroup>
 	  <BundleResource Remove="Platforms\iOS\Resources\adhan_bayati.wav" />
-	  <BundleResource Remove="Platforms\iOS\Resources\aranan_zil_sesi.wav" />
 	</ItemGroup>
 
 	<ItemGroup>

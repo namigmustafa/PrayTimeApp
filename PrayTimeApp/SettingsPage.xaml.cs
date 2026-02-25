@@ -8,11 +8,13 @@ public partial class SettingsPage : ContentPage
 {
     static readonly string[] Tones =
         ["Default", "Adhan Bayati", "Apple", "Early Riser", "iPhone Alarm",
-         "Revelation", "Apple Hard", "Aranan Zil", "Ezan 1", "Silent"];
+         "Revelation", "Apple Hard", "Silent"];
 
-    int  _beforeH, _beforeM;
-    int  _endsH,   _endsM;
-    bool _loading;          // suppresses Toggled events during OnAppearing
+    int    _beforeH, _beforeM;
+    int    _endsH,   _endsM;
+    bool   _loading;
+    string _testTone    = "Default";
+    bool   _testPlaying;          // suppresses Toggled events during OnAppearing
 
     CancellationTokenSource? _rescheduleDebounce;
 
@@ -137,8 +139,9 @@ public partial class SettingsPage : ContentPage
 
     private async void OnBeforePrayerToneTapped(object sender, TappedEventArgs e)
     {
-        var pick = await DisplayActionSheet("Select Sound / Adhan", "Cancel", null, Tones);
-        if (pick is null || pick == "Cancel") return;
+        var cancel = LocalizationService.GetString("Cancel");
+        var pick = await DisplayActionSheet(LocalizationService.GetString("Sett_SelectSound"), cancel, null, Tones);
+        if (pick is null || pick == cancel) return;
         BeforePrayerToneLabel.Text = pick;
         Preferences.Set("notif_before_tone", pick);
         RefreshBeforeLabels();
@@ -152,7 +155,6 @@ public partial class SettingsPage : ContentPage
         BeforePrayerSummary.Text = BeforePrayerSwitch.IsToggled
             ? $"{FormatOffset(_beforeH, _beforeM)} before · {BeforePrayerToneLabel.Text}"
             : "Off";
-        BeforePrayerToneFileLabel.Text = ToneToFile(BeforePrayerToneLabel.Text) is var f && !string.IsNullOrEmpty(f) ? $"[{f}]" : "";
     }
 
     // ── On Prayer Time ────────────────────────────────────────────────────────
@@ -168,8 +170,9 @@ public partial class SettingsPage : ContentPage
 
     private async void OnOnPrayerToneTapped(object sender, TappedEventArgs e)
     {
-        var pick = await DisplayActionSheet("Select Sound / Adhan", "Cancel", null, Tones);
-        if (pick is null || pick == "Cancel") return;
+        var cancel = LocalizationService.GetString("Cancel");
+        var pick = await DisplayActionSheet(LocalizationService.GetString("Sett_SelectSound"), cancel, null, Tones);
+        if (pick is null || pick == cancel) return;
         OnPrayerToneLabel.Text = pick;
         Preferences.Set("notif_on_tone", pick);
         RefreshOnSummary(OnPrayerSwitch.IsToggled);
@@ -181,7 +184,6 @@ public partial class SettingsPage : ContentPage
         OnPrayerSummary.Text = on
             ? $"At prayer time · {OnPrayerToneLabel.Text}"
             : "Off";
-        OnPrayerToneFileLabel.Text = ToneToFile(OnPrayerToneLabel.Text) is var f && !string.IsNullOrEmpty(f) ? $"[{f}]" : "";
     }
 
     // ── Prayer Time Ends In ───────────────────────────────────────────────────
@@ -226,8 +228,9 @@ public partial class SettingsPage : ContentPage
 
     private async void OnEndsInToneTapped(object sender, TappedEventArgs e)
     {
-        var pick = await DisplayActionSheet("Select Sound / Adhan", "Cancel", null, Tones);
-        if (pick is null || pick == "Cancel") return;
+        var cancel = LocalizationService.GetString("Cancel");
+        var pick = await DisplayActionSheet(LocalizationService.GetString("Sett_SelectSound"), cancel, null, Tones);
+        if (pick is null || pick == cancel) return;
         EndsInToneLabel.Text = pick;
         Preferences.Set("notif_ends_tone", pick);
         RefreshEndsLabels();
@@ -241,7 +244,6 @@ public partial class SettingsPage : ContentPage
         EndsInSummary.Text = EndsInSwitch.IsToggled
             ? $"{FormatOffset(_endsH, _endsM)} remaining · {EndsInToneLabel.Text}"
             : "Off";
-        EndsInToneFileLabel.Text = ToneToFile(EndsInToneLabel.Text) is var f && !string.IsNullOrEmpty(f) ? $"[{f}]" : "";
     }
 
     // ── Reschedule ────────────────────────────────────────────────────────────
@@ -292,52 +294,53 @@ public partial class SettingsPage : ContentPage
         await NotifSvc.ScheduleAllAsync(cur, next);
     }
 
-    // ── Test: play sound directly ─────────────────────────────────────────────
+    // ── Play / Pause sound test ───────────────────────────────────────────────
 
-    private async void OnPlaySoundNowTapped(object sender, TappedEventArgs e)
+    private async void OnSelectTestToneTapped(object sender, TappedEventArgs e)
     {
-        var pick = await DisplayActionSheet("Play which sound?", "Cancel", null, Tones);
-        if (pick is null || pick == "Cancel") return;
-        NotifSvc.PlaySoundNow(pick);
-        // Check the log after — it will show whether the file was found
+        if (_testPlaying) StopTestSound();
+        var cancel = LocalizationService.GetString("Cancel");
+        var pick = await DisplayActionSheet(LocalizationService.GetString("Sett_SelectSound"), cancel, null, Tones);
+        if (pick is null || pick == cancel) return;
+        _testTone = pick;
+        TestToneLabel.Text = pick;
     }
 
-    // ── Test: notification in 10 s ────────────────────────────────────────────
-
-    private async void OnTestAlarmTapped(object sender, TappedEventArgs e)
+    private void OnPlayStopTapped(object sender, TappedEventArgs e)
     {
-        // Pick which tone to test
-        var pick = await DisplayActionSheet("Test with which sound?", "Cancel", null, Tones);
-        if (pick is null || pick == "Cancel") return;
+        // If the actual player already stopped (sound ended naturally), reset state first
+        if (_testPlaying && !NotifSvc.IsSoundPlaying)
+        {
+            _testPlaying = false;
+            PlayStopIcon.Text = "▶";
+            PlayStopBtn.BackgroundColor = (Color)Application.Current!.Resources["GoldAccent"];
+            return;
+        }
 
-        await NotifSvc.ScheduleTestAsync(pick);
-        await DisplayAlert("Test Alarm Scheduled",
-            $"Sound: {pick}\nFires in 10 seconds.\n\n" +
-            "1. Tap OK\n" +
-            "2. Swipe UP to go home (keep app alive in background)\n" +
-            "3. Wait — the notification should arrive with full sound",
-            "OK");
+        if (_testPlaying)
+            StopTestSound();
+        else
+            StartTestSound();
     }
 
-    // ── Debug log ─────────────────────────────────────────────────────────────
-
-    private async void OnShowLogTapped(object sender, TappedEventArgs e)
+    void StartTestSound()
     {
-        var log = FileLogger.Read();
-        await Clipboard.SetTextAsync(log);
-        if (log.Length > 1500) log = "…(truncated)\n" + log[^1500..];
-        await DisplayAlert("Notification Log (Copied!)", log, "OK");
+        NotifSvc.PlaySoundNow(_testTone);
+        _testPlaying = true;
+        PlayStopIcon.Text = "⏹";
+        PlayStopBtn.BackgroundColor = Color.FromArgb("#C0392B");
     }
 
-    private async void OnClearLogTapped(object sender, TappedEventArgs e)
+    void StopTestSound()
     {
-        FileLogger.Clear();
-        await DisplayAlert("Log Cleared", "Log file has been cleared.", "OK");
+        NotifSvc.StopSoundNow();
+        _testPlaying = false;
+        PlayStopIcon.Text = "▶";
+        PlayStopBtn.BackgroundColor = (Color)Application.Current!.Resources["GoldAccent"];
     }
+
 
     // ── Helpers ───────────────────────────────────────────────────────────────
-
-    static string ToneToFile(string tone) => NotifSvc.GetSoundFileName(tone);
 
     static string FormatOffset(int h, int m)
     {
