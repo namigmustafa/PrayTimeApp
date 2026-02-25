@@ -163,8 +163,9 @@
 
                         <!-- Hours + Minutes in one row -->
                         <Grid ColumnDefinitions="*,*" Padding="0,12" ColumnSpacing="8">
-                            <HorizontalStackLayout Grid.Column="0" Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
-                                <Border Style="{StaticResource StepDec}">
+                            <!-- Hours -->
+                            <Grid Grid.Column="0" ColumnDefinitions="34,*,34" ColumnSpacing="6" VerticalOptions="Center">
+                                <Border Grid.Column="0" Style="{StaticResource StepDec}">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnBeforePrayerHDec"/>
                                     </Border.GestureRecognizers>
@@ -172,11 +173,11 @@
                                            FontSize="18" FontAttributes="Bold"
                                            HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                                <Label x:Name="BeforePrayerHLabel" Text="0 h"
+                                <Label Grid.Column="1" x:Name="BeforePrayerHLabel" Text="0 h"
                                        TextColor="{StaticResource TextPrimary}"
-                                       FontSize="15" FontAttributes="Bold"
-                                       WidthRequest="46" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                <Border Style="{StaticResource StepInc}">
+                                       FontSize="14" FontAttributes="Bold"
+                                       HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                <Border Grid.Column="2" Style="{StaticResource StepInc}">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnBeforePrayerHInc"/>
                                     </Border.GestureRecognizers>
@@ -184,9 +185,10 @@
                                            FontSize="18" FontAttributes="Bold"
                                            HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout Grid.Column="1" Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
-                                <Border Style="{StaticResource StepDec}">
+                            </Grid>
+                            <!-- Minutes -->
+                            <Grid Grid.Column="1" ColumnDefinitions="34,*,34" ColumnSpacing="6" VerticalOptions="Center">
+                                <Border Grid.Column="0" Style="{StaticResource StepDec}">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnBeforePrayerMDec"/>
                                     </Border.GestureRecognizers>
@@ -194,11 +196,11 @@
                                            FontSize="18" FontAttributes="Bold"
                                            HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                                <Label x:Name="BeforePrayerMLabel" Text="30 min"
+                                <Label Grid.Column="1" x:Name="BeforePrayerMLabel" Text="30 min"
                                        TextColor="{StaticResource TextPrimary}"
-                                       FontSize="15" FontAttributes="Bold"
-                                       WidthRequest="58" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                <Border Style="{StaticResource StepInc}">
+                                       FontSize="14" FontAttributes="Bold"
+                                       HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                <Border Grid.Column="2" Style="{StaticResource StepInc}">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnBeforePrayerMInc"/>
                                     </Border.GestureRecognizers>
@@ -206,7 +208,7 @@
                                            FontSize="18" FontAttributes="Bold"
                                            HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                            </HorizontalStackLayout>
+                            </Grid>
                         </Grid>
 
                         <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}"/>
@@ -333,8 +335,9 @@
 
                         <!-- Hours + Minutes in one row -->
                         <Grid ColumnDefinitions="*,*" Padding="0,12" ColumnSpacing="8">
-                            <HorizontalStackLayout Grid.Column="0" Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
-                                <Border Style="{StaticResource StepDec}">
+                            <!-- Hours -->
+                            <Grid Grid.Column="0" ColumnDefinitions="34,*,34" ColumnSpacing="6" VerticalOptions="Center">
+                                <Border Grid.Column="0" Style="{StaticResource StepDec}">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnEndsInHDec"/>
                                     </Border.GestureRecognizers>
@@ -342,11 +345,11 @@
                                            FontSize="18" FontAttributes="Bold"
                                            HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                                <Label x:Name="EndsInHLabel" Text="0 h"
+                                <Label Grid.Column="1" x:Name="EndsInHLabel" Text="0 h"
                                        TextColor="{StaticResource TextPrimary}"
-                                       FontSize="15" FontAttributes="Bold"
-                                       WidthRequest="46" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                <Border Style="{StaticResource StepInc}">
+                                       FontSize="14" FontAttributes="Bold"
+                                       HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                <Border Grid.Column="2" Style="{StaticResource StepInc}">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnEndsInHInc"/>
                                     </Border.GestureRecognizers>
@@ -354,9 +357,10 @@
                                            FontSize="18" FontAttributes="Bold"
                                            HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout Grid.Column="1" Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
-                                <Border Style="{StaticResource StepDec}">
+                            </Grid>
+                            <!-- Minutes -->
+                            <Grid Grid.Column="1" ColumnDefinitions="34,*,34" ColumnSpacing="6" VerticalOptions="Center">
+                                <Border Grid.Column="0" Style="{StaticResource StepDec}">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnEndsInMDec"/>
                                     </Border.GestureRecognizers>
@@ -364,11 +368,11 @@
                                            FontSize="18" FontAttributes="Bold"
                                            HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                                <Label x:Name="EndsInMLabel" Text="30 min"
+                                <Label Grid.Column="1" x:Name="EndsInMLabel" Text="30 min"
                                        TextColor="{StaticResource TextPrimary}"
-                                       FontSize="15" FontAttributes="Bold"
-                                       WidthRequest="58" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                                <Border Style="{StaticResource StepInc}">
+                                       FontSize="14" FontAttributes="Bold"
+                                       HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                                <Border Grid.Column="2" Style="{StaticResource StepInc}">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnEndsInMInc"/>
                                     </Border.GestureRecognizers>
@@ -376,7 +380,7 @@
                                            FontSize="18" FontAttributes="Bold"
                                            HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                            </HorizontalStackLayout>
+                            </Grid>
                         </Grid>
 
                         <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}"/>

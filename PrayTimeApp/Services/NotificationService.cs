@@ -85,6 +85,45 @@ public static class NotificationService
             else FileLogger.Log($"PlaySoundNow: error={err?.LocalizedDescription}");
         }
     }
+#elif ANDROID
+    static Android.Media.MediaPlayer? _player;
+
+    public static bool IsSoundPlaying => _player?.IsPlaying == true;
+
+    public static void StopSoundNow()
+    {
+        if (_player == null) return;
+        if (_player.IsPlaying) _player.Stop();
+        _player.Release();
+        _player = null;
+    }
+
+    public static void PlaySoundNow(string tone)
+    {
+        StopSoundNow();
+        var fileName = ToneToSoundFile(tone);
+        if (fileName == null)
+        {
+            FileLogger.Log($"PlaySoundNow Android: no raw file for tone '{tone}'");
+            return;
+        }
+        var ctx   = Android.App.Application.Context;
+        var resId = ctx.Resources?.GetIdentifier(fileName, "raw", ctx.PackageName) ?? 0;
+        if (resId == 0)
+        {
+            FileLogger.Log($"PlaySoundNow Android: raw resource '{fileName}' not found");
+            return;
+        }
+        _player = Android.Media.MediaPlayer.Create(ctx, resId);
+        if (_player == null)
+        {
+            FileLogger.Log($"PlaySoundNow Android: MediaPlayer.Create returned null");
+            return;
+        }
+        _player.Completion += (_, _) => StopSoundNow();
+        _player.Start();
+        FileLogger.Log($"PlaySoundNow Android: playing '{fileName}'");
+    }
 #else
     public static bool IsSoundPlaying => false;
     public static void StopSoundNow() { }

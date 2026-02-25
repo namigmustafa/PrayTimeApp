@@ -15,6 +15,17 @@ namespace PrayTimeApp
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            // Match status bar to app background and use light icons on dark bg
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+                Window?.SetStatusBarColor(Android.Graphics.Color.ParseColor("#0D1623"));
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                var flags = (int)Window!.DecorView.SystemUiVisibility;
+                flags &= ~(int)Android.Views.SystemUiFlags.LightStatusBar; // white icons
+                Window.DecorView.SystemUiVisibility = (Android.Views.StatusBarVisibility)flags;
+            }
+
             CreateNotificationChannels();
 
             // Android 13+: POST_NOTIFICATIONS runtime permission
