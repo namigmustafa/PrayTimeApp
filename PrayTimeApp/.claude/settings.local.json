@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(python3:*)",
+      "Bash(printf:*)",
+      "Bash(node:*)",
+      "WebFetch(domain:www.sagorin.org)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
     ]
   }
 }

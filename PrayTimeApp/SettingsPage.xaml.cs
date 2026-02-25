@@ -1,9 +1,21 @@
 using PrayTimeApp.Services;
+using NotifSvc  = PrayTimeApp.Services.NotificationService;
+using FileLogger = PrayTimeApp.Services.FileLogger;
 
 namespace PrayTimeApp;
 
 public partial class SettingsPage : ContentPage
 {
+    static readonly string[] Tones =
+        ["Default", "Adhan Bayati", "Apple", "Early Riser", "iPhone Alarm",
+         "Revelation", "Apple Hard", "Aranan Zil", "Ezan 1", "Silent"];
+
+    int  _beforeH, _beforeM;
+    int  _endsH,   _endsM;
+    bool _loading;          // suppresses Toggled events during OnAppearing
+
+    CancellationTokenSource? _rescheduleDebounce;
+
     public SettingsPage()
     {
         InitializeComponent();
@@ -12,8 +24,37 @@ public partial class SettingsPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        LanguageBadgeLabel.Text = LocalizationService.CurrentLanguageDisplay;
+        _loading = true;
+
+        LanguageBadgeLabel.Text  = LocalizationService.CurrentLanguageDisplay;
         ThresholdValueLabel.Text = $"{LocationService.ThresholdKm} km";
+
+        // ── Before Prayer Time ────────────────────────────────────────────────
+        _beforeH = Preferences.Get("notif_before_h", 0);
+        _beforeM = Preferences.Get("notif_before_m", 30);
+        var beforeOn = Preferences.Get("notif_before_on", false);
+        BeforePrayerSwitch.IsToggled  = beforeOn;
+        BeforePrayerDetail.IsVisible  = beforeOn;
+        BeforePrayerToneLabel.Text    = Preferences.Get("notif_before_tone", Tones[0]);
+        RefreshBeforeLabels();
+
+        // ── On Prayer Time ────────────────────────────────────────────────────
+        var onOn = Preferences.Get("notif_on_on", false);
+        OnPrayerSwitch.IsToggled = onOn;
+        OnPrayerDetail.IsVisible = onOn;
+        OnPrayerToneLabel.Text   = Preferences.Get("notif_on_tone", Tones[0]);
+        RefreshOnSummary(onOn);
+
+        // ── Prayer Time Ends In ───────────────────────────────────────────────
+        _endsH = Preferences.Get("notif_ends_h", 0);
+        _endsM = Preferences.Get("notif_ends_m", 30);
+        var endsOn = Preferences.Get("notif_ends_on", false);
+        EndsInSwitch.IsToggled  = endsOn;
+        EndsInDetail.IsVisible  = endsOn;
+        EndsInToneLabel.Text    = Preferences.Get("notif_ends_tone", Tones[0]);
+        RefreshEndsLabels();
+
+        _loading = false;
     }
 
     // ── Language ──────────────────────────────────────────────────────────────
@@ -36,7 +77,7 @@ public partial class SettingsPage : ContentPage
         if (langCode is null || langCode == LocalizationService.CurrentLanguage) return;
 
         LocalizationService.SetLanguage(langCode);
-        MainPage.PendingCityReload = true;   // force reload on new shell's first OnAppearing
+        MainPage.PendingCityReload = true;
         Application.Current!.MainPage = new AppShell();
     }
 
@@ -52,5 +93,256 @@ public partial class SettingsPage : ContentPage
     {
         LocationService.ThresholdKm += 10;
         ThresholdValueLabel.Text = $"{LocationService.ThresholdKm} km";
+    }
+
+    // ── Before Prayer Time ────────────────────────────────────────────────────
+
+    private void OnBeforePrayerToggled(object sender, ToggledEventArgs e)
+    {
+        if (_loading) return;
+        BeforePrayerDetail.IsVisible = e.Value;
+        RefreshBeforeLabels();
+        Preferences.Set("notif_before_on", e.Value);
+        RescheduleNotifications();
+    }
+
+    private void OnBeforePrayerHDec(object sender, TappedEventArgs e)
+    {
+        if (_beforeH > 0) _beforeH--;
+        Preferences.Set("notif_before_h", _beforeH);
+        RefreshBeforeLabels();
+        RescheduleNotifications();
+    }
+    private void OnBeforePrayerHInc(object sender, TappedEventArgs e)
+    {
+        if (_beforeH < 23) _beforeH++;
+        Preferences.Set("notif_before_h", _beforeH);
+        RefreshBeforeLabels();
+        RescheduleNotifications();
+    }
+    private void OnBeforePrayerMDec(object sender, TappedEventArgs e)
+    {
+        if (_beforeM > 0) _beforeM--; else _beforeM = 59;
+        Preferences.Set("notif_before_m", _beforeM);
+        RefreshBeforeLabels();
+        RescheduleNotifications();
+    }
+    private void OnBeforePrayerMInc(object sender, TappedEventArgs e)
+    {
+        _beforeM = (_beforeM + 1) % 60;
+        Preferences.Set("notif_before_m", _beforeM);
+        RefreshBeforeLabels();
+        RescheduleNotifications();
+    }
+
+    private async void OnBeforePrayerToneTapped(object sender, TappedEventArgs e)
+    {
+        var pick = await DisplayActionSheet("Select Sound / Adhan", "Cancel", null, Tones);
+        if (pick is null || pick == "Cancel") return;
+        BeforePrayerToneLabel.Text = pick;
+        Preferences.Set("notif_before_tone", pick);
+        RefreshBeforeLabels();
+        RescheduleNotifications();
+    }
+
+    void RefreshBeforeLabels()
+    {
+        BeforePrayerHLabel.Text = $"{_beforeH} h";
+        BeforePrayerMLabel.Text = $"{_beforeM} min";
+        BeforePrayerSummary.Text = BeforePrayerSwitch.IsToggled
+            ? $"{FormatOffset(_beforeH, _beforeM)} before · {BeforePrayerToneLabel.Text}"
+            : "Off";
+        BeforePrayerToneFileLabel.Text = ToneToFile(BeforePrayerToneLabel.Text) is var f && !string.IsNullOrEmpty(f) ? $"[{f}]" : "";
+    }
+
+    // ── On Prayer Time ────────────────────────────────────────────────────────
+
+    private void OnOnPrayerToggled(object sender, ToggledEventArgs e)
+    {
+        if (_loading) return;
+        OnPrayerDetail.IsVisible = e.Value;
+        RefreshOnSummary(e.Value);
+        Preferences.Set("notif_on_on", e.Value);
+        RescheduleNotifications();
+    }
+
+    private async void OnOnPrayerToneTapped(object sender, TappedEventArgs e)
+    {
+        var pick = await DisplayActionSheet("Select Sound / Adhan", "Cancel", null, Tones);
+        if (pick is null || pick == "Cancel") return;
+        OnPrayerToneLabel.Text = pick;
+        Preferences.Set("notif_on_tone", pick);
+        RefreshOnSummary(OnPrayerSwitch.IsToggled);
+        RescheduleNotifications();
+    }
+
+    void RefreshOnSummary(bool on)
+    {
+        OnPrayerSummary.Text = on
+            ? $"At prayer time · {OnPrayerToneLabel.Text}"
+            : "Off";
+        OnPrayerToneFileLabel.Text = ToneToFile(OnPrayerToneLabel.Text) is var f && !string.IsNullOrEmpty(f) ? $"[{f}]" : "";
+    }
+
+    // ── Prayer Time Ends In ───────────────────────────────────────────────────
+
+    private void OnEndsInToggled(object sender, ToggledEventArgs e)
+    {
+        if (_loading) return;
+        EndsInDetail.IsVisible = e.Value;
+        RefreshEndsLabels();
+        Preferences.Set("notif_ends_on", e.Value);
+        RescheduleNotifications();
+    }
+
+    private void OnEndsInHDec(object sender, TappedEventArgs e)
+    {
+        if (_endsH > 0) _endsH--;
+        Preferences.Set("notif_ends_h", _endsH);
+        RefreshEndsLabels();
+        RescheduleNotifications();
+    }
+    private void OnEndsInHInc(object sender, TappedEventArgs e)
+    {
+        if (_endsH < 23) _endsH++;
+        Preferences.Set("notif_ends_h", _endsH);
+        RefreshEndsLabels();
+        RescheduleNotifications();
+    }
+    private void OnEndsInMDec(object sender, TappedEventArgs e)
+    {
+        if (_endsM > 0) _endsM--; else _endsM = 59;
+        Preferences.Set("notif_ends_m", _endsM);
+        RefreshEndsLabels();
+        RescheduleNotifications();
+    }
+    private void OnEndsInMInc(object sender, TappedEventArgs e)
+    {
+        _endsM = (_endsM + 1) % 60;
+        Preferences.Set("notif_ends_m", _endsM);
+        RefreshEndsLabels();
+        RescheduleNotifications();
+    }
+
+    private async void OnEndsInToneTapped(object sender, TappedEventArgs e)
+    {
+        var pick = await DisplayActionSheet("Select Sound / Adhan", "Cancel", null, Tones);
+        if (pick is null || pick == "Cancel") return;
+        EndsInToneLabel.Text = pick;
+        Preferences.Set("notif_ends_tone", pick);
+        RefreshEndsLabels();
+        RescheduleNotifications();
+    }
+
+    void RefreshEndsLabels()
+    {
+        EndsInHLabel.Text = $"{_endsH} h";
+        EndsInMLabel.Text = $"{_endsM} min";
+        EndsInSummary.Text = EndsInSwitch.IsToggled
+            ? $"{FormatOffset(_endsH, _endsM)} remaining · {EndsInToneLabel.Text}"
+            : "Off";
+        EndsInToneFileLabel.Text = ToneToFile(EndsInToneLabel.Text) is var f && !string.IsNullOrEmpty(f) ? $"[{f}]" : "";
+    }
+
+    // ── Reschedule ────────────────────────────────────────────────────────────
+
+    private async void RescheduleNotifications()
+    {
+        // Debounce: if another call arrives within 600 ms, cancel this one.
+        _rescheduleDebounce?.Cancel();
+        var cts = _rescheduleDebounce = new CancellationTokenSource();
+        try   { await Task.Delay(600, cts.Token); }
+        catch (OperationCanceledException) { return; }
+
+        var today = DateTime.Today;
+        var cur   = PrayerTimesService.GetCachedMonth(today.Year, today.Month);
+
+        // If not in memory, load from disk using the last-known location
+        if (cur is null)
+        {
+            double lat = 0, lon = 0;
+            string city = "", country = "";
+
+            var manual = LocationService.GetManualLocation();
+            if (manual is not null)
+            {
+                lat = manual.Latitude;  lon = manual.Longitude;
+                city = manual.City;     country = manual.Country;
+            }
+            else
+            {
+                var fc = LocationService.GetFetchCoords();
+                if (fc is not null)
+                {
+                    lat = fc.Value.Lat;    lon = fc.Value.Lon;
+                    city = fc.Value.City;  country = fc.Value.Country;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(city))
+                cur = await PrayerTimesService.GetMonthAsync(
+                    today.Year, today.Month, city, country, lat, lon);
+        }
+
+        var nm   = today.Month == 12 ? 1 : today.Month + 1;
+        var ny   = today.Month == 12 ? today.Year + 1 : today.Year;
+        var next = PrayerTimesService.GetCachedMonth(ny, nm);
+
+        FileLogger.Log($"Reschedule: cur={( cur == null ? "NULL" : $"{cur.Year}/{cur.Month} {cur.Days.Count}d")}");
+        await NotifSvc.ScheduleAllAsync(cur, next);
+    }
+
+    // ── Test: play sound directly ─────────────────────────────────────────────
+
+    private async void OnPlaySoundNowTapped(object sender, TappedEventArgs e)
+    {
+        var pick = await DisplayActionSheet("Play which sound?", "Cancel", null, Tones);
+        if (pick is null || pick == "Cancel") return;
+        NotifSvc.PlaySoundNow(pick);
+        // Check the log after — it will show whether the file was found
+    }
+
+    // ── Test: notification in 10 s ────────────────────────────────────────────
+
+    private async void OnTestAlarmTapped(object sender, TappedEventArgs e)
+    {
+        // Pick which tone to test
+        var pick = await DisplayActionSheet("Test with which sound?", "Cancel", null, Tones);
+        if (pick is null || pick == "Cancel") return;
+
+        await NotifSvc.ScheduleTestAsync(pick);
+        await DisplayAlert("Test Alarm Scheduled",
+            $"Sound: {pick}\nFires in 10 seconds.\n\n" +
+            "1. Tap OK\n" +
+            "2. Swipe UP to go home (keep app alive in background)\n" +
+            "3. Wait — the notification should arrive with full sound",
+            "OK");
+    }
+
+    // ── Debug log ─────────────────────────────────────────────────────────────
+
+    private async void OnShowLogTapped(object sender, TappedEventArgs e)
+    {
+        var log = FileLogger.Read();
+        await Clipboard.SetTextAsync(log);
+        if (log.Length > 1500) log = "…(truncated)\n" + log[^1500..];
+        await DisplayAlert("Notification Log (Copied!)", log, "OK");
+    }
+
+    private async void OnClearLogTapped(object sender, TappedEventArgs e)
+    {
+        FileLogger.Clear();
+        await DisplayAlert("Log Cleared", "Log file has been cleared.", "OK");
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    static string ToneToFile(string tone) => NotifSvc.GetSoundFileName(tone);
+
+    static string FormatOffset(int h, int m)
+    {
+        if (h == 0) return $"{m} min";
+        if (m == 0) return $"{h} h";
+        return $"{h} h {m} min";
     }
 }

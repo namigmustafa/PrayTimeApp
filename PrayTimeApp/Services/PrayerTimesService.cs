@@ -45,6 +45,15 @@ public class PrayerMonthCache
 public static class PrayerTimesService
 {
     private static PrayerMonthCache? _mem;
+    private static PrayerMonthCache? _mem2; // second most-recently-used month
+
+    // Returns a cached month from the two-slot in-memory store (no I/O).
+    public static PrayerMonthCache? GetCachedMonth(int year, int month)
+    {
+        if (_mem?.Year == year && _mem.Month == month) return _mem;
+        if (_mem2?.Year == year && _mem2.Month == month) return _mem2;
+        return null;
+    }
 
     private static readonly HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(20) };
     private static readonly JsonSerializerOptions _opts = new() { PropertyNameCaseInsensitive = true };
@@ -65,7 +74,7 @@ public static class PrayerTimesService
         if (!forceRefresh)
         {
             var disk = await LoadDiskAsync(year, month, city, country);
-            if (disk is not null) { _mem = disk; return disk; }
+            if (disk is not null) { SetMem(disk); return disk; }
         }
 
         return await FetchAsync(year, month, city, country, lat, lon);
@@ -258,7 +267,7 @@ public static class PrayerTimesService
             };
 
             await SaveDiskAsync(cache);
-            _mem = cache;
+            SetMem(cache);
             return cache;
         }
         catch { return null; }
@@ -302,8 +311,16 @@ public static class PrayerTimesService
 
     public static void ClearDiskCache()
     {
-        _mem = null;
+        _mem  = null;
+        _mem2 = null;
         try { File.Delete(DiskPath()); } catch { }
+    }
+
+    static void SetMem(PrayerMonthCache cache)
+    {
+        if (_mem is not null && (_mem.Year != cache.Year || _mem.Month != cache.Month))
+            _mem2 = _mem;
+        _mem = cache;
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
@@ -326,10 +343,11 @@ public static class PrayerTimesService
         return false;
     }
 
-    // The 5 canonical daily prayers in order
+    // Daily prayer periods in order (Sunrise marks the end of Fajr period)
     private static IEnumerable<(string Name, string Raw)> PrayerList(PrayerDay d)
     {
         yield return ("Fajr",    d.Timings.Fajr);
+        yield return ("Sunrise", d.Timings.Sunrise);
         yield return ("Dhuhr",   d.Timings.Dhuhr);
         yield return ("Asr",     d.Timings.Asr);
         yield return ("Maghrib", d.Timings.Maghrib);

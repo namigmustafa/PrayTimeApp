@@ -72,8 +72,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <BundleResource Remove="Platforms\iOS\Resources\adhan_bayati.wav" />
+	  <BundleResource Remove="Platforms\iOS\Resources\aranan_zil_sesi.wav" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" Condition="'$(Configuration)' == 'Debug'" />
+		<!-- Android only — plugin interferes with iOS native UNUserNotificationCenter -->
+		<PackageReference Include="Plugin.LocalNotification" Version="11.1.2" Condition="$(TargetFramework.Contains('-android'))" />
 	</ItemGroup>
 
 </Project>

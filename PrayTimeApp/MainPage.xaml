@@ -5,7 +5,36 @@
              x:Class="PrayTimeApp.MainPage"
              BackgroundColor="{StaticResource AppBg}">
 
-    <ScrollView>
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!--  ADHAN PLAYING BANNER  (hidden by default) -->
+        <!-- ═══════════════════════════════════════════ -->
+        <Border x:Name="StopAdhanBanner"
+                Grid.Row="0"
+                IsVisible="False"
+                BackgroundColor="#1A2D1A"
+                Padding="16,10">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                    <Label Text="🔊 Adhan is playing"
+                           TextColor="{StaticResource GoldAccent}"
+                           FontSize="14" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+                <Button Grid.Column="1"
+                        Text="Stop"
+                        Clicked="OnStopAdhanClicked"
+                        BackgroundColor="{StaticResource GoldAccent}"
+                        TextColor="#0D1623"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        Padding="20,8"
+                        CornerRadius="8"
+                        HeightRequest="38"/>
+            </Grid>
+        </Border>
+
+        <ScrollView Grid.Row="1">
         <VerticalStackLayout Padding="20,16,20,20" Spacing="8">
 
             <!-- ═══════════════════════════════════════════ -->
@@ -159,18 +188,18 @@
                 </Grid>
             </Border>
 
-            <!-- Sunrise (time marker, never highlighted) -->
-            <Border BackgroundColor="{StaticResource CardBg}"
+            <!-- Sunrise -->
+            <Border x:Name="SunriseRow" BackgroundColor="{StaticResource CardBg}"
                     StrokeThickness="0" Padding="14,8">
                 <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
-                    <Border Grid.Column="0" BackgroundColor="{StaticResource IconBg}"
+                    <Border x:Name="SunriseIcon" Grid.Column="0" BackgroundColor="{StaticResource IconBg}"
                             StrokeThickness="0" WidthRequest="40" HeightRequest="40">
                         <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
                         <Label Text="🌄" FontSize="20"
                                HorizontalOptions="Center" VerticalOptions="Center"/>
                     </Border>
-                    <Label Grid.Column="1" Text="{i18n:Translate Prayer_Sunrise}"
+                    <Label x:Name="SunriseNameLbl" Grid.Column="1" Text="{i18n:Translate Prayer_Sunrise}"
                            TextColor="{StaticResource TextPrimary}"
                            FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Label x:Name="SunriseTime" Grid.Column="2" Text="—"
@@ -260,6 +289,8 @@
             </Border>
 
         </VerticalStackLayout>
-    </ScrollView>
+        </ScrollView>
+
+    </Grid>
 
 </ContentPage>

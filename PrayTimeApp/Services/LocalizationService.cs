@@ -78,6 +78,14 @@ public static class LocalizationService
 
             // Qibla
             ["QiblaInstruction"]      = "Hold phone flat and rotate until the arrow points up",
+
+            // Notifications
+            ["Notif_Title"]           = "Prayer Time",
+            ["Notif_BeforeBody"]      = "{0} will be in {1}",
+            ["Notif_OnBody"]          = "Now {0} time",
+            ["Notif_EndsBody"]        = "{0} will end in {1}",
+            ["AppliesToAll"]          = "Applies to all prayer times",
+            ["CustomizePerPrayer"]    = "Customize per prayer",
         },
 
         ["tr"] = new()
@@ -150,6 +158,14 @@ public static class LocalizationService
 
             // Qibla
             ["QiblaInstruction"]      = "Telefonu düz tutun ve ok yukarı bakana kadar döndürün",
+
+            // Notifications
+            ["Notif_Title"]           = "Namaz Vakti",
+            ["Notif_BeforeBody"]      = "{0} {1} sonra",
+            ["Notif_OnBody"]          = "Şimdi {0} vakti",
+            ["Notif_EndsBody"]        = "{0} {1} içinde bitecek",
+            ["AppliesToAll"]          = "Tüm namaz vakitlerine uygulanır",
+            ["CustomizePerPrayer"]    = "Her namaz için özelleştir",
         },
 
         ["az"] = new()
@@ -222,6 +238,14 @@ public static class LocalizationService
 
             // Qibla
             ["QiblaInstruction"]      = "Telefonu düz saxlayın və ox yuxarı baxana qədər döndərin",
+
+            // Notifications
+            ["Notif_Title"]           = "Namaz Vaxtı",
+            ["Notif_BeforeBody"]      = "{0} {1} sonra",
+            ["Notif_OnBody"]          = "İndi {0} vaxtı",
+            ["Notif_EndsBody"]        = "{0} {1} içində bitəcək",
+            ["AppliesToAll"]          = "Bütün namaz vaxtlarına tətbiq edilir",
+            ["CustomizePerPrayer"]    = "Hər namaz üçün fərdiləşdir",
         }
     };
 

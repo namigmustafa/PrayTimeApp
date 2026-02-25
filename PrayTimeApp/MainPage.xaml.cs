@@ -1,5 +1,6 @@
 using System.Globalization;
 using PrayTimeApp.Services;
+using NotifSvc = PrayTimeApp.Services.NotificationService;
 
 namespace PrayTimeApp;
 
@@ -33,16 +34,37 @@ public partial class MainPage : ContentPage
         {
             _sessionChecked   = true;
             PendingCityReload = false;
-            _ = LoadAllAsync();
+            _ = StartupAsync();
         }
 
         EnsureTimerRunning();
+
+        // Show/hide the "Stop Adhan" banner based on current playback state
+        AdhanPlayerService.PlayingChanged += OnAdhanPlayingChanged;
+        UpdateStopBanner(AdhanPlayerService.IsPlaying);
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
         _timer?.Stop();
+        AdhanPlayerService.PlayingChanged -= OnAdhanPlayingChanged;
+    }
+
+    private void OnAdhanPlayingChanged(bool isPlaying) => UpdateStopBanner(isPlaying);
+
+    private void UpdateStopBanner(bool isPlaying) =>
+        StopAdhanBanner.IsVisible = isPlaying;
+
+    private void OnStopAdhanClicked(object sender, EventArgs e) =>
+        AdhanPlayerService.StopNow();
+
+    // ── Startup: permission → load → schedule ────────────────────────────────
+
+    private async Task StartupAsync()
+    {
+        await NotifSvc.RequestPermissionAsync();
+        await LoadAllAsync();
     }
 
     // ── Location + Prayer times ───────────────────────────────────────────────
@@ -118,7 +140,7 @@ public partial class MainPage : ContentPage
             LocationService.SaveFetchCoords(info.Latitude, info.Longitude, info.City, info.Country);
     }
 
-    private async Task LoadPrayerTimesAsync(bool forceRefresh = false)
+    private async Task LoadPrayerTimesAsync(bool forceRefresh = false, bool rescheduleNotifs = true)
     {
         if (string.IsNullOrWhiteSpace(_city)) return;
 
@@ -199,6 +221,17 @@ public partial class MainPage : ContentPage
         var next = PrayerTimesService.NextPrayer(today, tomorrow, tz);
         if (next is not null)
             _countdownTarget = next.Value.Target;
+
+        // (Re-)schedule all alarms for the next 7 days
+        PrayerMonthCache? nextMonthCache = null;
+        if (now.Day > DateTime.DaysInMonth(year, month) - 6)
+        {
+            var nm = month == 12 ? 1 : month + 1;
+            var ny = month == 12 ? year + 1 : year;
+            nextMonthCache = PrayerTimesService.GetCachedMonth(ny, nm);
+        }
+        if (rescheduleNotifs)
+            await NotifSvc.ScheduleAllAsync(cache, nextMonthCache);
     }
 
     // ── Row highlighting ──────────────────────────────────────────────────────
@@ -215,12 +248,13 @@ public partial class MainPage : ContentPage
         (Border row, Border icon, Label name, Label time)[] rows =
         [
             (FajrRow,    FajrIcon,    FajrNameLbl,    FajrTime),
+            (SunriseRow, SunriseIcon, SunriseNameLbl, SunriseTime),
             (DhuhrRow,   DhuhrIcon,   DhuhrNameLbl,   DhuhrTime),
             (AsrRow,     AsrIcon,     AsrNameLbl,     AsrTime),
             (MaghribRow, MaghribIcon, MaghribNameLbl, MaghribTime),
             (IshaRow,    IshaIcon,    IshaNameLbl,    IshaTime),
         ];
-        string[] names = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+        string[] names = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
 
         for (int i = 0; i < names.Length; i++)
         {
@@ -267,7 +301,7 @@ public partial class MainPage : ContentPage
     private async Task AutoSwitchAsync()
     {
         _refreshing = true;
-        try   { await LoadPrayerTimesAsync(); }
+        try   { await LoadPrayerTimesAsync(rescheduleNotifs: false); }
         finally { _refreshing = false; }
     }
 

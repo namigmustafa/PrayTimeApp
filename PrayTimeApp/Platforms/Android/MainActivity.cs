@@ -1,23 +1,87 @@
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Provider;
 using Google.Android.Material.BottomNavigation;
 
 namespace PrayTimeApp
 {
-    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
+    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop,
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode |
+                               ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
     public class MainActivity : MauiAppCompatActivity
     {
+        protected override void OnCreate(Bundle? savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            CreateNotificationChannels();
+
+            // Android 13+: POST_NOTIFICATIONS runtime permission
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Tiramisu)
+                RequestPermissions([Android.Manifest.Permission.PostNotifications], 0);
+
+            // Android 12+: exact alarms must be granted by the user
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
+            {
+                var alarmMgr = (AlarmManager)GetSystemService(AlarmService)!;
+                if (!alarmMgr.CanScheduleExactAlarms())
+                    StartActivity(new Intent(Settings.ActionRequestScheduleExactAlarm));
+            }
+        }
+
+        void CreateNotificationChannels()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O) return;
+
+            var mgr = (NotificationManager)GetSystemService(Android.Content.Context.NotificationService)!;
+
+            // Default sound channel
+            mgr.CreateNotificationChannel(new NotificationChannel(
+                "prayer_default", "Prayer Alarms", NotificationImportance.High)
+                { Description = "Prayer time alerts" });
+
+            // Silent channel
+            var silent = new NotificationChannel(
+                "prayer_silent", "Prayer Alarms (Silent)", NotificationImportance.Low)
+                { Description = "Silent prayer alerts" };
+            silent.SetSound(null, null);
+            mgr.CreateNotificationChannel(silent);
+
+            // Per-tone channels
+            CreateAdhanChannel(mgr, "prayer_bayati",       "Prayer (Adhan Bayati)",  "adhan_bayati");
+            CreateAdhanChannel(mgr, "prayer_apple",        "Prayer (Apple)",          "apple");
+            CreateAdhanChannel(mgr, "prayer_early_riser",  "Prayer (Early Riser)",    "early_riser");
+            CreateAdhanChannel(mgr, "prayer_iphone_alarm", "Prayer (iPhone Alarm)",   "iphone_alarm_music");
+            CreateAdhanChannel(mgr, "prayer_revelation",   "Prayer (Revelation)",     "revelation");
+            CreateAdhanChannel(mgr, "prayer_apple_hard",   "Prayer (Apple Hard)",     "apple_android_hard");
+            CreateAdhanChannel(mgr, "prayer_aranan",       "Prayer (Aranan Zil)",     "aranan_zil_sesi");
+            CreateAdhanChannel(mgr, "prayer_ezan",         "Prayer (Ezan 1)",         "ezan_1");
+        }
+
+        void CreateAdhanChannel(NotificationManager mgr, string id, string name, string soundFile)
+        {
+            var ch = new NotificationChannel(id, name, NotificationImportance.High);
+            int resId = Resources!.GetIdentifier(soundFile, "raw", PackageName);
+            if (resId != 0)
+            {
+                var uri   = Android.Net.Uri.Parse($"android.resource://{PackageName}/raw/{soundFile}");
+                var attrs = new Android.Media.AudioAttributes.Builder()
+                    .SetUsage(Android.Media.AudioUsageKind.Notification)
+                    .SetContentType(Android.Media.AudioContentType.Music)
+                    .Build()!;
+                ch.SetSound(uri, attrs);
+            }
+            mgr.CreateNotificationChannel(ch);
+        }
+
         protected override void OnResume()
         {
             base.OnResume();
-            // Defer until after the view hierarchy is fully laid out
             Window?.DecorView.Post(() => FixBottomNavTextSize(Window.DecorView));
         }
 
-        // Walk the view tree to find BottomNavigationView and lock both
-        // active and inactive text appearances to the same fixed size.
-        private static void FixBottomNavTextSize(Android.Views.View? view)
+        static void FixBottomNavTextSize(Android.Views.View? view)
         {
             if (view is BottomNavigationView bnv)
             {

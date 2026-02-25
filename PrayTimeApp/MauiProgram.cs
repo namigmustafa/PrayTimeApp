@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Handlers;
+#if ANDROID
+using Plugin.LocalNotification;
+#endif
 
 namespace PrayTimeApp
 {
@@ -10,6 +13,9 @@ namespace PrayTimeApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+#if ANDROID
+                .UseLocalNotification()
+#endif
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

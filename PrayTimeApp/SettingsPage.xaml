@@ -6,15 +6,40 @@
              BackgroundColor="{StaticResource AppBg}">
 
     <ContentPage.Resources>
-        <!-- Green-track / gold-thumb toggle -->
+
+        <!-- Gold toggle (green track, gold thumb) -->
         <Style x:Key="GoldToggle" TargetType="Switch">
-            <Setter Property="OnColor" Value="#2A6B45"/>
+            <Setter Property="OnColor"    Value="#2A6B45"/>
             <Setter Property="ThumbColor" Value="{StaticResource GoldAccent}"/>
         </Style>
+
+        <!-- Stepper − button: outlined gold border -->
+        <Style x:Key="StepDec" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="Stroke"          Value="{StaticResource GoldAccent}"/>
+            <Setter Property="StrokeThickness" Value="1.5"/>
+            <Setter Property="WidthRequest"    Value="34"/>
+            <Setter Property="HeightRequest"   Value="34"/>
+            <Setter Property="StrokeShape">
+                <Setter.Value><RoundRectangle CornerRadius="10"/></Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Stepper + button: solid gold fill -->
+        <Style x:Key="StepInc" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="{StaticResource GoldAccent}"/>
+            <Setter Property="StrokeThickness" Value="0"/>
+            <Setter Property="WidthRequest"    Value="34"/>
+            <Setter Property="HeightRequest"   Value="34"/>
+            <Setter Property="StrokeShape">
+                <Setter.Value><RoundRectangle CornerRadius="10"/></Setter.Value>
+            </Setter>
+        </Style>
+
     </ContentPage.Resources>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20,16,20,20" Spacing="14">
+        <VerticalStackLayout Padding="20,16,20,32" Spacing="14">
 
             <!-- ═══════════════════════════════════════════ -->
             <!--  HEADER                                     -->
@@ -25,16 +50,12 @@
                        FontSize="28" FontAttributes="Bold"
                        TextColor="{StaticResource TextPrimary}"
                        VerticalOptions="Center"/>
-
-                <!-- Help / question icon -->
                 <Border Grid.Column="1"
                         BackgroundColor="{StaticResource CardBg}"
                         StrokeThickness="0"
                         WidthRequest="40" HeightRequest="40"
                         VerticalOptions="Center">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="20"/>
-                    </Border.StrokeShape>
+                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
                     <Label Text="?" FontSize="17" FontAttributes="Bold"
                            TextColor="{StaticResource TextSecondary}"
                            HorizontalOptions="Center" VerticalOptions="Center"/>
@@ -48,27 +69,18 @@
                     Stroke="{StaticResource GreenCardBorder}"
                     StrokeThickness="1.5"
                     Padding="16,14">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="16"/>
-                </Border.StrokeShape>
-
+                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
                 <VerticalStackLayout Spacing="14">
 
-                    <!-- Icon + text + current language badge -->
                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                        <!-- Globe icon circle -->
                         <Border Grid.Column="0"
                                 BackgroundColor="{StaticResource GoldBadgeBg}"
-                                StrokeThickness="0"
-                                WidthRequest="42" HeightRequest="42">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="12"/>
-                            </Border.StrokeShape>
+                                StrokeThickness="0" WidthRequest="42" HeightRequest="42">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
                             <Label Text="🌐" FontSize="20"
                                    HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
 
-                        <!-- Title + subtitle -->
                         <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
                             <Label Text="{i18n:Translate AppLanguage}"
                                    TextColor="{StaticResource GoldAccent}"
@@ -78,43 +90,32 @@
                                    FontSize="12"/>
                         </VerticalStackLayout>
 
-                        <!-- Current language badge -->
                         <Border Grid.Column="2"
                                 BackgroundColor="{StaticResource CardBg}"
-                                StrokeThickness="0"
-                                Padding="12,6"
-                                VerticalOptions="Center">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="20"/>
-                            </Border.StrokeShape>
+                                StrokeThickness="0" Padding="12,6" VerticalOptions="Center">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
                             <Label x:Name="LanguageBadgeLabel"
                                    TextColor="{StaticResource TextPrimary}"
                                    FontSize="13" FontAttributes="Bold"/>
                         </Border>
                     </Grid>
 
-                    <!-- CHANGE button -->
                     <Border BackgroundColor="{StaticResource GoldAccent}"
-                            StrokeThickness="0"
-                            Padding="0,14">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="10"/>
-                        </Border.StrokeShape>
+                            StrokeThickness="0" Padding="0,14">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnChangeLanguageTapped"/>
                         </Border.GestureRecognizers>
                         <Label Text="{i18n:Translate Change}"
-                               TextColor="#0D1623"
-                               FontSize="14" FontAttributes="Bold"
-                               CharacterSpacing="1.5"
-                               HorizontalOptions="Center"/>
+                               TextColor="#0D1623" FontSize="14" FontAttributes="Bold"
+                               CharacterSpacing="1.5" HorizontalOptions="Center"/>
                     </Border>
 
                 </VerticalStackLayout>
             </Border>
 
             <!-- ═══════════════════════════════════════════ -->
-            <!--  SECTION: NOTIFICATIONS & PREFERENCES       -->
+            <!--  SECTION LABEL: ALARMS                      -->
             <!-- ═══════════════════════════════════════════ -->
             <Label Text="{i18n:Translate NotificationsAndPrefs}"
                    TextColor="{StaticResource TextSecondary}"
@@ -122,88 +123,342 @@
                    CharacterSpacing="1.2"
                    Margin="2,6,0,0"/>
 
+            <!-- ─────────────────────────────────────────── -->
+            <!--  CARD 1 · BEFORE PRAYER TIME                -->
+            <!-- ─────────────────────────────────────────── -->
             <Border BackgroundColor="{StaticResource CardBg}"
-                    StrokeThickness="0"
-                    Padding="16,0">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="14"/>
-                </Border.StrokeShape>
+                    StrokeThickness="0" Padding="16,14">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
 
                 <VerticalStackLayout Spacing="0">
 
-                    <!-- Prayer Notifications -->
-                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="0,14">
-                        <Border Grid.Column="0" BackgroundColor="{StaticResource GoldBadgeBg}"
-                                StrokeThickness="0" WidthRequest="38" HeightRequest="38">
-                            <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                            <Label Text="🔔" FontSize="18"
+                    <!-- Header row -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource GoldBadgeBg}"
+                                StrokeThickness="0" WidthRequest="42" HeightRequest="42">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Label Text="🔔" FontSize="20"
                                    HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
-                        <Label Grid.Column="1" Text="{i18n:Translate PrayerNotifications}"
-                               TextColor="{StaticResource TextPrimary}"
-                               FontSize="15" FontAttributes="Bold"
-                               VerticalOptions="Center"/>
-                        <Switch Grid.Column="2"
-                                IsToggled="True"
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                            <Label Text="Before Prayer Time"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="15" FontAttributes="Bold"/>
+                            <Label x:Name="BeforePrayerSummary" Text="Off"
+                                   TextColor="{StaticResource TextSecondary}" FontSize="12"/>
+                        </VerticalStackLayout>
+
+                        <Switch x:Name="BeforePrayerSwitch" Grid.Column="2"
                                 Style="{StaticResource GoldToggle}"
-                                VerticalOptions="Center"/>
+                                VerticalOptions="Center"
+                                Toggled="OnBeforePrayerToggled"/>
                     </Grid>
 
-                    <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}" Margin="52,0,0,0"/>
+                    <!-- Expandable detail -->
+                    <VerticalStackLayout x:Name="BeforePrayerDetail" IsVisible="False" Spacing="0">
 
-                    <!-- Dark Mode -->
-                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="0,14">
-                        <Border Grid.Column="0" BackgroundColor="{StaticResource GoldBadgeBg}"
-                                StrokeThickness="0" WidthRequest="38" HeightRequest="38">
-                            <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                            <Label Text="🌙" FontSize="18"
+                        <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}" Margin="0,12,0,0"/>
+
+                        <!-- Hours picker -->
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,12" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Hours"
+                                       TextColor="{StaticResource TextPrimary}" FontSize="14"/>
+                                <Label Text="0 – 23"
+                                       TextColor="{StaticResource TextSecondary}" FontSize="11"/>
+                            </VerticalStackLayout>
+                            <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto,Auto"
+                                  ColumnSpacing="8" VerticalOptions="Center">
+                                <Border Grid.Column="0" Style="{StaticResource StepDec}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnBeforePrayerHDec"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="−" TextColor="{StaticResource GoldAccent}"
+                                           FontSize="18" FontAttributes="Bold"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Label Grid.Column="1" x:Name="BeforePrayerHLabel" Text="0 h"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       FontSize="15" FontAttributes="Bold"
+                                       WidthRequest="54" HorizontalTextAlignment="Center"
+                                       VerticalOptions="Center"/>
+                                <Border Grid.Column="2" Style="{StaticResource StepInc}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnBeforePrayerHInc"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="+" TextColor="#0D1623"
+                                           FontSize="18" FontAttributes="Bold"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}"/>
+
+                        <!-- Minutes picker -->
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,12" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Minutes"
+                                       TextColor="{StaticResource TextPrimary}" FontSize="14"/>
+                                <Label Text="0 – 59"
+                                       TextColor="{StaticResource TextSecondary}" FontSize="11"/>
+                            </VerticalStackLayout>
+                            <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto,Auto"
+                                  ColumnSpacing="8" VerticalOptions="Center">
+                                <Border Grid.Column="0" Style="{StaticResource StepDec}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnBeforePrayerMDec"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="−" TextColor="{StaticResource GoldAccent}"
+                                           FontSize="18" FontAttributes="Bold"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Label Grid.Column="1" x:Name="BeforePrayerMLabel" Text="30 min"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       FontSize="15" FontAttributes="Bold"
+                                       WidthRequest="64" HorizontalTextAlignment="Center"
+                                       VerticalOptions="Center"/>
+                                <Border Grid.Column="2" Style="{StaticResource StepInc}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnBeforePrayerMInc"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="+" TextColor="#0D1623"
+                                           FontSize="18" FontAttributes="Bold"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}"/>
+
+                        <!-- Tone selector -->
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,14" ColumnSpacing="12">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnBeforePrayerToneTapped"/>
+                            </Grid.GestureRecognizers>
+                            <Label Grid.Column="0" Text="Sound / Adhan"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="14" VerticalOptions="Center"/>
+                            <HorizontalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
+                                <Label x:Name="BeforePrayerToneLabel" Text="Default"
+                                       TextColor="{StaticResource GoldAccent}"
+                                       FontSize="13" FontAttributes="Bold"/>
+                                <Label x:Name="BeforePrayerToneFileLabel" TextColor="#888" FontSize="10" VerticalOptions="Center"/>
+                                <Label Text="›" TextColor="{StaticResource TextSecondary}" FontSize="20"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+
+                        <Label Text="Applies to all prayer times" TextColor="#888" FontSize="11" Margin="0,4,0,0"/>
+
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ─────────────────────────────────────────── -->
+            <!--  CARD 2 · ON PRAYER TIME                    -->
+            <!-- ─────────────────────────────────────────── -->
+            <Border BackgroundColor="{StaticResource CardBg}"
+                    StrokeThickness="0" Padding="16,14">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="0">
+
+                    <!-- Header row -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource GoldBadgeBg}"
+                                StrokeThickness="0" WidthRequest="42" HeightRequest="42">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Label Text="🕌" FontSize="20"
                                    HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
-                        <Label Grid.Column="1" Text="{i18n:Translate DarkMode}"
-                               TextColor="{StaticResource TextPrimary}"
-                               FontSize="15" FontAttributes="Bold"
-                               VerticalOptions="Center"/>
-                        <Switch Grid.Column="2"
-                                IsToggled="True"
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                            <Label Text="On Prayer Time"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="15" FontAttributes="Bold"/>
+                            <Label x:Name="OnPrayerSummary" Text="Off"
+                                   TextColor="{StaticResource TextSecondary}" FontSize="12"/>
+                        </VerticalStackLayout>
+
+                        <Switch x:Name="OnPrayerSwitch" Grid.Column="2"
                                 Style="{StaticResource GoldToggle}"
-                                VerticalOptions="Center"/>
+                                VerticalOptions="Center"
+                                Toggled="OnOnPrayerToggled"/>
                     </Grid>
 
-                    <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}" Margin="52,0,0,0"/>
+                    <!-- Expandable detail (tone only — no offset) -->
+                    <VerticalStackLayout x:Name="OnPrayerDetail" IsVisible="False" Spacing="0">
 
-                    <!-- Location Services -->
-                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="0,14">
-                        <Border Grid.Column="0" BackgroundColor="{StaticResource GoldBadgeBg}"
-                                StrokeThickness="0" WidthRequest="38" HeightRequest="38">
-                            <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                            <Label Text="📍" FontSize="18"
+                        <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}" Margin="0,12,0,0"/>
+
+                        <!-- Tone selector -->
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,14" ColumnSpacing="12">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnOnPrayerToneTapped"/>
+                            </Grid.GestureRecognizers>
+                            <Label Grid.Column="0" Text="Sound / Adhan"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="14" VerticalOptions="Center"/>
+                            <HorizontalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
+                                <Label x:Name="OnPrayerToneLabel" Text="Default"
+                                       TextColor="{StaticResource GoldAccent}"
+                                       FontSize="13" FontAttributes="Bold"/>
+                                <Label x:Name="OnPrayerToneFileLabel" TextColor="#888" FontSize="10" VerticalOptions="Center"/>
+                                <Label Text="›" TextColor="{StaticResource TextSecondary}" FontSize="20"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+
+                        <Label Text="Applies to all prayer times" TextColor="#888" FontSize="11" Margin="0,4,0,0"/>
+
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ─────────────────────────────────────────── -->
+            <!--  CARD 3 · PRAYER TIME ENDS IN               -->
+            <!-- ─────────────────────────────────────────── -->
+            <Border BackgroundColor="{StaticResource CardBg}"
+                    StrokeThickness="0" Padding="16,14">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="0">
+
+                    <!-- Header row -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource GoldBadgeBg}"
+                                StrokeThickness="0" WidthRequest="42" HeightRequest="42">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Label Text="⏰" FontSize="20"
                                    HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
-                        <Label Grid.Column="1" Text="{i18n:Translate LocationServices}"
-                               TextColor="{StaticResource TextPrimary}"
-                               FontSize="15" FontAttributes="Bold"
-                               VerticalOptions="Center"/>
-                        <Label Grid.Column="2" Text="›"
-                               TextColor="{StaticResource TextSecondary}"
-                               FontSize="22" VerticalOptions="Center"/>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                            <Label Text="Prayer Time Ends In"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="15" FontAttributes="Bold"/>
+                            <Label x:Name="EndsInSummary" Text="Off"
+                                   TextColor="{StaticResource TextSecondary}" FontSize="12"/>
+                        </VerticalStackLayout>
+
+                        <Switch x:Name="EndsInSwitch" Grid.Column="2"
+                                Style="{StaticResource GoldToggle}"
+                                VerticalOptions="Center"
+                                Toggled="OnEndsInToggled"/>
                     </Grid>
 
+                    <!-- Expandable detail -->
+                    <VerticalStackLayout x:Name="EndsInDetail" IsVisible="False" Spacing="0">
+
+                        <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}" Margin="0,12,0,0"/>
+
+                        <!-- Hours picker -->
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,12" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Hours"
+                                       TextColor="{StaticResource TextPrimary}" FontSize="14"/>
+                                <Label Text="0 – 23"
+                                       TextColor="{StaticResource TextSecondary}" FontSize="11"/>
+                            </VerticalStackLayout>
+                            <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto,Auto"
+                                  ColumnSpacing="8" VerticalOptions="Center">
+                                <Border Grid.Column="0" Style="{StaticResource StepDec}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnEndsInHDec"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="−" TextColor="{StaticResource GoldAccent}"
+                                           FontSize="18" FontAttributes="Bold"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Label Grid.Column="1" x:Name="EndsInHLabel" Text="0 h"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       FontSize="15" FontAttributes="Bold"
+                                       WidthRequest="54" HorizontalTextAlignment="Center"
+                                       VerticalOptions="Center"/>
+                                <Border Grid.Column="2" Style="{StaticResource StepInc}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnEndsInHInc"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="+" TextColor="#0D1623"
+                                           FontSize="18" FontAttributes="Bold"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}"/>
+
+                        <!-- Minutes picker -->
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,12" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Minutes"
+                                       TextColor="{StaticResource TextPrimary}" FontSize="14"/>
+                                <Label Text="0 – 59"
+                                       TextColor="{StaticResource TextSecondary}" FontSize="11"/>
+                            </VerticalStackLayout>
+                            <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto,Auto"
+                                  ColumnSpacing="8" VerticalOptions="Center">
+                                <Border Grid.Column="0" Style="{StaticResource StepDec}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnEndsInMDec"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="−" TextColor="{StaticResource GoldAccent}"
+                                           FontSize="18" FontAttributes="Bold"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Label Grid.Column="1" x:Name="EndsInMLabel" Text="30 min"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       FontSize="15" FontAttributes="Bold"
+                                       WidthRequest="64" HorizontalTextAlignment="Center"
+                                       VerticalOptions="Center"/>
+                                <Border Grid.Column="2" Style="{StaticResource StepInc}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnEndsInMInc"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="+" TextColor="#0D1623"
+                                           FontSize="18" FontAttributes="Bold"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="{StaticResource GreenCardBorder}"/>
+
+                        <!-- Tone selector -->
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,14" ColumnSpacing="12">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnEndsInToneTapped"/>
+                            </Grid.GestureRecognizers>
+                            <Label Grid.Column="0" Text="Sound / Adhan"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="14" VerticalOptions="Center"/>
+                            <HorizontalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
+                                <Label x:Name="EndsInToneLabel" Text="Default"
+                                       TextColor="{StaticResource GoldAccent}"
+                                       FontSize="13" FontAttributes="Bold"/>
+                                <Label x:Name="EndsInToneFileLabel" TextColor="#888" FontSize="10" VerticalOptions="Center"/>
+                                <Label Text="›" TextColor="{StaticResource TextSecondary}" FontSize="20"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+
+                        <Label Text="Applies to all prayer times" TextColor="#888" FontSize="11" Margin="0,4,0,0"/>
+
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </Border>
 
             <!-- ═══════════════════════════════════════════ -->
-            <!--  SECTION: LOCATION THRESHOLD                -->
+            <!--  LOCATION THRESHOLD                         -->
             <!-- ═══════════════════════════════════════════ -->
             <Border BackgroundColor="{StaticResource CardBg}"
-                    StrokeThickness="0"
-                    Padding="16,14">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="14"/>
-                </Border.StrokeShape>
+                    StrokeThickness="0" Padding="16,14">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
 
                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
 
-                    <!-- Icon -->
                     <Border Grid.Column="0"
                             BackgroundColor="{StaticResource GoldBadgeBg}"
                             StrokeThickness="0" WidthRequest="42" HeightRequest="42">
@@ -212,7 +467,6 @@
                                HorizontalOptions="Center" VerticalOptions="Center"/>
                     </Border>
 
-                    <!-- Title + description -->
                     <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
                         <Label Text="{i18n:Translate LocationThreshold}"
                                TextColor="{StaticResource TextPrimary}"
@@ -222,7 +476,6 @@
                                FontSize="11" LineBreakMode="WordWrap"/>
                     </VerticalStackLayout>
 
-                    <!-- − / value / + -->
                     <VerticalStackLayout Grid.Column="2" Spacing="6"
                                          HorizontalOptions="End" VerticalOptions="Center">
                         <Label x:Name="ThresholdValueLabel"
@@ -272,13 +525,8 @@
                    Margin="2,6,0,0"/>
 
             <Border BackgroundColor="{StaticResource CardBg}"
-                    StrokeThickness="0"
-                    Padding="16,0">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="14"/>
-                </Border.StrokeShape>
-
-                <!-- Fajr & Isha Method -->
+                    StrokeThickness="0" Padding="16,0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="0,14">
                     <Border Grid.Column="0" BackgroundColor="{StaticResource GoldBadgeBg}"
                             StrokeThickness="0" WidthRequest="38" HeightRequest="38">
@@ -292,8 +540,7 @@
                                FontSize="15" FontAttributes="Bold"/>
                         <Label Text="{i18n:Translate MuslimWorldLeague}"
                                TextColor="{StaticResource TextSecondary}"
-                               FontSize="11" FontAttributes="Bold"
-                               CharacterSpacing="0.5"/>
+                               FontSize="11" FontAttributes="Bold" CharacterSpacing="0.5"/>
                     </VerticalStackLayout>
                     <Label Grid.Column="2" Text="›"
                            TextColor="{StaticResource TextSecondary}"
@@ -311,13 +558,8 @@
                    Margin="2,6,0,0"/>
 
             <Border BackgroundColor="{StaticResource CardBg}"
-                    StrokeThickness="0"
-                    Padding="16,0">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="14"/>
-                </Border.StrokeShape>
-
-                <!-- Profile Information -->
+                    StrokeThickness="0" Padding="16,0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="0,14">
                     <Border Grid.Column="0" BackgroundColor="{StaticResource GoldBadgeBg}"
                             StrokeThickness="0" WidthRequest="38" HeightRequest="38">
@@ -330,14 +572,105 @@
                                TextColor="{StaticResource TextPrimary}"
                                FontSize="15" FontAttributes="Bold"/>
                         <Label Text="{i18n:Translate UpdatePersonalDetails}"
-                               TextColor="{StaticResource TextSecondary}"
-                               FontSize="12"/>
+                               TextColor="{StaticResource TextSecondary}" FontSize="12"/>
                     </VerticalStackLayout>
                     <Label Grid.Column="2" Text="›"
                            TextColor="{StaticResource TextSecondary}"
                            FontSize="22" VerticalOptions="Center"/>
                 </Grid>
             </Border>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  TEST BUTTONS                               -->
+            <!-- ═══════════════════════════════════════════ -->
+
+            <!-- Play sound instantly (no notification) -->
+            <Border BackgroundColor="{StaticResource GoldAccent}"
+                    StrokeThickness="0" Padding="16,16">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnPlaySoundNowTapped"/>
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Grid.Column="0" Text="🔊" FontSize="22" VerticalOptions="Center"/>
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Play Sound Now"
+                               TextColor="#0D1623" FontSize="15" FontAttributes="Bold"/>
+                        <Label Text="Plays audio directly — no notification needed"
+                               TextColor="#0D1623" FontSize="11" Opacity="0.7"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Notification in 10 seconds -->
+            <Border BackgroundColor="{StaticResource CardBg}"
+                    Stroke="{StaticResource GoldAccent}"
+                    StrokeThickness="1.5" Padding="16,16">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTestAlarmTapped"/>
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Grid.Column="0" Text="🔔" FontSize="22" VerticalOptions="Center"/>
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Test Notification"
+                               TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"/>
+                        <Label Text="Fires in 10 s — go to home screen, keep app alive"
+                               TextColor="{StaticResource TextSecondary}" FontSize="11"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  DEBUG: NOTIFICATION LOG (remove later)     -->
+            <!-- ═══════════════════════════════════════════ -->
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+
+                <!-- View log -->
+                <Border Grid.Column="0"
+                        BackgroundColor="{StaticResource CardBg}"
+                        Stroke="{StaticResource GreenCardBorder}"
+                        StrokeThickness="1"
+                        Padding="16,14">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnShowLogTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Border Grid.Column="0" BackgroundColor="{StaticResource CardBg}"
+                                StrokeThickness="0" WidthRequest="38" HeightRequest="38">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                            <Label Text="📋" FontSize="18"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                            <Label Text="Notification Log"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="14" FontAttributes="Bold"/>
+                            <Label Text="Tap to view debug log"
+                                   TextColor="{StaticResource TextSecondary}" FontSize="11"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text="›"
+                               TextColor="{StaticResource TextSecondary}"
+                               FontSize="22" VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
+
+                <!-- Clear log -->
+                <Border Grid.Column="1"
+                        BackgroundColor="{StaticResource CardBg}"
+                        Stroke="{StaticResource GreenCardBorder}"
+                        StrokeThickness="1"
+                        Padding="14,14">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnClearLogTapped"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="🗑️" FontSize="22"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+
+            </Grid>
 
         </VerticalStackLayout>
     </ScrollView>
