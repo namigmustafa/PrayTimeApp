@@ -14,13 +14,13 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>PrayTimeApp</ApplicationTitle>
+		<ApplicationTitle>Nooria</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.praytimeapp</ApplicationId>
+		<ApplicationId>com.nooria.app</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<WindowsPackageType>None</WindowsPackageType>
@@ -43,6 +43,10 @@
 		<AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
 		<AndroidLinkMode>SdkOnly</AndroidLinkMode>
 		<AndroidStripILAfterAot>true</AndroidStripILAfterAot>
+		<!-- Signing — pass passwords via CLI: -p:AndroidSigningKeyPass=xxx -p:AndroidSigningStorePass=xxx -->
+		<AndroidKeyStore>true</AndroidKeyStore>
+		<AndroidSigningKeyStore>nooria.keystore</AndroidSigningKeyStore>
+		<AndroidSigningKeyAlias>nooria</AndroidSigningKeyAlias>
 	</PropertyGroup>
 
 	<!-- ═══ iOS Release: LLVM + linker for fast cold start ═══ -->

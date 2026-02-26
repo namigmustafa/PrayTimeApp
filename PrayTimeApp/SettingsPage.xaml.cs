@@ -37,14 +37,14 @@ public partial class SettingsPage : ContentPage
         var beforeOn = Preferences.Get("notif_before_on", false);
         BeforePrayerSwitch.IsToggled  = beforeOn;
         BeforePrayerDetail.IsVisible  = beforeOn;
-        BeforePrayerToneLabel.Text    = Preferences.Get("notif_before_tone", Tones[0]);
+        BeforePrayerToneLabel.Text    = ToneDisplayText(Preferences.Get("notif_before_tone", Tones[0]));
         RefreshBeforeLabels();
 
         // ── On Prayer Time ────────────────────────────────────────────────────
         var onOn = Preferences.Get("notif_on_on", false);
         OnPrayerSwitch.IsToggled = onOn;
         OnPrayerDetail.IsVisible = onOn;
-        OnPrayerToneLabel.Text   = Preferences.Get("notif_on_tone", Tones[0]);
+        OnPrayerToneLabel.Text   = ToneDisplayText(Preferences.Get("notif_on_tone", Tones[0]));
         RefreshOnSummary(onOn);
 
         // ── Prayer Time Ends In ───────────────────────────────────────────────
@@ -53,7 +53,7 @@ public partial class SettingsPage : ContentPage
         var endsOn = Preferences.Get("notif_ends_on", false);
         EndsInSwitch.IsToggled  = endsOn;
         EndsInDetail.IsVisible  = endsOn;
-        EndsInToneLabel.Text    = Preferences.Get("notif_ends_tone", Tones[0]);
+        EndsInToneLabel.Text    = ToneDisplayText(Preferences.Get("notif_ends_tone", Tones[0]));
         RefreshEndsLabels();
 
         _loading = false;
@@ -142,7 +142,7 @@ public partial class SettingsPage : ContentPage
         var cancel = LocalizationService.GetString("Cancel");
         var pick = await DisplayActionSheet(LocalizationService.GetString("Sett_SelectSound"), cancel, null, Tones);
         if (pick is null || pick == cancel) return;
-        BeforePrayerToneLabel.Text = pick;
+        BeforePrayerToneLabel.Text = ToneDisplayText(pick);
         Preferences.Set("notif_before_tone", pick);
         RefreshBeforeLabels();
         RescheduleNotifications();
@@ -153,7 +153,7 @@ public partial class SettingsPage : ContentPage
         BeforePrayerHLabel.Text = $"{_beforeH} h";
         BeforePrayerMLabel.Text = $"{_beforeM} min";
         BeforePrayerSummary.Text = BeforePrayerSwitch.IsToggled
-            ? $"{FormatOffset(_beforeH, _beforeM)} before · {BeforePrayerToneLabel.Text}"
+            ? $"{FormatOffset(_beforeH, _beforeM)} before · {Preferences.Get("notif_before_tone", Tones[0])}"
             : "Off";
     }
 
@@ -173,7 +173,7 @@ public partial class SettingsPage : ContentPage
         var cancel = LocalizationService.GetString("Cancel");
         var pick = await DisplayActionSheet(LocalizationService.GetString("Sett_SelectSound"), cancel, null, Tones);
         if (pick is null || pick == cancel) return;
-        OnPrayerToneLabel.Text = pick;
+        OnPrayerToneLabel.Text = ToneDisplayText(pick);
         Preferences.Set("notif_on_tone", pick);
         RefreshOnSummary(OnPrayerSwitch.IsToggled);
         RescheduleNotifications();
@@ -182,7 +182,7 @@ public partial class SettingsPage : ContentPage
     void RefreshOnSummary(bool on)
     {
         OnPrayerSummary.Text = on
-            ? $"At prayer time · {OnPrayerToneLabel.Text}"
+            ? $"At prayer time · {Preferences.Get("notif_on_tone", Tones[0])}"
             : "Off";
     }
 
@@ -231,7 +231,7 @@ public partial class SettingsPage : ContentPage
         var cancel = LocalizationService.GetString("Cancel");
         var pick = await DisplayActionSheet(LocalizationService.GetString("Sett_SelectSound"), cancel, null, Tones);
         if (pick is null || pick == cancel) return;
-        EndsInToneLabel.Text = pick;
+        EndsInToneLabel.Text = ToneDisplayText(pick);
         Preferences.Set("notif_ends_tone", pick);
         RefreshEndsLabels();
         RescheduleNotifications();
@@ -242,7 +242,7 @@ public partial class SettingsPage : ContentPage
         EndsInHLabel.Text = $"{_endsH} h";
         EndsInMLabel.Text = $"{_endsM} min";
         EndsInSummary.Text = EndsInSwitch.IsToggled
-            ? $"{FormatOffset(_endsH, _endsM)} remaining · {EndsInToneLabel.Text}"
+            ? $"{FormatOffset(_endsH, _endsM)} remaining · {Preferences.Get("notif_ends_tone", Tones[0])}"
             : "Off";
     }
 
@@ -303,7 +303,7 @@ public partial class SettingsPage : ContentPage
         var pick = await DisplayActionSheet(LocalizationService.GetString("Sett_SelectSound"), cancel, null, Tones);
         if (pick is null || pick == cancel) return;
         _testTone = pick;
-        TestToneLabel.Text = pick;
+        TestToneLabel.Text = ToneDisplayText(pick);
     }
 
     private void OnPlayStopTapped(object sender, TappedEventArgs e)
@@ -347,5 +347,11 @@ public partial class SettingsPage : ContentPage
         if (h == 0) return $"{m} min";
         if (m == 0) return $"{h} h";
         return $"{h} h {m} min";
+    }
+
+    static string ToneDisplayText(string tone)
+    {
+        var file = NotifSvc.GetDisplayFileName(tone);
+        return string.IsNullOrEmpty(file) ? tone : $"{tone} - {file}";
     }
 }

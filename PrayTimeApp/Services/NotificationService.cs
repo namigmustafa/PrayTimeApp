@@ -421,11 +421,21 @@ public static class NotificationService
     // ── iOS helpers ───────────────────────────────────────────────────────────
 
     /// <summary>
-    /// Returns the sound file name (without path) for a given tone string.
-    /// Returns an empty string if no dedicated file exists for this tone.
+    /// Returns the actual file name used on the current platform,
+    /// or an empty string for Default / Silent / unmapped tones.
     /// </summary>
-    public static string GetSoundFileName(string tone) =>
-        ToneToSoundFileIos(tone) ?? (tone == "Ezan 1" ? "ezan_1" : "");
+    public static string GetDisplayFileName(string tone)
+    {
+#if IOS
+        return ToneToSoundFileIos(tone) ?? "";
+#elif ANDROID
+        var raw = ToneToSoundFile(tone);
+        if (raw == null) return "";
+        return raw == "ezan_1" ? "ezan_1.wav" : raw + ".mp3";
+#else
+        return "";
+#endif
+    }
 
 #if IOS
     static string? ToneToSoundFileIos(string tone) => tone switch
