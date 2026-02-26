@@ -8,7 +8,7 @@ using UserNotifications;
 using Foundation;
 #endif
 
-namespace PrayTimeApp.Services;
+namespace Nooria.Services;
 
 public static class NotificationService
 {

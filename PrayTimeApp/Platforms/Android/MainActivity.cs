@@ -5,7 +5,7 @@ using Android.OS;
 using Android.Provider;
 using Google.Android.Material.BottomNavigation;
 
-namespace PrayTimeApp
+namespace Nooria
 {
     [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode |

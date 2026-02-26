@@ -35,6 +35,6 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>PrayTimeApp needs your location to show accurate prayer times for your city.</string>
+	<string>Nooria needs your location to show accurate prayer times for your city.</string>
 </dict>
 </plist>

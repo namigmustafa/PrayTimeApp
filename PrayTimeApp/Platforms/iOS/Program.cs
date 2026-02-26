@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace PrayTimeApp
+namespace Nooria
 {
     public class Program
     {

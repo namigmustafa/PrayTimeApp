@@ -1,4 +1,4 @@
-namespace PrayTimeApp.Services;
+namespace Nooria.Services;
 
 public static class AdhanPlayerService
 {

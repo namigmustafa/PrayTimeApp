@@ -1,8 +1,8 @@
 using System.Globalization;
-using PrayTimeApp.Services;
-using NotifSvc = PrayTimeApp.Services.NotificationService;
+using Nooria.Services;
+using NotifSvc = Nooria.Services.NotificationService;
 
-namespace PrayTimeApp;
+namespace Nooria;
 
 public partial class MainPage : ContentPage
 {

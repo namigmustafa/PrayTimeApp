@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 
-namespace PrayTimeApp.Services;
+namespace Nooria.Services;
 
 public record LocationInfo
 {
@@ -35,7 +35,7 @@ public static class LocationService
 
     static LocationService()
     {
-        _http.DefaultRequestHeaders.UserAgent.ParseAdd("PrayTimeApp/1.0");
+        _http.DefaultRequestHeaders.UserAgent.ParseAdd("Nooria/1.0");
     }
 
     public static async Task<LocationInfo> GetLocationInfoAsync(bool forceRefresh = false)

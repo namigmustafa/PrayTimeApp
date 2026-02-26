@@ -3,9 +3,9 @@ using Android.Content;
 using Android.Media;
 using Android.OS;
 using AndroidX.Core.App;
-using PrayTimeApp.Services;
+using Nooria.Services;
 
-namespace PrayTimeApp;
+namespace Nooria;
 
 // ForegroundServiceType = TypeMediaPlayback (2)
 [Service(Exported = false, ForegroundServiceType = (Android.Content.PM.ForegroundService)2)]

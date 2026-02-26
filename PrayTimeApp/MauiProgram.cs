@@ -4,7 +4,7 @@ using Microsoft.Maui.Handlers;
 using Plugin.LocalNotification;
 #endif
 
-namespace PrayTimeApp
+namespace Nooria
 {
     public static class MauiProgram
     {

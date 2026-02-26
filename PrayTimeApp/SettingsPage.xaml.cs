@@ -1,8 +1,8 @@
-using PrayTimeApp.Services;
-using NotifSvc  = PrayTimeApp.Services.NotificationService;
-using FileLogger = PrayTimeApp.Services.FileLogger;
+using Nooria.Services;
+using NotifSvc  = Nooria.Services.NotificationService;
+using FileLogger = Nooria.Services.FileLogger;
 
-namespace PrayTimeApp;
+namespace Nooria;
 
 public partial class SettingsPage : ContentPage
 {

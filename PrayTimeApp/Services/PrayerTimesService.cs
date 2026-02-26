@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 
-namespace PrayTimeApp.Services;
+namespace Nooria.Services;
 
 // ── Models ────────────────────────────────────────────────────────────────────
 

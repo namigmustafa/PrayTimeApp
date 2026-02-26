@@ -2,7 +2,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 
-namespace PrayTimeApp;
+namespace Nooria;
 
 [BroadcastReceiver(Exported = false, Enabled = true)]
 public class AdhanReceiver : BroadcastReceiver

@@ -1,6 +1,6 @@
 using Microsoft.Maui.Storage;
 
-namespace PrayTimeApp.Services;
+namespace Nooria.Services;
 
 public static class LocalizationService
 {

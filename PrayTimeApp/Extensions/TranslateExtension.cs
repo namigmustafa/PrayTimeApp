@@ -1,6 +1,6 @@
-using PrayTimeApp.Services;
+using Nooria.Services;
 
-namespace PrayTimeApp.Extensions;
+namespace Nooria.Extensions;
 
 [ContentProperty(nameof(Key))]
 public class TranslateExtension : IMarkupExtension<string>

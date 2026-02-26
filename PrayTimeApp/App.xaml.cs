@@ -1,6 +1,6 @@
-﻿using PrayTimeApp.Services;
+﻿using Nooria.Services;
 
-namespace PrayTimeApp
+namespace Nooria
 {
     public partial class App : Application
     {

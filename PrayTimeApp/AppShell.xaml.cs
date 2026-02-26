@@ -1,4 +1,4 @@
-namespace PrayTimeApp
+namespace Nooria
 {
     public partial class AppShell : Shell
     {

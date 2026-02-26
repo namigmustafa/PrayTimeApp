@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace PrayTimeApp
+namespace Nooria
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate
