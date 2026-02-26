@@ -301,7 +301,12 @@ public static class NotificationService
                     {
                         DateTime endTime = default;
                         bool hasEnd;
-                        if (pi < prayers.Length - 1)
+                        if (name == "Fajr")
+                        {
+                            // Fajr ends at Sunrise, not at Dhuhr
+                            hasEnd = TryParseDateTime(prayerDay.Timings.Sunrise, date, out endTime);
+                        }
+                        else if (pi < prayers.Length - 1)
                         {
                             hasEnd = TryParseDateTime(prayers[pi + 1].Raw, date, out endTime);
                         }
