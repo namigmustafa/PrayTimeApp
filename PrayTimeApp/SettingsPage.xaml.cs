@@ -65,14 +65,19 @@ public partial class SettingsPage : ContentPage
     {
         string result = await DisplayActionSheet(
             LocalizationService.GetString("SelectLanguage"),
-            "Cancel", null,
-            "English", "Türkçe", "Azərbaycan");
+            LocalizationService.GetString("Cancel"), null,
+            "English", "Türkçe", "Azərbaycan", "Русский", "العربية", "Español", "Français", "Deutsch");
 
         string? langCode = result switch
         {
             "English"    => "en",
             "Türkçe"     => "tr",
             "Azərbaycan" => "az",
+            "Русский"    => "ru",
+            "العربية"    => "ar",
+            "Español"    => "es",
+            "Français"   => "fr",
+            "Deutsch"    => "de",
             _            => null
         };
 

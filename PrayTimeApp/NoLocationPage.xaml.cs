@@ -59,13 +59,18 @@ public partial class NoLocationPage : ContentPage
         string result = await DisplayActionSheet(
             LocalizationService.GetString("SelectLanguage"),
             LocalizationService.GetString("Cancel"), null,
-            "English", "Türkçe", "Azərbaycan");
+            "English", "Türkçe", "Azərbaycan", "Русский", "العربية", "Español", "Français", "Deutsch");
 
         string? langCode = result switch
         {
             "English"    => "en",
             "Türkçe"     => "tr",
             "Azərbaycan" => "az",
+            "Русский"    => "ru",
+            "العربية"    => "ar",
+            "Español"    => "es",
+            "Français"   => "fr",
+            "Deutsch"    => "de",
             _            => null
         };
 
