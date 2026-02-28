@@ -115,7 +115,7 @@ public partial class MonthlyPage : ContentPage
             new DateTime(cache.Year, cache.Month, 1).ToString("MMM", dateCulture));
         var isToday   = false;
 
-        foreach (var day in cache.Days.Where(d => d.Day >= todayDay).OrderBy(d => d.Day))
+        foreach (var day in cache.Days.OrderBy(d => d.Day))
         {
             isToday = day.Day == todayDay;
 
