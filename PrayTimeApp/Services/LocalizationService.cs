@@ -76,6 +76,14 @@ public static class LocalizationService
             ["UseCurrentLocation"]    = "Use Current Location",
             ["NoResults"]             = "No results found",
 
+            // No Location Page
+            ["NoLocationTitle"]       = "No Location Set",
+            ["NoLocationDesc"]        = "To continue, grant location permission — or select your city below.",
+            ["Or"]                    = "or",
+            ["OpenSettings"]          = "Open Settings",
+            ["LocationPermission"]    = "Location Permission",
+            ["LocationPermDenied"]    = "Location access was denied. Please enable it in your device Settings.",
+
             // Qibla
             ["QiblaInstruction"]      = "Hold phone flat and rotate until the arrow points up",
 
@@ -180,6 +188,14 @@ public static class LocalizationService
             ["UseCurrentLocation"]    = "Mevcut Konumu Kullan",
             ["NoResults"]             = "Sonu\u00e7 bulunamad\u0131",
 
+            // No Location Page
+            ["NoLocationTitle"]       = "Konum Ayarlanmad\u0131",
+            ["NoLocationDesc"]        = "Devam etmek i\u00e7in konum izni verin — veya a\u015fa\u011f\u0131dan \u015fehrinizi se\u00e7in.",
+            ["Or"]                    = "veya",
+            ["OpenSettings"]          = "Ayarlar\u0131 A\u00e7",
+            ["LocationPermission"]    = "Konum \u0130zni",
+            ["LocationPermDenied"]    = "Konum eri\u015fimi reddedildi. L\u00fctfen cihaz Ayarlar\u0131ndan etkinle\u015ftirin.",
+
             // Qibla
             ["QiblaInstruction"]      = "Telefonu düz tutun ve ok yukarı bakana kadar döndürün",
 
@@ -283,6 +299,14 @@ public static class LocalizationService
             ["SearchCityHint"]        = "\u015e\u0259h\u0259r ad\u0131 yaz\u0131n\u2026",
             ["UseCurrentLocation"]    = "M\u0259vcut Yeri \u0130stifad\u0259 Et",
             ["NoResults"]             = "N\u0259tic\u0259 tapilmad\u0131",
+
+            // No Location Page
+            ["NoLocationTitle"]       = "M\u0259kan T\u0259yin Edilm\u0259yib",
+            ["NoLocationDesc"]        = "Davam etm\u0259k \u00fc\u00e7\u00fcn m\u0259kan ic\u0259z\u0259si verin — ya da a\u015fa\u011f\u0131dan \u015f\u0259h\u0259rinizi se\u00e7in.",
+            ["Or"]                    = "v\u0259 ya",
+            ["OpenSettings"]          = "Parametrl\u0259ri A\u00e7",
+            ["LocationPermission"]    = "M\u0259kan \u0130c\u0259z\u0259si",
+            ["LocationPermDenied"]    = "M\u0259kan giri\u015fi r\u0259dd edildi. Z\u0259hm\u0259t olmasa cihaz Parametrl\u0259rind\u0259n aktivl\u0259\u015fdirin.",
 
             // Qibla
             ["QiblaInstruction"]      = "Telefonu düz saxlayın və ox yuxarı baxana qədər döndərin",

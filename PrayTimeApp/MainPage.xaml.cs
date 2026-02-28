@@ -94,7 +94,10 @@ public partial class MainPage : ContentPage
         LocationLabel.Text = Truncate(info.CityLabel);
 
         if (string.IsNullOrWhiteSpace(info.City) || string.IsNullOrWhiteSpace(info.Country))
+        {
+            await Shell.Current.GoToAsync(nameof(NoLocationPage));
             return;
+        }
 
         _city    = info.City;
         _country = info.Country;

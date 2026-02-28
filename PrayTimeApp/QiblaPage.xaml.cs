@@ -10,6 +10,7 @@ public partial class QiblaPage : ContentPage
 
     private double _qiblaBearing;
     private bool   _compassStarted;
+    private bool   _noLocationShown = false;
 
     public QiblaPage()
     {
@@ -51,9 +52,14 @@ public partial class QiblaPage : ContentPage
 
         if (lat == 0 && lon == 0)
         {
-            StatusLabel.Text = "Location unavailable";
+            if (!_noLocationShown)
+            {
+                _noLocationShown = true;
+                await Shell.Current.GoToAsync(nameof(NoLocationPage));
+            }
             return;
         }
+        _noLocationShown = false;
 
         _qiblaBearing      = CalculateBearing(lat, lon, MeccaLat, MeccaLon);
         BearingLabel.Text  = $"{_qiblaBearing:F1}°";

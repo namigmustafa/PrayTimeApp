@@ -5,6 +5,7 @@ namespace Nooria
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(NoLocationPage), typeof(NoLocationPage));
 #if IOS
             Navigated += (_, _) => PaintAll();
 #endif

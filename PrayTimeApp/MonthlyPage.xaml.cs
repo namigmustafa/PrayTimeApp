@@ -5,6 +5,7 @@ namespace Nooria;
 public partial class MonthlyPage : ContentPage
 {
     private CancellationTokenSource? _skeletonCts;
+    private bool _noLocationShown = false;
 
     public MonthlyPage()
     {
@@ -74,7 +75,16 @@ public partial class MonthlyPage : ContentPage
         LocationLabel.Text = cityLabel;
 
         if (string.IsNullOrWhiteSpace(city) || string.IsNullOrWhiteSpace(country))
-        { HideSkeleton(); return; }
+        {
+            HideSkeleton();
+            if (!_noLocationShown)
+            {
+                _noLocationShown = true;
+                await Shell.Current.GoToAsync(nameof(NoLocationPage));
+            }
+            return;
+        }
+        _noLocationShown = false;
 
         var now   = DateTime.Now;
         var cache = await PrayerTimesService.GetMonthAsync(now.Year, now.Month, city, country, lat, lon);
