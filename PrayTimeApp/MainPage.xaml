@@ -62,6 +62,49 @@
             </HorizontalStackLayout>
 
             <!-- ═══════════════════════════════════════════ -->
+            <!--  SKELETON VIEW (visible while loading)      -->
+            <!-- ═══════════════════════════════════════════ -->
+            <VerticalStackLayout x:Name="SkeletonView" Spacing="8">
+
+                <!-- Prayer card placeholder -->
+                <Border HeightRequest="160" StrokeThickness="0" BackgroundColor="#1A2A3A">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="18"/></Border.StrokeShape>
+                </Border>
+
+                <!-- "Daily Times" title placeholder -->
+                <Border HeightRequest="20" WidthRequest="130" HorizontalOptions="Start"
+                        StrokeThickness="0" BackgroundColor="#1A2A3A" Margin="2,14,2,0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="6"/></Border.StrokeShape>
+                </Border>
+
+                <!-- 6 prayer row placeholders -->
+                <Border HeightRequest="56" StrokeThickness="0" BackgroundColor="#1A2A3A">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                </Border>
+                <Border HeightRequest="56" StrokeThickness="0" BackgroundColor="#1A2A3A">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                </Border>
+                <Border HeightRequest="56" StrokeThickness="0" BackgroundColor="#1A2A3A">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                </Border>
+                <Border HeightRequest="56" StrokeThickness="0" BackgroundColor="#1A2A3A">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                </Border>
+                <Border HeightRequest="56" StrokeThickness="0" BackgroundColor="#1A2A3A">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                </Border>
+                <Border HeightRequest="56" StrokeThickness="0" BackgroundColor="#1A2A3A">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                </Border>
+
+            </VerticalStackLayout>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  MAIN CONTENT (hidden until loaded)         -->
+            <!-- ═══════════════════════════════════════════ -->
+            <VerticalStackLayout x:Name="MainContent" Spacing="8" IsVisible="false">
+
+            <!-- ═══════════════════════════════════════════ -->
             <!--  CURRENT PRAYER CARD  -->
             <!-- ═══════════════════════════════════════════ -->
             <Border StrokeThickness="0" Padding="20,18">
@@ -287,6 +330,8 @@
                            FontSize="14" VerticalOptions="Center"/>
                 </Grid>
             </Border>
+
+            </VerticalStackLayout><!-- end MainContent -->
 
         </VerticalStackLayout>
         </ScrollView>

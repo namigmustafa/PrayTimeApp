@@ -20,8 +20,8 @@
 		<ApplicationId>com.nooria.app</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0.4</ApplicationDisplayVersion>
-		<ApplicationVersion>4</ApplicationVersion>
+		<ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
 
 		<WindowsPackageType>None</WindowsPackageType>
 
@@ -63,7 +63,6 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.png" Color="#0D1623" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\n_logo_transparent.png" Color="#FFFFFF" BaseSize="140,140" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" Exclude="Resources\Images\dotnet_bot.png" />

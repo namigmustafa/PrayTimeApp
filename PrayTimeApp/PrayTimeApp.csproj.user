@@ -3,7 +3,7 @@
   <PropertyGroup>
     <IsFirstTimeProjectOpen>False</IsFirstTimeProjectOpen>
     <ActiveDebugFramework>net9.0-android</ActiveDebugFramework>
-    <ActiveDebugProfile>Samsung SM-X610 (Android 16.0 - API 36)</ActiveDebugProfile>
+    <ActiveDebugProfile>Xiaomi Mi A3 (Android 11.0 - API 30)</ActiveDebugProfile>
     <SelectedPlatformGroup>PhysicalDevice</SelectedPlatformGroup>
     <DeveloperId>NJJXK59W6Y</DeveloperId>
     <DevelopmentTeamId>NJJXK59W6Y</DevelopmentTeamId>

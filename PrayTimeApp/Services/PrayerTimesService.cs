@@ -115,7 +115,7 @@ public static class PrayerTimesService
     }
 
     // Find which prayer comes next after 'now'.
-    // Returns (prayerName, targetDateTime) or null if no data.
+    // Returns (prayerName, targetDateTimeUtc) or null if no data.
     public static (string Name, DateTime Target)? NextPrayer(
         PrayerDay? today, PrayerDay? tomorrow, string timeZoneId = "")
     {
@@ -139,14 +139,31 @@ public static class PrayerTimesService
         {
             if (!TryParseTime(raw, out var t)) continue;
             var dt = date + t;
-            if (dt > now) return (name, dt);
+            if (dt > now) return (name, CityLocalToUtc(dt, timeZoneId));
         }
 
         // All done for today — use tomorrow's Fajr
         if (tomorrow is not null && TryParseTime(tomorrow.Timings.Fajr, out var fajr))
-            return ("Fajr", date.AddDays(1) + fajr);
+            return ("Fajr", CityLocalToUtc(date.AddDays(1) + fajr, timeZoneId));
 
         return null;
+    }
+
+    // Converts a city-local DateTime (Kind.Unspecified) to UTC.
+    private static DateTime CityLocalToUtc(DateTime cityLocal, string timeZoneId)
+    {
+        if (!string.IsNullOrEmpty(timeZoneId))
+        {
+            try
+            {
+                var tz = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+                return TimeZoneInfo.ConvertTimeToUtc(
+                    DateTime.SpecifyKind(cityLocal, DateTimeKind.Unspecified), tz);
+            }
+            catch { }
+        }
+        // Fallback: treat as device-local and convert to UTC
+        return DateTime.SpecifyKind(cityLocal, DateTimeKind.Local).ToUniversalTime();
     }
 
     // Returns "now" in the prayer city's local timezone (falls back to device time).

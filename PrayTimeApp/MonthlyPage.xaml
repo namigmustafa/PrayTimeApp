@@ -9,7 +9,7 @@
         <VerticalStackLayout Padding="20,16,20,20" Spacing="14">
 
             <!-- ═══════════════════════════════════════════ -->
-            <!--  HEADER                                     -->
+            <!--  HEADER (always visible)                    -->
             <!-- ═══════════════════════════════════════════ -->
             <VerticalStackLayout Spacing="6" Margin="0,8,0,0">
                 <HorizontalStackLayout Spacing="4">
@@ -24,6 +24,57 @@
                        FontSize="26" FontAttributes="Bold"
                        TextColor="{StaticResource TextPrimary}"/>
             </VerticalStackLayout>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  SKELETON VIEW (visible while loading)      -->
+            <!-- ═══════════════════════════════════════════ -->
+            <VerticalStackLayout x:Name="SkeletonView" Spacing="14">
+
+                <!-- Month card placeholder -->
+                <Border HeightRequest="66" StrokeThickness="0" BackgroundColor="#1A2A3A">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                </Border>
+
+                <!-- Table card placeholder -->
+                <Border StrokeThickness="0" BackgroundColor="#1A2A3A" Padding="16,14">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <!-- Header row placeholder -->
+                        <Border HeightRequest="18" StrokeThickness="0" BackgroundColor="#243545">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="4"/></Border.StrokeShape>
+                        </Border>
+                        <BoxView HeightRequest="1" Color="#243545"/>
+                        <!-- 7 row placeholders -->
+                        <Border HeightRequest="34" StrokeThickness="0" BackgroundColor="#243545">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="4"/></Border.StrokeShape>
+                        </Border>
+                        <Border HeightRequest="34" StrokeThickness="0" BackgroundColor="#243545">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="4"/></Border.StrokeShape>
+                        </Border>
+                        <Border HeightRequest="34" StrokeThickness="0" BackgroundColor="#243545">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="4"/></Border.StrokeShape>
+                        </Border>
+                        <Border HeightRequest="34" StrokeThickness="0" BackgroundColor="#243545">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="4"/></Border.StrokeShape>
+                        </Border>
+                        <Border HeightRequest="34" StrokeThickness="0" BackgroundColor="#243545">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="4"/></Border.StrokeShape>
+                        </Border>
+                        <Border HeightRequest="34" StrokeThickness="0" BackgroundColor="#243545">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="4"/></Border.StrokeShape>
+                        </Border>
+                        <Border HeightRequest="34" StrokeThickness="0" BackgroundColor="#243545">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="4"/></Border.StrokeShape>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  MAIN CONTENT (hidden until loaded)         -->
+            <!-- ═══════════════════════════════════════════ -->
+            <VerticalStackLayout x:Name="MainContent" Spacing="14" IsVisible="false">
 
             <!-- ═══════════════════════════════════════════ -->
             <!--  MONTH CARD                                 -->
@@ -99,6 +150,7 @@
                 </VerticalStackLayout>
             </Border>
 
+            </VerticalStackLayout><!-- end MainContent -->
 
         </VerticalStackLayout>
     </ScrollView>

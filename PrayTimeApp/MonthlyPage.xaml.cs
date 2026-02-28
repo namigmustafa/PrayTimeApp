@@ -4,6 +4,8 @@ namespace Nooria;
 
 public partial class MonthlyPage : ContentPage
 {
+    private CancellationTokenSource? _skeletonCts;
+
     public MonthlyPage()
     {
         InitializeComponent();
@@ -15,8 +17,37 @@ public partial class MonthlyPage : ContentPage
         _ = LoadAsync();
     }
 
+    private void ShowSkeleton()
+    {
+        _skeletonCts?.Cancel();
+        _skeletonCts = new CancellationTokenSource();
+        SkeletonView.IsVisible = true;
+        SkeletonView.Opacity   = 1.0;
+        MainContent.IsVisible  = false;
+        _ = PulseSkeletonAsync(_skeletonCts.Token);
+    }
+
+    private void HideSkeleton()
+    {
+        _skeletonCts?.Cancel();
+        SkeletonView.IsVisible = false;
+        SkeletonView.Opacity   = 1.0;
+        MainContent.IsVisible  = true;
+    }
+
+    private async Task PulseSkeletonAsync(CancellationToken ct)
+    {
+        while (!ct.IsCancellationRequested)
+        {
+            await SkeletonView.FadeTo(0.3, 600, Easing.SinInOut);
+            if (ct.IsCancellationRequested) break;
+            await SkeletonView.FadeTo(1.0, 600, Easing.SinInOut);
+        }
+    }
+
     private async Task LoadAsync()
     {
+        ShowSkeleton();
         // Manual city takes priority over GPS
         string city, country, cityLabel;
         double lat = 0, lon = 0;
@@ -43,11 +74,11 @@ public partial class MonthlyPage : ContentPage
         LocationLabel.Text = cityLabel;
 
         if (string.IsNullOrWhiteSpace(city) || string.IsNullOrWhiteSpace(country))
-            return;
+        { HideSkeleton(); return; }
 
         var now   = DateTime.Now;
         var cache = await PrayerTimesService.GetMonthAsync(now.Year, now.Month, city, country, lat, lon);
-        if (cache is null) return;
+        if (cache is null) { HideSkeleton(); return; }
 
         // Update month header
         var dateCulture = LocalizationService.CurrentLanguage switch
@@ -67,6 +98,7 @@ public partial class MonthlyPage : ContentPage
             : "—";
 
         BuildTable(cache, now.Day);
+        HideSkeleton();
     }
 
     private void BuildTable(PrayerMonthCache cache, int todayDay)

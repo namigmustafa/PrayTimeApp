@@ -13,6 +13,7 @@ public partial class MainPage : ContentPage
     private double   _lat;
     private double   _lon;
     private bool     _refreshing;
+    private CancellationTokenSource? _skeletonCts;
 
     // true only on fresh process start (static resets when process is killed)
     private static bool _sessionChecked = false;
@@ -140,9 +141,41 @@ public partial class MainPage : ContentPage
             LocationService.SaveFetchCoords(info.Latitude, info.Longitude, info.City, info.Country);
     }
 
+    // ── Skeleton helpers ──────────────────────────────────────────────────────
+
+    private void ShowSkeleton()
+    {
+        _skeletonCts?.Cancel();
+        _skeletonCts = new CancellationTokenSource();
+        SkeletonView.IsVisible = true;
+        SkeletonView.Opacity   = 1.0;
+        MainContent.IsVisible  = false;
+        _ = PulseSkeletonAsync(_skeletonCts.Token);
+    }
+
+    private void HideSkeleton()
+    {
+        _skeletonCts?.Cancel();
+        SkeletonView.IsVisible = false;
+        SkeletonView.Opacity   = 1.0;
+        MainContent.IsVisible  = true;
+    }
+
+    private async Task PulseSkeletonAsync(CancellationToken ct)
+    {
+        while (!ct.IsCancellationRequested)
+        {
+            await SkeletonView.FadeTo(0.3, 600, Easing.SinInOut);
+            if (ct.IsCancellationRequested) break;
+            await SkeletonView.FadeTo(1.0, 600, Easing.SinInOut);
+        }
+    }
+
     private async Task LoadPrayerTimesAsync(bool forceRefresh = false, bool rescheduleNotifs = true)
     {
         if (string.IsNullOrWhiteSpace(_city)) return;
+
+        ShowSkeleton();
 
         // Always reset display first — prevents stale highlight from previous city
         HighlightCurrentPrayerRow("");
@@ -156,7 +189,7 @@ public partial class MainPage : ContentPage
             year, month, _city, _country, _lat, _lon, forceRefresh);
         var today = PrayerTimesService.GetToday(cache);
 
-        if (today is null) return;
+        if (today is null) { HideSkeleton(); return; }
 
         var tz = cache?.TimeZoneId ?? "";
 
@@ -232,6 +265,8 @@ public partial class MainPage : ContentPage
         }
         if (rescheduleNotifs)
             await NotifSvc.ScheduleAllAsync(cache, nextMonthCache);
+
+        HideSkeleton();
     }
 
     // ── Row highlighting ──────────────────────────────────────────────────────
@@ -284,7 +319,7 @@ public partial class MainPage : ContentPage
 
     private void OnTimerTick(object? sender, EventArgs e)
     {
-        var remaining = _countdownTarget - DateTime.Now;
+        var remaining = _countdownTarget - DateTime.UtcNow;
 
         if (remaining.TotalSeconds <= 0)
         {

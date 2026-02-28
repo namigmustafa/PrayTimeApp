@@ -54,72 +54,77 @@
         </Border>
 
         <!-- ── Results ──────────────────────────────────────────── -->
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" RowDefinitions="Auto,*">
 
             <!-- Use current location button (always visible at top) -->
-            <VerticalStackLayout Spacing="8">
-                <Border BackgroundColor="{StaticResource CardBg}"
-                        StrokeThickness="0"
-                        Padding="16,14">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnUseCurrentLocationTapped"/>
-                    </Border.GestureRecognizers>
-                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                        <Label Grid.Column="0" Text="📍" FontSize="20" VerticalOptions="Center"/>
-                        <Label Grid.Column="1"
-                               Text="{i18n:Translate UseCurrentLocation}"
-                               TextColor="{StaticResource GoldAccent}"
-                               FontSize="15" FontAttributes="Bold"
-                               VerticalOptions="Center"/>
-                    </Grid>
-                </Border>
+            <Border Grid.Row="0"
+                    BackgroundColor="{StaticResource CardBg}"
+                    StrokeThickness="0"
+                    Padding="16,14"
+                    Margin="0,0,0,8">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnUseCurrentLocationTapped"/>
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Grid.Column="0" Text="📍" FontSize="20" VerticalOptions="Center"/>
+                    <Label Grid.Column="1"
+                           Text="{i18n:Translate UseCurrentLocation}"
+                           TextColor="{StaticResource GoldAccent}"
+                           FontSize="15" FontAttributes="Bold"
+                           VerticalOptions="Center"/>
+                </Grid>
+            </Border>
 
-                <!-- Search results list -->
-                <CollectionView x:Name="ResultsList"
-                                IsVisible="False"
-                                SelectionMode="Single"
-                                SelectionChanged="OnCitySelected">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border BackgroundColor="{StaticResource CardBg}"
-                                    StrokeThickness="0"
-                                    Padding="16,14"
-                                    Margin="0,0,0,8">
-                                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
-                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                                    <Label Grid.Column="0" Text="🌆" FontSize="18" VerticalOptions="Center"/>
-                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                        <Label Text="{Binding City}"
-                                               TextColor="{StaticResource TextPrimary}"
-                                               FontSize="15" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Country}"
-                                               TextColor="{StaticResource TextSecondary}"
-                                               FontSize="12"/>
-                                    </VerticalStackLayout>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+            <!-- Search results list — Row="1" ile yükseklik kısıtlanır → kaydırma çalışır -->
+            <CollectionView Grid.Row="1"
+                            x:Name="ResultsList"
+                            IsVisible="False"
+                            SelectionMode="Single"
+                            SelectionChanged="OnCitySelected">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="{StaticResource CardBg}"
+                                StrokeThickness="0"
+                                Padding="16,14"
+                                Margin="0,0,0,8">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Label Grid.Column="0" Text="🌆" FontSize="18" VerticalOptions="Center"/>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding City}"
+                                           TextColor="{StaticResource TextPrimary}"
+                                           FontSize="15" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Country}"
+                                           TextColor="{StaticResource TextSecondary}"
+                                           FontSize="12"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-                <!-- No results label -->
-                <Label x:Name="NoResultsLabel"
-                       Text="{i18n:Translate NoResults}"
-                       TextColor="{StaticResource TextSecondary}"
-                       FontSize="14"
-                       HorizontalOptions="Center"
-                       Margin="0,20,0,0"
-                       IsVisible="False"/>
+            <!-- No results label -->
+            <Label Grid.Row="1"
+                   x:Name="NoResultsLabel"
+                   Text="{i18n:Translate NoResults}"
+                   TextColor="{StaticResource TextSecondary}"
+                   FontSize="14"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Start"
+                   Margin="0,20,0,0"
+                   IsVisible="False"/>
 
-                <!-- Loading indicator -->
-                <ActivityIndicator x:Name="LoadingIndicator"
-                                   IsRunning="False"
-                                   IsVisible="False"
-                                   Color="{StaticResource GoldAccent}"
-                                   HorizontalOptions="Center"
-                                   Margin="0,20,0,0"/>
-            </VerticalStackLayout>
+            <!-- Loading indicator -->
+            <ActivityIndicator Grid.Row="1"
+                               x:Name="LoadingIndicator"
+                               IsRunning="False"
+                               IsVisible="False"
+                               Color="{StaticResource GoldAccent}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Start"
+                               Margin="0,20,0,0"/>
 
         </Grid>
     </Grid>
