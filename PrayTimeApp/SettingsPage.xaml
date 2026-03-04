@@ -44,23 +44,10 @@
             <!-- ═══════════════════════════════════════════ -->
             <!--  HEADER                                     -->
             <!-- ═══════════════════════════════════════════ -->
-            <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
-                <Label Grid.Column="0"
-                       Text="{i18n:Translate Settings}"
-                       FontSize="28" FontAttributes="Bold"
-                       TextColor="{StaticResource TextPrimary}"
-                       VerticalOptions="Center"/>
-                <Border Grid.Column="1"
-                        BackgroundColor="{StaticResource CardBg}"
-                        StrokeThickness="0"
-                        WidthRequest="40" HeightRequest="40"
-                        VerticalOptions="Center">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
-                    <Label Text="?" FontSize="17" FontAttributes="Bold"
-                           TextColor="{StaticResource TextSecondary}"
-                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                </Border>
-            </Grid>
+            <Label Text="{i18n:Translate Settings}"
+                   FontSize="28" FontAttributes="Bold"
+                   TextColor="{StaticResource TextPrimary}"
+                   Margin="0,8,0,0"/>
 
             <!-- ═══════════════════════════════════════════ -->
             <!--  APP LANGUAGE CARD                          -->
@@ -105,6 +92,49 @@
                         <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnChangeLanguageTapped"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="{i18n:Translate Change}"
+                               TextColor="#0D1623" FontSize="14" FontAttributes="Bold"
+                               CharacterSpacing="1.5" HorizontalOptions="Center"/>
+                    </Border>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!--  CALCULATION METHOD CARD                    -->
+            <!-- ═══════════════════════════════════════════ -->
+            <Border BackgroundColor="{StaticResource GreenCard}"
+                    Stroke="{StaticResource GreenCardBorder}"
+                    StrokeThickness="1.5"
+                    Padding="16,14">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                <VerticalStackLayout Spacing="14">
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource GoldBadgeBg}"
+                                StrokeThickness="0" WidthRequest="42" HeightRequest="42">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Label Text="🕌" FontSize="20"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                            <Label Text="{i18n:Translate CalcMethod}"
+                                   TextColor="{StaticResource GoldAccent}"
+                                   FontSize="15" FontAttributes="Bold"/>
+                            <Label x:Name="CalcMethodBadgeLabel"
+                                   TextColor="{StaticResource GreenCardText}"
+                                   FontSize="12"/>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Border BackgroundColor="{StaticResource GoldAccent}"
+                            StrokeThickness="0" Padding="0,14">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnChangeCalcMethodTapped"/>
                         </Border.GestureRecognizers>
                         <Label Text="{i18n:Translate Change}"
                                TextColor="#0D1623" FontSize="14" FontAttributes="Bold"
@@ -473,15 +503,17 @@
             </Border>
 
             <!-- ═══════════════════════════════════════════ -->
-            <!--  SECTION: CALCULATION METHOD                -->
+            <!--  SECTION: CALCULATION METHOD  (hidden)      -->
             <!-- ═══════════════════════════════════════════ -->
-            <Label Text="{i18n:Translate CalculationMethod}"
+            <Label IsVisible="False"
+                   Text="{i18n:Translate CalculationMethod}"
                    TextColor="{StaticResource TextSecondary}"
                    FontSize="11" FontAttributes="Bold"
                    CharacterSpacing="1.2"
                    Margin="2,6,0,0"/>
 
-            <Border BackgroundColor="{StaticResource CardBg}"
+            <Border IsVisible="False"
+                    BackgroundColor="{StaticResource CardBg}"
                     StrokeThickness="0" Padding="16,0">
                 <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" Padding="0,14">
@@ -507,7 +539,8 @@
             <!-- ═══════════════════════════════════════════ -->
 
             <!-- Play / Pause sound test -->
-            <Border BackgroundColor="{StaticResource CardBg}"
+            <Border IsVisible="False"
+                    BackgroundColor="{StaticResource CardBg}"
                     StrokeThickness="0" Padding="14,10">
                 <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">

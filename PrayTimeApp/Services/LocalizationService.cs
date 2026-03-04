@@ -84,6 +84,11 @@ public static class LocalizationService
             ["LocationPermission"]    = "Location Permission",
             ["LocationPermDenied"]    = "Location access was denied. Please enable it in your device Settings.",
 
+            // Calculation method
+            ["CalcMethod"]            = "Calculation Method",
+            ["CalcMethodDiyanet"]     = "Diyanet",
+            ["CalcMethodQMI"]         = "Caucasus Muslims' Board",
+
             // Qibla
             ["QiblaInstruction"]      = "Place your device on a flat surface then move it",
 
@@ -196,6 +201,11 @@ public static class LocalizationService
             ["LocationPermission"]    = "Konum \u0130zni",
             ["LocationPermDenied"]    = "Konum eri\u015fimi reddedildi. L\u00fctfen cihaz Ayarlar\u0131ndan etkinle\u015ftirin.",
 
+            // Calculation method
+            ["CalcMethod"]            = "Hesaplama Yöntemi",
+            ["CalcMethodDiyanet"]     = "Diyanet",
+            ["CalcMethodQMI"]         = "Kafkasya Müslümanları İdaresi",
+
             // Qibla
             ["QiblaInstruction"]      = "Cihazı düz bir yüzeye koyun, sonra hareket ettirin",
 
@@ -257,12 +267,12 @@ public static class LocalizationService
             ["MonthlyTable"]          = "Ayl\u0131q C\u0259dv\u0259l",
 
             // Prayer names
-            ["Prayer_Fajr"]           = "Sabah",
-            ["Prayer_Sunrise"]        = "G\u00fcn\u0259\u015f",
-            ["Prayer_Dhuhr"]          = "Günorta",
-            ["Prayer_Asr"]            = "\u0130kindi",
-            ["Prayer_Maghrib"]        = "Ax\u015fam",
-            ["Prayer_Isha"]           = "Yats\u0131",
+            ["Prayer_Fajr"]           = "Sübh",
+            ["Prayer_Sunrise"]        = "Gün çıxır",
+            ["Prayer_Dhuhr"]          = "Zöhr",
+            ["Prayer_Asr"]            = "Əsr",
+            ["Prayer_Maghrib"]        = "Məğrib",
+            ["Prayer_Isha"]           = "İşa",
 
             // Monthly Page
             ["MonthlySchedule"]       = "Ayl\u0131q Namaz Vaxtları",
@@ -307,6 +317,11 @@ public static class LocalizationService
             ["OpenSettings"]          = "Parametrl\u0259ri A\u00e7",
             ["LocationPermission"]    = "M\u0259kan \u0130c\u0259z\u0259si",
             ["LocationPermDenied"]    = "M\u0259kan giri\u015fi r\u0259dd edildi. Z\u0259hm\u0259t olmasa cihaz Parametrl\u0259rind\u0259n aktivl\u0259\u015fdirin.",
+
+            // Calculation method
+            ["CalcMethod"]            = "Hesablama Metodu",
+            ["CalcMethodDiyanet"]     = "Diyanet",
+            ["CalcMethodQMI"]         = "Qafqaz Müsəlmanları İdarəsi",
 
             // Qibla
             ["QiblaInstruction"]      = "Cihazı düz bir səthin üzərinə qoyun, sonra hərəkət etdirin",
@@ -397,6 +412,9 @@ public static class LocalizationService
             ["SearchCityHint"]        = "Введите название города\u2026",
             ["UseCurrentLocation"]    = "Использовать текущее местоположение",
             ["NoResults"]             = "Результаты не найдены",
+            ["CalcMethod"]            = "Метод расчёта",
+            ["CalcMethodDiyanet"]     = "Diyanet",
+            ["CalcMethodQMI"]         = "Управление мусульман Кавказа",
             ["QiblaInstruction"]      = "Положите устройство на ровную поверхность и двигайте его",
             ["Notif_Title"]           = "Время намаза",
             ["Notif_BeforeBody"]      = "{0} через {1} мин",
@@ -487,6 +505,9 @@ public static class LocalizationService
             ["SearchCityHint"]        = "اكتب اسم المدينة\u2026",
             ["UseCurrentLocation"]    = "استخدم الموقع الحالي",
             ["NoResults"]             = "لا توجد نتائج",
+            ["CalcMethod"]            = "طريقة الحساب",
+            ["CalcMethodDiyanet"]     = "ديانت",
+            ["CalcMethodQMI"]         = "إدارة مسلمي القوقاز",
             ["QiblaInstruction"]      = "ضع جهازك على سطح مستوٍ ثم حرّكه",
             ["Notif_Title"]           = "وقت الصلاة",
             ["Notif_BeforeBody"]      = "{0} بعد {1} دقيقة",
@@ -577,6 +598,9 @@ public static class LocalizationService
             ["SearchCityHint"]        = "Escribe un nombre de ciudad\u2026",
             ["UseCurrentLocation"]    = "Usar ubicaci\u00f3n actual",
             ["NoResults"]             = "No se encontraron resultados",
+            ["CalcMethod"]            = "Método de cálculo",
+            ["CalcMethodDiyanet"]     = "Diyanet",
+            ["CalcMethodQMI"]         = "Junta de Musulmanes del Cáucaso",
             ["QiblaInstruction"]      = "Coloca tu dispositivo en una superficie plana y luego muévelo",
             ["Notif_Title"]           = "Hora de oraci\u00f3n",
             ["Notif_BeforeBody"]      = "{0} en {1} min",
@@ -667,6 +691,9 @@ public static class LocalizationService
             ["SearchCityHint"]        = "Tapez un nom de ville\u2026",
             ["UseCurrentLocation"]    = "Utiliser la localisation actuelle",
             ["NoResults"]             = "Aucun r\u00e9sultat trouv\u00e9",
+            ["CalcMethod"]            = "Méthode de calcul",
+            ["CalcMethodDiyanet"]     = "Diyanet",
+            ["CalcMethodQMI"]         = "Direction des musulmans du Caucase",
             ["QiblaInstruction"]      = "Posez votre appareil sur une surface plate puis déplacez-le",
             ["Notif_Title"]           = "Heure de pri\u00e8re",
             ["Notif_BeforeBody"]      = "{0} dans {1} min",
@@ -757,6 +784,9 @@ public static class LocalizationService
             ["SearchCityHint"]        = "Stadtname eingeben\u2026",
             ["UseCurrentLocation"]    = "Aktuellen Standort verwenden",
             ["NoResults"]             = "Keine Ergebnisse gefunden",
+            ["CalcMethod"]            = "Berechnungsmethode",
+            ["CalcMethodDiyanet"]     = "Diyanet",
+            ["CalcMethodQMI"]         = "Muslimische Verwaltung des Kaukasus",
             ["QiblaInstruction"]      = "Lege das Gerät auf eine flache Oberfläche und bewege es",
             ["Notif_Title"]           = "Gebetszeit",
             ["Notif_BeforeBody"]      = "{0} in {1} Min.",

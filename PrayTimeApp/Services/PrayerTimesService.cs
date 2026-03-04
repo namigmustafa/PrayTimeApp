@@ -36,6 +36,7 @@ public class PrayerMonthCache
     public string City       { get; set; } = "";
     public string Country    { get; set; } = "";
     public string TimeZoneId { get; set; } = "";   // IANA id, e.g. "Asia/Baku"
+    public string CalcMethod { get; set; } = "";   // "diyanet" or "qmi"
     public DateTime FetchedAt { get; set; }
     public List<PrayerDay> Days { get; set; } = new();
 }
@@ -44,6 +45,20 @@ public class PrayerMonthCache
 
 public static class PrayerTimesService
 {
+    // ── Calculation method ────────────────────────────────────────────────────
+    private const string MethodPrefKey = "calc_method";
+    public static string CalcMethod
+    {
+        get => Preferences.Get(MethodPrefKey, "diyanet");
+        set => Preferences.Set(MethodPrefKey, value);
+    }
+
+    private static string MethodParams => CalcMethod switch
+    {
+        "qmi" => "method=99&tune=5,9,-1,0,1-1,-2,-2,-16,-6&methodSettings=18,4,18&school=1",
+        _     => "method=13&shafaq=general&tune=13&calendarMethod=DIYANET"
+    };
+
     private static PrayerMonthCache? _mem;
     private static PrayerMonthCache? _mem2; // second most-recently-used month
 
@@ -68,7 +83,8 @@ public static class PrayerTimesService
         if (!forceRefresh
             && _mem?.Year == year
             && _mem.Month == month
-            && string.Equals(_mem.City, city, StringComparison.OrdinalIgnoreCase))
+            && string.Equals(_mem.City, city, StringComparison.OrdinalIgnoreCase)
+            && string.Equals(_mem.CalcMethod, CalcMethod, StringComparison.OrdinalIgnoreCase))
             return _mem;
 
         if (!forceRefresh)
@@ -193,15 +209,13 @@ public static class PrayerTimesService
                 var latS = lat.ToString("F6", CultureInfo.InvariantCulture);
                 var lonS = lon.ToString("F6", CultureInfo.InvariantCulture);
                 url = $"https://api.aladhan.com/v1/calendar/{year}/{month}" +
-                      $"?latitude={latS}&longitude={lonS}" +
-                      $"&method=13&shafaq=general&tune=13&calendarMethod=DIYANET";
+                      $"?latitude={latS}&longitude={lonS}&{MethodParams}";
             }
             else
             {
                 url = $"https://api.aladhan.com/v1/calendarByCity/{year}/{month}" +
                       $"?city={Uri.EscapeDataString(city)}" +
-                      $"&country={Uri.EscapeDataString(country)}" +
-                      $"&method=13&shafaq=general&tune=13&calendarMethod=DIYANET";
+                      $"&country={Uri.EscapeDataString(country)}&{MethodParams}";
             }
 
             var raw = await _http.GetStringAsync(url);
@@ -279,6 +293,7 @@ public static class PrayerTimesService
                 City       = city,
                 Country    = country,
                 TimeZoneId = timeZoneId,
+                CalcMethod = CalcMethod,
                 FetchedAt  = DateTime.UtcNow,
                 Days       = days
             };
@@ -315,10 +330,11 @@ public static class PrayerTimesService
             var cache = JsonSerializer.Deserialize<PrayerMonthCache>(json, _opts);
             if (cache is null) return null;
 
-            // Invalidate if year, month, city or country changed
+            // Invalidate if year, month, city, country or method changed
             if (cache.Year  != year  || cache.Month != month
-                || !string.Equals(cache.City,    city,    StringComparison.OrdinalIgnoreCase)
-                || !string.Equals(cache.Country, country, StringComparison.OrdinalIgnoreCase))
+                || !string.Equals(cache.City,       city,       StringComparison.OrdinalIgnoreCase)
+                || !string.Equals(cache.Country,    country,    StringComparison.OrdinalIgnoreCase)
+                || !string.Equals(cache.CalcMethod, CalcMethod, StringComparison.OrdinalIgnoreCase))
                 return null;
 
             return cache;

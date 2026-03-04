@@ -30,6 +30,7 @@ public partial class SettingsPage : ContentPage
         _loading = true;
 
         LanguageBadgeLabel.Text  = LocalizationService.CurrentLanguageDisplay;
+        CalcMethodBadgeLabel.Text = CalcMethodDisplay(PrayerTimesService.CalcMethod);
         ThresholdValueLabel.Text = $"{LocationService.ThresholdKm} km";
 
         // ── Before Prayer Time ────────────────────────────────────────────────
@@ -87,6 +88,39 @@ public partial class SettingsPage : ContentPage
         LocalizationService.SetLanguage(langCode);
         MainPage.PendingCityReload = true;
         Application.Current!.MainPage = new AppShell();
+    }
+
+    // ── Calculation method ────────────────────────────────────────────────────
+
+    private static string CalcMethodDisplay(string method) => method switch
+    {
+        "qmi" => LocalizationService.GetString("CalcMethodQMI"),
+        _     => LocalizationService.GetString("CalcMethodDiyanet"),
+    };
+
+    private async void OnChangeCalcMethodTapped(object sender, TappedEventArgs e)
+    {
+        var S       = LocalizationService.GetString;
+        var diyanet = S("CalcMethodDiyanet");
+        var qmi     = S("CalcMethodQMI");
+
+        string result = await DisplayActionSheet(
+            S("CalcMethod"), S("Cancel"), null,
+            diyanet, qmi);
+
+        string? newMethod = result switch
+        {
+            var r when r == diyanet => "diyanet",
+            var r when r == qmi     => "qmi",
+            _                       => null
+        };
+
+        if (newMethod is null || newMethod == PrayerTimesService.CalcMethod) return;
+
+        PrayerTimesService.CalcMethod = newMethod;
+        PrayerTimesService.ClearDiskCache();        // force re-fetch with new method
+        CalcMethodBadgeLabel.Text = CalcMethodDisplay(newMethod);
+        MainPage.PendingCityReload = true;          // reload times on home tab
     }
 
     // ── Location threshold ────────────────────────────────────────────────────
