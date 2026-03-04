@@ -19,9 +19,16 @@
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnBackTapped"/>
                 </Border.GestureRecognizers>
-                <Label Text="←" FontSize="20" FontAttributes="Bold"
+                <Label FontSize="22" FontAttributes="Bold"
                        TextColor="{StaticResource TextPrimary}"
-                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                       HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label.Text>
+                        <OnPlatform x:TypeArguments="x:String">
+                            <On Platform="Android" Value="&lt;" />
+                            <On Platform="iOS"     Value="←" />
+                        </OnPlatform>
+                    </Label.Text>
+                </Label>
             </Border>
 
             <Label Grid.Column="1"
