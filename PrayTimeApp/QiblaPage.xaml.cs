@@ -20,6 +20,7 @@ public partial class QiblaPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        AnalyticsService.TrackScreen("QiblaPage");
         _ = LoadAsync();
     }
 

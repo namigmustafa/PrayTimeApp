@@ -20,8 +20,8 @@
 		<ApplicationId>com.nooria.app</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0.5</ApplicationDisplayVersion>
-		<ApplicationVersion>5</ApplicationVersion>
+		<ApplicationDisplayVersion>1.0.9</ApplicationDisplayVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 
 		<WindowsPackageType>None</WindowsPackageType>
 
@@ -84,6 +84,17 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" Condition="'$(Configuration)' == 'Debug'" />
 		<!-- Android only — plugin interferes with iOS native UNUserNotificationCenter -->
 		<PackageReference Include="Plugin.LocalNotification" Version="11.1.2" Condition="$(TargetFramework.Contains('-android'))" />
+		<!-- Firebase Analytics -->
+		<PackageReference Include="Plugin.Firebase.Analytics" Version="4.0.0" Condition="$(TargetFramework.Contains('-android')) or $(TargetFramework.Contains('-ios'))" />
+	</ItemGroup>
+
+	<!-- Firebase config files -->
+	<ItemGroup Condition="$(TargetFramework.Contains('-android'))">
+		<GoogleServicesJson Include="Platforms\Android\google-services.json" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework.Contains('-ios'))">
+		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist" />
 	</ItemGroup>
 
 </Project>

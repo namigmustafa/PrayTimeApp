@@ -85,7 +85,7 @@ public static class LocalizationService
             ["LocationPermDenied"]    = "Location access was denied. Please enable it in your device Settings.",
 
             // Qibla
-            ["QiblaInstruction"]      = "Hold phone flat and rotate until the arrow points up",
+            ["QiblaInstruction"]      = "Place your device on a flat surface then move it",
 
             // Notifications
             ["Notif_Title"]           = "Prayer Time",
@@ -197,7 +197,7 @@ public static class LocalizationService
             ["LocationPermDenied"]    = "Konum eri\u015fimi reddedildi. L\u00fctfen cihaz Ayarlar\u0131ndan etkinle\u015ftirin.",
 
             // Qibla
-            ["QiblaInstruction"]      = "Telefonu düz tutun ve ok yukarı bakana kadar döndürün",
+            ["QiblaInstruction"]      = "Cihazı düz bir yüzeye koyun, sonra hareket ettirin",
 
             // Notifications
             ["Notif_Title"]           = "Namaz Vakti",
@@ -309,7 +309,7 @@ public static class LocalizationService
             ["LocationPermDenied"]    = "M\u0259kan giri\u015fi r\u0259dd edildi. Z\u0259hm\u0259t olmasa cihaz Parametrl\u0259rind\u0259n aktivl\u0259\u015fdirin.",
 
             // Qibla
-            ["QiblaInstruction"]      = "Telefonu düz saxlayın və ox yuxarı baxana qədər döndərin",
+            ["QiblaInstruction"]      = "Cihazı düz bir səthin üzərinə qoyun, sonra hərəkət etdirin",
 
             // Notifications
             ["Notif_Title"]           = "Namaz Vaxtı",
@@ -397,7 +397,7 @@ public static class LocalizationService
             ["SearchCityHint"]        = "Введите название города\u2026",
             ["UseCurrentLocation"]    = "Использовать текущее местоположение",
             ["NoResults"]             = "Результаты не найдены",
-            ["QiblaInstruction"]      = "Держите телефон горизонтально и поворачивайте, пока стрелка не укажет вверх",
+            ["QiblaInstruction"]      = "Положите устройство на ровную поверхность и двигайте его",
             ["Notif_Title"]           = "Время намаза",
             ["Notif_BeforeBody"]      = "{0} через {1} мин",
             ["Notif_BeforeBody_H"]    = "{0} через {1}ч {2}мин",
@@ -487,7 +487,7 @@ public static class LocalizationService
             ["SearchCityHint"]        = "اكتب اسم المدينة\u2026",
             ["UseCurrentLocation"]    = "استخدم الموقع الحالي",
             ["NoResults"]             = "لا توجد نتائج",
-            ["QiblaInstruction"]      = "أمسك الهاتف أفقياً وأدره حتى يشير السهم للأعلى",
+            ["QiblaInstruction"]      = "ضع جهازك على سطح مستوٍ ثم حرّكه",
             ["Notif_Title"]           = "وقت الصلاة",
             ["Notif_BeforeBody"]      = "{0} بعد {1} دقيقة",
             ["Notif_BeforeBody_H"]    = "{0} بعد {1} ساعة و{2} دقيقة",
@@ -577,7 +577,7 @@ public static class LocalizationService
             ["SearchCityHint"]        = "Escribe un nombre de ciudad\u2026",
             ["UseCurrentLocation"]    = "Usar ubicaci\u00f3n actual",
             ["NoResults"]             = "No se encontraron resultados",
-            ["QiblaInstruction"]      = "Mant\u00e9n el tel\u00e9fono horizontal y g\u00edralo hasta que la flecha apunte hacia arriba",
+            ["QiblaInstruction"]      = "Coloca tu dispositivo en una superficie plana y luego muévelo",
             ["Notif_Title"]           = "Hora de oraci\u00f3n",
             ["Notif_BeforeBody"]      = "{0} en {1} min",
             ["Notif_BeforeBody_H"]    = "{0} en {1}h {2}min",
@@ -667,7 +667,7 @@ public static class LocalizationService
             ["SearchCityHint"]        = "Tapez un nom de ville\u2026",
             ["UseCurrentLocation"]    = "Utiliser la localisation actuelle",
             ["NoResults"]             = "Aucun r\u00e9sultat trouv\u00e9",
-            ["QiblaInstruction"]      = "Tenez le t\u00e9l\u00e9phone \u00e0 plat et faites-le pivoter jusqu\u2019\u00e0 ce que la fl\u00e8che pointe vers le haut",
+            ["QiblaInstruction"]      = "Posez votre appareil sur une surface plate puis déplacez-le",
             ["Notif_Title"]           = "Heure de pri\u00e8re",
             ["Notif_BeforeBody"]      = "{0} dans {1} min",
             ["Notif_BeforeBody_H"]    = "{0} dans {1}h {2}min",
@@ -757,7 +757,7 @@ public static class LocalizationService
             ["SearchCityHint"]        = "Stadtname eingeben\u2026",
             ["UseCurrentLocation"]    = "Aktuellen Standort verwenden",
             ["NoResults"]             = "Keine Ergebnisse gefunden",
-            ["QiblaInstruction"]      = "Halte das Telefon waagerecht und drehe es, bis der Pfeil nach oben zeigt",
+            ["QiblaInstruction"]      = "Lege das Gerät auf eine flache Oberfläche und bewege es",
             ["Notif_Title"]           = "Gebetszeit",
             ["Notif_BeforeBody"]      = "{0} in {1} Min.",
             ["Notif_BeforeBody_H"]    = "{0} in {1}h {2}Min.",

@@ -26,6 +26,7 @@ public partial class SettingsPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        AnalyticsService.TrackScreen("SettingsPage");
         _loading = true;
 
         LanguageBadgeLabel.Text  = LocalizationService.CurrentLanguageDisplay;

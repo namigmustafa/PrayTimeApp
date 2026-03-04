@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "695872367265",
+    "project_id": "nooria-1b255",
+    "storage_bucket": "nooria-1b255.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695872367265:android:dcdb4641f943a9d3e35ee0",
+        "android_client_info": {
+          "package_name": "com.nooria.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZu4XyyS_bDmBowRCeE17j0CQ3XK9eGQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

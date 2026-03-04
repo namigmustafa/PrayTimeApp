@@ -30,6 +30,7 @@ public partial class MainPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        AnalyticsService.TrackScreen("MainPage");
 
         if (!_sessionChecked || PendingCityReload)
         {

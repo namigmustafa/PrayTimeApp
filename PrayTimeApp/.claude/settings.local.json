@@ -9,7 +9,13 @@
       "WebFetch(domain:stackoverflow.com)",
       "WebSearch",
       "WebFetch(domain:github.com)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(dotnet publish:*)",
+      "Bash(rm:*)",
+      "Bash(unzip:*)",
+      "WebFetch(domain:www.nuget.org)",
+      "Bash(dotnet restore:*)",
+      "Bash(ls:*)"
     ]
   }
 }

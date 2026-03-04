@@ -15,6 +15,7 @@ public partial class MonthlyPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        AnalyticsService.TrackScreen("MonthlyPage");
         _ = LoadAsync();
     }
 
