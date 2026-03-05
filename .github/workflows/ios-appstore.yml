@@ -18,7 +18,7 @@ jobs:
           dotnet-quality: 'ga'
 
       - name: Install MAUI workloads
-        run: dotnet workload install maui-ios maui-android
+        run: dotnet workload install maui-ios maui-android maccatalyst
 
       - name: Import Distribution Certificate
         env:
