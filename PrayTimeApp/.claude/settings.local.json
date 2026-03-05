@@ -15,7 +15,8 @@
       "Bash(unzip:*)",
       "WebFetch(domain:www.nuget.org)",
       "Bash(dotnet restore:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(openssl version:*)"
     ]
   }
 }
