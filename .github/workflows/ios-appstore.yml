@@ -15,9 +15,10 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
+          dotnet-quality: 'ga'
 
-      - name: Install MAUI workload
-        run: dotnet workload install maui-ios
+      - name: Install MAUI workloads
+        run: dotnet workload install maui-ios maui-android
 
       - name: Import Distribution Certificate
         env:
