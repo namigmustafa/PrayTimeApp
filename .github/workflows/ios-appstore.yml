@@ -5,7 +5,8 @@ on:
 
 jobs:
   build-ios:
-    runs-on: macos-latest
+    runs-on: macos-14
+    timeout-minutes: 45
 
     steps:
       - name: Checkout
@@ -65,6 +66,7 @@ jobs:
       - name: Build & Publish iOS
         run: |
           dotnet publish PrayTimeApp/PrayTimeApp.csproj \
+            -v detailed \
             -f net9.0-ios \
             -c Release \
             -p:RuntimeIdentifier=ios-arm64 \
@@ -72,7 +74,9 @@ jobs:
             -p:CodesignKey="Apple Distribution: Namig Mustafayev (SY7G499VYD)" \
             -p:CodesignProvision="Nooria App Store" \
             -p:EnableAssemblyILStripping=false \
-            -p:MtouchUseLlvm=false
+            -p:MtouchUseLlvm=false \
+            -p:MtouchInterpreter=all \
+            -p:UseInterpreter=true
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
