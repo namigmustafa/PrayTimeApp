@@ -16,10 +16,31 @@ jobs:
         with:
           dotnet-version: '9.0.305'
 
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/PrayTimeApp.csproj') }}
+          restore-keys: ${{ runner.os }}-nuget-
+
+      - name: Cache dotnet workloads
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.dotnet/sdk-advertising
+            ~/.dotnet/toolResolverCache
+            /usr/local/share/dotnet/packs
+            /usr/local/share/dotnet/metadata
+            /usr/local/share/dotnet/sdk-manifests
+          key: ${{ runner.os }}-workloads-9.0.305
+
       - name: Install MAUI workloads
         run: |
           dotnet workload config --update-mode workload-set
           dotnet workload install maui-ios maui-android maccatalyst
+
+      - name: Restore
+        run: dotnet restore PrayTimeApp/PrayTimeApp.csproj
 
       - name: Import Distribution Certificate
         env:
@@ -50,7 +71,8 @@ jobs:
             -p:ArchiveOnBuild=true \
             -p:CodesignKey="Apple Distribution: Namig Mustafayev (SY7G499VYD)" \
             -p:CodesignProvision="Nooria App Store" \
-            -p:EnableAssemblyILStripping=false
+            -p:EnableAssemblyILStripping=false \
+            -p:MtouchUseLlvm=false
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
