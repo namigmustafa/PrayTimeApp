@@ -85,7 +85,7 @@
 		<!-- Android only — plugin interferes with iOS native UNUserNotificationCenter -->
 		<PackageReference Include="Plugin.LocalNotification" Version="11.1.2" Condition="$(TargetFramework.Contains('-android'))" />
 		<!-- Firebase Analytics -->
-		<PackageReference Include="Plugin.Firebase.Analytics" Version="4.0.0" Condition="$(TargetFramework.Contains('-android')) or $(TargetFramework.Contains('-ios'))" />
+		<PackageReference Include="Plugin.Firebase.Analytics" Version="3.1.2" Condition="$(TargetFramework.Contains('-android')) or $(TargetFramework.Contains('-ios'))" />
 	</ItemGroup>
 
 	<!-- Firebase config files -->
