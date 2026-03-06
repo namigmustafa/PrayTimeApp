@@ -21,7 +21,7 @@
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>11</ApplicationVersion>
+		<ApplicationVersion>12</ApplicationVersion>
 
 		<WindowsPackageType>None</WindowsPackageType>
 
@@ -94,7 +94,9 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-ios'))">
-		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist" />
+		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist">
+			<Link>GoogleService-Info.plist</Link>
+		</BundleResource>
 	</ItemGroup>
 
 </Project>
