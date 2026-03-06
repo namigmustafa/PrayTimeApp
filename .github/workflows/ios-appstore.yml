@@ -74,9 +74,7 @@ jobs:
             -p:CodesignKey="Apple Distribution: Namig Mustafayev (SY7G499VYD)" \
             -p:CodesignProvision="Nooria App Store" \
             -p:EnableAssemblyILStripping=false \
-            -p:MtouchUseLlvm=false \
-            -p:MtouchInterpreter=all \
-            -p:UseInterpreter=true
+            -p:MtouchUseLlvm=false
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
