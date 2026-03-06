@@ -17,7 +17,7 @@ jobs:
           dotnet-version: '9.0.302'
 
       - name: Install MAUI workloads
-        run: dotnet workload install maui-ios maui-android maccatalyst --skip-manifest-update
+        run: dotnet workload install maui-ios maui-android maccatalyst --from-rollback-file https://aka.ms/dotnet/maui/9.0.30/rollback
 
       - name: Import Distribution Certificate
         env:
