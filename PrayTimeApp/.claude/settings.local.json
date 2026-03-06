@@ -16,7 +16,8 @@
       "WebFetch(domain:www.nuget.org)",
       "Bash(dotnet restore:*)",
       "Bash(ls:*)",
-      "Bash(openssl version:*)"
+      "Bash(openssl version:*)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }

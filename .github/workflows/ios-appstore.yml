@@ -14,10 +14,12 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.302'
+          dotnet-version: '9.0.305'
 
       - name: Install MAUI workloads
-        run: dotnet workload install maui-ios maui-android maccatalyst --from-rollback-file https://aka.ms/dotnet/maui/9.0.30/rollback
+        run: |
+          dotnet workload config --update-mode workload-set
+          dotnet workload install maui-ios maui-android maccatalyst
 
       - name: Import Distribution Certificate
         env:
