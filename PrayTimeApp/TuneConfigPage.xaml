@@ -6,6 +6,9 @@
              Shell.NavBarIsVisible="False">
 
     <Grid RowDefinitions="Auto,*,Auto">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnPageTapped"/>
+        </Grid.GestureRecognizers>
         <!-- Header -->
         <Grid Grid.Row="0" ColumnDefinitions="Auto,*" Padding="16,50,16,12" BackgroundColor="{StaticResource AppBg}">
             <Border Grid.Column="0"
@@ -39,7 +42,7 @@
                         <Label Grid.Column="0" Text="Imsak" TextColor="White" FontSize="15" VerticalOptions="Center"/>
                         <Entry x:Name="ImsakEntry" Grid.Column="1"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Numeric"
+                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
                                HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
                     </Grid>
                 </Border>
@@ -50,7 +53,7 @@
                         <Label Grid.Column="0" Text="Fajr" TextColor="White" FontSize="15" VerticalOptions="Center"/>
                         <Entry x:Name="FajrEntry" Grid.Column="1"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Numeric"
+                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
                                HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
                     </Grid>
                 </Border>
@@ -61,7 +64,7 @@
                         <Label Grid.Column="0" Text="Sunrise" TextColor="White" FontSize="15" VerticalOptions="Center"/>
                         <Entry x:Name="SunriseEntry" Grid.Column="1"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Numeric"
+                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
                                HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
                     </Grid>
                 </Border>
@@ -72,7 +75,7 @@
                         <Label Grid.Column="0" Text="Dhuhr" TextColor="White" FontSize="15" VerticalOptions="Center"/>
                         <Entry x:Name="DhuhrEntry" Grid.Column="1"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Numeric"
+                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
                                HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
                     </Grid>
                 </Border>
@@ -83,7 +86,7 @@
                         <Label Grid.Column="0" Text="Asr" TextColor="White" FontSize="15" VerticalOptions="Center"/>
                         <Entry x:Name="AsrEntry" Grid.Column="1"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Numeric"
+                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
                                HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
                     </Grid>
                 </Border>
@@ -94,7 +97,7 @@
                         <Label Grid.Column="0" Text="Maghrib" TextColor="White" FontSize="15" VerticalOptions="Center"/>
                         <Entry x:Name="MaghribEntry" Grid.Column="1"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Numeric"
+                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
                                HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
                     </Grid>
                 </Border>
@@ -105,7 +108,7 @@
                         <Label Grid.Column="0" Text="Sunset" TextColor="White" FontSize="15" VerticalOptions="Center"/>
                         <Entry x:Name="SunsetEntry" Grid.Column="1"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Numeric"
+                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
                                HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
                     </Grid>
                 </Border>
@@ -116,7 +119,7 @@
                         <Label Grid.Column="0" Text="Isha" TextColor="White" FontSize="15" VerticalOptions="Center"/>
                         <Entry x:Name="IshaEntry" Grid.Column="1"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Numeric"
+                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
                                HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
                     </Grid>
                 </Border>
@@ -127,7 +130,7 @@
                         <Label Grid.Column="0" Text="Midnight" TextColor="White" FontSize="15" VerticalOptions="Center"/>
                         <Entry x:Name="MidnightTuneEntry" Grid.Column="1"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Numeric"
+                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
                                HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
                     </Grid>
                 </Border>

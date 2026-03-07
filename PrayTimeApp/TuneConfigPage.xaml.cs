@@ -59,6 +59,15 @@ public partial class TuneConfigPage : ContentPage
         LoadValues(defaults);
     }
 
+    private void OnPageTapped(object sender, TappedEventArgs e)
+    {
+        // Dismiss keyboard when tapping outside any Entry
+        var entries = new[] { ImsakEntry, FajrEntry, SunriseEntry, DhuhrEntry, AsrEntry,
+                              MaghribEntry, SunsetEntry, IshaEntry, MidnightTuneEntry };
+        foreach (var entry in entries)
+            if (entry.IsFocused) { entry.Unfocus(); break; }
+    }
+
     private async void OnBackTapped(object sender, TappedEventArgs e)
         => await Shell.Current.GoToAsync("..");
 }
