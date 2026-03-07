@@ -606,6 +606,39 @@
             </Border>
 
 
+            <!-- API URL -->
+            <Border BackgroundColor="{StaticResource CardBg}"
+                    StrokeThickness="0" StrokeShape="RoundRectangle 16"
+                    Padding="16">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="API Request URL"
+                           TextColor="{StaticResource GoldAccent}"
+                           FontSize="13" FontAttributes="Bold"/>
+                    <Label Text="Current URL used to fetch prayer times. Tap to copy."
+                           TextColor="#888" FontSize="11"/>
+                    <Editor x:Name="ApiUrlEditor"
+                            IsReadOnly="True"
+                            TextColor="#ccc"
+                            BackgroundColor="Transparent"
+                            FontSize="11"
+                            AutoSize="TextChanges"
+                            Margin="0,4,0,0"/>
+                    <Border BackgroundColor="Transparent"
+                            Stroke="{StaticResource GoldAccent}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 8">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnCopyUrlTapped"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="Copy URL"
+                               TextColor="{StaticResource GoldAccent}"
+                               FontSize="13" FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               Margin="0,10"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
         </VerticalStackLayout>
     </ScrollView>
 

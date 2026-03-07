@@ -158,6 +158,21 @@ public static class PrayerTimesService
         }
     }
 
+    public static string BuildApiUrl(int year, int month, string city, string country,
+                                     double lat = 0, double lon = 0)
+    {
+        if (lat != 0 || lon != 0)
+        {
+            var latS = lat.ToString("F6", CultureInfo.InvariantCulture);
+            var lonS = lon.ToString("F6", CultureInfo.InvariantCulture);
+            return $"https://api.aladhan.com/v1/calendar/{year}/{month}" +
+                   $"?latitude={latS}&longitude={lonS}&{MethodParams}";
+        }
+        return $"https://api.aladhan.com/v1/calendarByCity/{year}/{month}" +
+               $"?city={Uri.EscapeDataString(city)}" +
+               $"&country={Uri.EscapeDataString(country)}&{MethodParams}";
+    }
+
     private static PrayerMonthCache? _mem;
     private static PrayerMonthCache? _mem2; // second most-recently-used month
 

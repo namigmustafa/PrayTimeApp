@@ -32,6 +32,7 @@ public partial class SettingsPage : ContentPage
         LanguageBadgeLabel.Text  = LocalizationService.CurrentLanguageDisplay;
         CalcMethodBadgeLabel.Text = CalcMethodDisplay(PrayerTimesService.CalcMethodId);
         ThresholdValueLabel.Text = $"{LocationService.ThresholdKm} km";
+        RefreshApiUrl();
 
         // ── Before Prayer Time ────────────────────────────────────────────────
         _beforeH = Preferences.Get("notif_before_h", 0);
@@ -374,5 +375,24 @@ public partial class SettingsPage : ContentPage
     {
         var file = NotifSvc.GetDisplayFileName(tone);
         return string.IsNullOrEmpty(file) ? tone : $"{tone} - {file}";
+    }
+
+    private void RefreshApiUrl()
+    {
+        var now   = DateTime.Now;
+        var fc    = LocationService.GetFetchCoords();
+        string url;
+        if (fc is not null)
+            url = PrayerTimesService.BuildApiUrl(now.Year, now.Month, fc.Value.City, fc.Value.Country, fc.Value.Lat, fc.Value.Lon);
+        else
+            url = PrayerTimesService.BuildApiUrl(now.Year, now.Month, "", "");
+        ApiUrlEditor.Text = url;
+    }
+
+    private async void OnCopyUrlTapped(object sender, TappedEventArgs e)
+    {
+        if (string.IsNullOrEmpty(ApiUrlEditor.Text)) return;
+        await Clipboard.SetTextAsync(ApiUrlEditor.Text);
+        await DisplayAlert("Copied", "URL copied to clipboard.", "OK");
     }
 }
