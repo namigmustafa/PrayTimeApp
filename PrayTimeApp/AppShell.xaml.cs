@@ -7,6 +7,8 @@ namespace Nooria
             InitializeComponent();
             Routing.RegisterRoute(nameof(NoLocationPage), typeof(NoLocationPage));
             Routing.RegisterRoute(nameof(CalcMethodConfigPage), typeof(CalcMethodConfigPage));
+            Routing.RegisterRoute(nameof(CalcMethodPickerPage), typeof(CalcMethodPickerPage));
+            Routing.RegisterRoute(nameof(TuneConfigPage), typeof(TuneConfigPage));
 #if IOS
             Navigated += (_, _) => PaintAll();
 #endif

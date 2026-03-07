@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Nooria.CalcMethodPickerPage"
+             BackgroundColor="{StaticResource AppBg}"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Header -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" Padding="16,50,16,12" BackgroundColor="{StaticResource AppBg}">
+            <Border Grid.Column="0"
+                    BackgroundColor="{StaticResource CardBg}"
+                    Stroke="Transparent" StrokeThickness="0"
+                    StrokeShape="RoundRectangle 8"
+                    WidthRequest="36" HeightRequest="36">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackTapped"/>
+                </Border.GestureRecognizers>
+                <Label Text="‹" TextColor="{StaticResource GoldAccent}" FontSize="22"
+                       HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Border>
+            <Label Grid.Column="1"
+                   Text="Calculation Method"
+                   TextColor="White" FontSize="18" FontAttributes="Bold"
+                   VerticalOptions="Center" Margin="12,0,0,0"/>
+        </Grid>
+
+        <!-- Method List -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout x:Name="MethodListLayout" Spacing="0" Padding="16,4,16,24"/>
+        </ScrollView>
+    </Grid>
+</ContentPage>

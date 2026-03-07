@@ -59,14 +59,13 @@
                                TextColor="{StaticResource GoldAccent}" FontSize="13" FontAttributes="Bold"/>
                         <Label Text="{i18n:Translate CalcConfig_TuneDesc}"
                                TextColor="#999" FontSize="11"/>
-                        <Entry x:Name="TuneEntry"
-                               Placeholder="0,0,0,0,0,0,0,0,0"
-                               PlaceholderColor="#666"
-                               TextColor="White"
-                               BackgroundColor="Transparent"
-                               FontSize="15"
-                               Keyboard="Text"
-                               Margin="0,8,0,0"/>
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnTuneTapped"/>
+                            </Grid.GestureRecognizers>
+                            <Label x:Name="TuneValueLabel" Grid.Column="0" TextColor="White" FontSize="15" VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="›" TextColor="{StaticResource GoldAccent}" FontSize="20" VerticalOptions="Center"/>
+                        </Grid>
                     </VerticalStackLayout>
                 </Border>
 

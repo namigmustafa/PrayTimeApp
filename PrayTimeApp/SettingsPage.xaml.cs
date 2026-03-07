@@ -99,21 +99,7 @@ public partial class SettingsPage : ContentPage
     }
 
     private async void OnChangeCalcMethodTapped(object sender, TappedEventArgs e)
-    {
-        var options = PrayerTimesService.AllMethods.Select(m => LocalizationService.GetString(m.NameKey)).ToArray();
-        string result = await DisplayActionSheet(
-            LocalizationService.GetString("CalcMethod"),
-            LocalizationService.GetString("Cancel"),
-            null,
-            options);
-        var chosen = PrayerTimesService.AllMethods.FirstOrDefault(m => LocalizationService.GetString(m.NameKey) == result);
-        if (chosen is null || chosen.DisplayId == PrayerTimesService.CalcMethodId) return;
-        PrayerTimesService.CalcMethodId = chosen.DisplayId;
-        PrayerTimesService.ApplyMethodDefaults(chosen);
-        PrayerTimesService.ClearDiskCache();
-        MainPage.PendingCityReload = true;
-        CalcMethodBadgeLabel.Text = CalcMethodDisplay(chosen.DisplayId);
-    }
+        => await Shell.Current.GoToAsync(nameof(CalcMethodPickerPage));
 
     private async void OnConfigureCalcMethodTapped(object sender, TappedEventArgs e)
         => await Shell.Current.GoToAsync(nameof(CalcMethodConfigPage));

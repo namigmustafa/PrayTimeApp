@@ -20,8 +20,8 @@
 		<ApplicationId>com.nooria.app</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>13</ApplicationVersion>
+		<ApplicationDisplayVersion>1.2.0</ApplicationDisplayVersion>
+		<ApplicationVersion>14</ApplicationVersion>
 
 		<WindowsPackageType>None</WindowsPackageType>
 

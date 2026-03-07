@@ -47,10 +47,32 @@ namespace Nooria
 
             var mgr = (NotificationManager)GetSystemService(Android.Content.Context.NotificationService)!;
 
-            // Default sound channel
-            mgr.CreateNotificationChannel(new NotificationChannel(
+            // v2: recreate channels with AudioUsageKind.Alarm so they bypass silent/vibrate mode.
+            const string prefKey = "notif_channels_v";
+            if (Microsoft.Maui.Storage.Preferences.Get(prefKey, 0) < 2)
+            {
+                foreach (var id in new[]
+                {
+                    "prayer_default", "prayer_silent", "prayer_bayati", "prayer_apple",
+                    "prayer_early_riser", "prayer_iphone_alarm", "prayer_revelation",
+                    "prayer_apple_hard", "prayer_aranan", "prayer_ezan"
+                })
+                    mgr.DeleteNotificationChannel(id);
+                Microsoft.Maui.Storage.Preferences.Set(prefKey, 2);
+            }
+
+            // Default sound channel — alarm usage bypasses silent mode
+            var defaultAttrs = new Android.Media.AudioAttributes.Builder()
+                .SetUsage(Android.Media.AudioUsageKind.Alarm)
+                .SetContentType(Android.Media.AudioContentType.Music)
+                .Build()!;
+            var defaultCh = new NotificationChannel(
                 "prayer_default", "Prayer Alarms", NotificationImportance.High)
-                { Description = "Prayer time alerts" });
+                { Description = "Prayer time alerts" };
+            defaultCh.SetSound(
+                Android.Media.RingtoneManager.GetDefaultUri(Android.Media.RingtoneType.Alarm),
+                defaultAttrs);
+            mgr.CreateNotificationChannel(defaultCh);
 
             // Silent channel
             var silent = new NotificationChannel(
@@ -78,7 +100,7 @@ namespace Nooria
             {
                 var uri   = Android.Net.Uri.Parse($"android.resource://{PackageName}/raw/{soundFile}");
                 var attrs = new Android.Media.AudioAttributes.Builder()
-                    .SetUsage(Android.Media.AudioUsageKind.Notification)
+                    .SetUsage(Android.Media.AudioUsageKind.Alarm)       // bypasses silent/vibrate mode
                     .SetContentType(Android.Media.AudioContentType.Music)
                     .Build()!;
                 ch.SetSound(uri, attrs);

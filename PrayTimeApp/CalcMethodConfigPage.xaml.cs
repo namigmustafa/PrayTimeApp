@@ -25,7 +25,6 @@ public partial class CalcMethodConfigPage : ContentPage
         _midnight = PrayerTimesService.CalcMidnight;
         _latAdj   = PrayerTimesService.CalcLatAdj;
         _calendar = PrayerTimesService.CalcCalendar;
-        TuneEntry.Text = _tune;
         RefreshAllLabels();
     }
 
@@ -37,6 +36,7 @@ public partial class CalcMethodConfigPage : ContentPage
             "abyad" => LocalizationService.GetString("Shafaq_Abyad"),
             _       => LocalizationService.GetString("Shafaq_General"),
         };
+        TuneValueLabel.Text = _tune;
         SchoolValueLabel.Text = _school switch
         {
             1 => LocalizationService.GetString("School_Hanafi"),
@@ -77,6 +77,11 @@ public partial class CalcMethodConfigPage : ContentPage
         else if (result == LocalizationService.GetString("Shafaq_General")) _shafaq = "general";
         else return;
         RefreshAllLabels();
+    }
+
+    private async void OnTuneTapped(object sender, TappedEventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(TuneConfigPage));
     }
 
     private async void OnSchoolTapped(object sender, TappedEventArgs e)
@@ -145,16 +150,7 @@ public partial class CalcMethodConfigPage : ContentPage
 
     private async void OnApplyTapped(object sender, TappedEventArgs e)
     {
-        _tune = TuneEntry.Text?.Trim() ?? "0,0,0,0,0,0,0,0,0";
-        // Validate tune: 9 comma-separated integers
-        var parts = _tune.Split(',');
-        if (parts.Length != 9 || !parts.All(p => int.TryParse(p.Trim(), out _)))
-        {
-            await DisplayAlert("Error", "Tune must be 9 comma-separated integers (e.g. 0,0,0,0,0,0,0,0,0)", "OK");
-            return;
-        }
         PrayerTimesService.CalcShafaq   = _shafaq;
-        PrayerTimesService.CalcTune     = _tune;
         PrayerTimesService.CalcSchool   = _school;
         PrayerTimesService.CalcMidnight = _midnight;
         PrayerTimesService.CalcLatAdj   = _latAdj;
@@ -173,7 +169,6 @@ public partial class CalcMethodConfigPage : ContentPage
         _midnight = def?.DefaultMidnight ?? 0;
         _latAdj   = def?.DefaultLatAdj   ?? 0;
         _calendar = def?.DefaultCalendar ?? "HJCoSA";
-        TuneEntry.Text = _tune;
         RefreshAllLabels();
     }
 

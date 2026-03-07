@@ -84,10 +84,21 @@ public class AdhanForegroundService : Service
             return;
         }
 
-        _player = MediaPlayer.Create(this, resId);
+        // Use AudioUsageKind.Alarm so playback bypasses silent/vibrate mode
+        var alarmAttrs = new AudioAttributes.Builder()
+            .SetUsage(AudioUsageKind.Alarm)
+            .SetContentType(AudioContentType.Music)
+            .Build()!;
+
+        _player = new MediaPlayer();
+        _player.SetAudioAttributes(alarmAttrs);
+        var uri = Android.Net.Uri.Parse($"android.resource://{PackageName}/{resId}");
+        _player.SetDataSource(this, uri);
+        _player.Prepare();
+
         if (_player == null)
         {
-            FileLogger.Log("AdhanForegroundService: MediaPlayer.Create returned null");
+            FileLogger.Log("AdhanForegroundService: MediaPlayer setup failed");
             StopSelf();
             return;
         }
