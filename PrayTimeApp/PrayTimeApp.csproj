@@ -21,7 +21,7 @@
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.2.2</ApplicationDisplayVersion>
-		<ApplicationVersion>16</ApplicationVersion>
+		<ApplicationVersion>17</ApplicationVersion>
 
 		<WindowsPackageType>None</WindowsPackageType>
 
