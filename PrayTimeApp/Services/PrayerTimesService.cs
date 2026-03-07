@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text.Json;
+using Microsoft.Maui.Storage;
 
 namespace Nooria.Services;
 
@@ -31,33 +32,131 @@ public class PrayerDay
 
 public class PrayerMonthCache
 {
-    public int    Year       { get; set; }
-    public int    Month      { get; set; }
-    public string City       { get; set; } = "";
-    public string Country    { get; set; } = "";
-    public string TimeZoneId { get; set; } = "";   // IANA id, e.g. "Asia/Baku"
-    public string CalcMethod { get; set; } = "";   // "diyanet" or "qmi"
-    public DateTime FetchedAt { get; set; }
+    public int    Year         { get; set; }
+    public int    Month        { get; set; }
+    public string City         { get; set; } = "";
+    public string Country      { get; set; } = "";
+    public string TimeZoneId   { get; set; } = "";   // IANA id, e.g. "Asia/Baku"
+    public int    CalcMethodId { get; set; } = 0;
+    public DateTime FetchedAt  { get; set; }
     public List<PrayerDay> Days { get; set; } = new();
 }
+
+public record CalcMethodDefinition(
+    int     DisplayId,
+    int     ApiMethodId,
+    string  NameKey,
+    string? DefaultShafaq   = null,
+    string? DefaultTune     = null,
+    int?    DefaultSchool   = null,
+    int?    DefaultMidnight = null,
+    int?    DefaultLatAdj   = null,
+    string? DefaultCalendar = null
+);
 
 // ── Service ───────────────────────────────────────────────────────────────────
 
 public static class PrayerTimesService
 {
-    // ── Calculation method ────────────────────────────────────────────────────
-    private const string MethodPrefKey = "calc_method";
-    public static string CalcMethod
+    // ── All supported calculation methods ─────────────────────────────────────
+    public static readonly CalcMethodDefinition[] AllMethods =
+    [
+        new(0,  0,  "CalcMethod_0"),
+        new(1,  1,  "CalcMethod_1"),
+        new(2,  2,  "CalcMethod_2"),
+        new(3,  3,  "CalcMethod_3"),
+        new(4,  4,  "CalcMethod_4"),
+        new(5,  5,  "CalcMethod_5"),
+        new(7,  7,  "CalcMethod_7"),
+        new(8,  8,  "CalcMethod_8"),
+        new(9,  9,  "CalcMethod_9"),
+        new(10, 10, "CalcMethod_10"),
+        new(11, 11, "CalcMethod_11"),
+        new(12, 12, "CalcMethod_12"),
+        new(13, 13, "CalcMethod_13", DefaultTune: "0,0,0,0,0,0,0,0,0", DefaultSchool: 0, DefaultMidnight: 0, DefaultLatAdj: 3),
+        new(14, 14, "CalcMethod_14"),
+        new(15, 15, "CalcMethod_15"),
+        new(16, 16, "CalcMethod_16"),
+        new(17, 17, "CalcMethod_17"),
+        new(18, 18, "CalcMethod_18"),
+        new(19, 19, "CalcMethod_19"),
+        new(20, 20, "CalcMethod_20"),
+        new(21, 21, "CalcMethod_21"),
+        new(22, 22, "CalcMethod_22"),
+        new(23, 23, "CalcMethod_23"),
+        new(24, 3,  "CalcMethod_24", DefaultShafaq: "general", DefaultTune: "1,5,-1,0,1,15,0,-10,9", DefaultSchool: 1, DefaultCalendar: "UAQ"),
+        new(99, 99, "CalcMethod_99"),
+    ];
+
+    public static CalcMethodDefinition? CurrentMethodDef
+        => AllMethods.FirstOrDefault(m => m.DisplayId == CalcMethodId);
+
+    // ── Calculation method ID (with migration from old string pref) ───────────
+    private const string MethodIdPrefKey = "calc_method_id";
+
+    public static int CalcMethodId
     {
-        get => Preferences.Get(MethodPrefKey, "diyanet");
-        set => Preferences.Set(MethodPrefKey, value);
+        get => MigrateAndGetMethodId();
+        set => Preferences.Set(MethodIdPrefKey, value);
     }
 
-    private static string MethodParams => CalcMethod switch
+    private static int MigrateAndGetMethodId()
     {
-        "qmi" => "method=99&tune=5,9,-1,0,1-1,-2,-2,-16,-6&methodSettings=18,4,18&school=1",
-        _     => "method=13&shafaq=general&tune=13&calendarMethod=DIYANET"
-    };
+        if (Preferences.ContainsKey(MethodIdPrefKey))
+            return Preferences.Get(MethodIdPrefKey, 13);
+        var old = Preferences.Get("calc_method", "diyanet");
+        int migrated = old == "qmi" ? 24 : 13;
+        Preferences.Set(MethodIdPrefKey, migrated);
+        Preferences.Remove("calc_method");
+        return migrated;
+    }
+
+    // ── Individual calculation parameters ─────────────────────────────────────
+    public static string CalcShafaq   { get => Preferences.Get("calc_shafaq",   "general");           set => Preferences.Set("calc_shafaq",   value); }
+    public static string CalcTune     { get => Preferences.Get("calc_tune",     "0,0,0,0,0,0,0,0,0"); set => Preferences.Set("calc_tune",     value); }
+    public static int    CalcSchool   { get => Preferences.Get("calc_school",   0);                    set => Preferences.Set("calc_school",   value); }
+    public static int    CalcMidnight { get => Preferences.Get("calc_midnight", 0);                    set => Preferences.Set("calc_midnight", value); }
+    public static int    CalcLatAdj   { get => Preferences.Get("calc_lat_adj",  0);                    set => Preferences.Set("calc_lat_adj",  value); }
+    public static string CalcCalendar { get => Preferences.Get("calc_calendar", "HJCoSA");             set => Preferences.Set("calc_calendar", value); }
+
+    // Apply the default parameter values for a given method definition.
+    public static void ApplyMethodDefaults(CalcMethodDefinition def)
+    {
+        if (def.DefaultShafaq   is not null) CalcShafaq   = def.DefaultShafaq;
+        if (def.DefaultTune     is not null) CalcTune     = def.DefaultTune;
+        if (def.DefaultSchool   is not null) CalcSchool   = def.DefaultSchool.Value;
+        if (def.DefaultMidnight is not null) CalcMidnight = def.DefaultMidnight.Value;
+        if (def.DefaultLatAdj   is not null) CalcLatAdj   = def.DefaultLatAdj.Value;
+        if (def.DefaultCalendar is not null) CalcCalendar = def.DefaultCalendar;
+    }
+
+    private static string MethodParams
+    {
+        get
+        {
+            var def      = CurrentMethodDef;
+            int apiMethod = def?.ApiMethodId ?? 13;
+            string shafaq   = def?.DefaultShafaq   ?? CalcShafaq;
+            string tune     = def?.DefaultTune     ?? CalcTune;
+            int    school   = def?.DefaultSchool   ?? CalcSchool;
+            int    midnight = def?.DefaultMidnight ?? CalcMidnight;
+            int    latAdj   = def?.DefaultLatAdj   ?? CalcLatAdj;
+            string calendar = def?.DefaultCalendar ?? CalcCalendar;
+
+            var sb = new System.Text.StringBuilder();
+            sb.Append($"method={apiMethod}");
+            if (!string.IsNullOrEmpty(shafaq) && shafaq != "general")
+                sb.Append($"&shafaq={shafaq}");
+            if (!string.IsNullOrEmpty(tune) && tune != "0,0,0,0,0,0,0,0,0")
+                sb.Append($"&tune={tune.Replace(",", "%2C")}");
+            if (school   != 0) sb.Append($"&school={school}");
+            if (midnight != 0) sb.Append($"&midnightMode={midnight}");
+            if (latAdj   != 0) sb.Append($"&latitudeAdjustmentMethod={latAdj}");
+            if (!string.IsNullOrEmpty(calendar) && calendar != "HJCoSA")
+                sb.Append($"&calendarMethod={calendar}");
+            return sb.ToString();
+        }
+    }
 
     private static PrayerMonthCache? _mem;
     private static PrayerMonthCache? _mem2; // second most-recently-used month
@@ -84,7 +183,7 @@ public static class PrayerTimesService
             && _mem?.Year == year
             && _mem.Month == month
             && string.Equals(_mem.City, city, StringComparison.OrdinalIgnoreCase)
-            && string.Equals(_mem.CalcMethod, CalcMethod, StringComparison.OrdinalIgnoreCase))
+            && _mem.CalcMethodId == CalcMethodId)
             return _mem;
 
         if (!forceRefresh)
@@ -288,14 +387,14 @@ public static class PrayerTimesService
 
             var cache = new PrayerMonthCache
             {
-                Year       = year,
-                Month      = month,
-                City       = city,
-                Country    = country,
-                TimeZoneId = timeZoneId,
-                CalcMethod = CalcMethod,
-                FetchedAt  = DateTime.UtcNow,
-                Days       = days
+                Year         = year,
+                Month        = month,
+                City         = city,
+                Country      = country,
+                TimeZoneId   = timeZoneId,
+                CalcMethodId = CalcMethodId,
+                FetchedAt    = DateTime.UtcNow,
+                Days         = days
             };
 
             await SaveDiskAsync(cache);
@@ -332,9 +431,9 @@ public static class PrayerTimesService
 
             // Invalidate if year, month, city, country or method changed
             if (cache.Year  != year  || cache.Month != month
-                || !string.Equals(cache.City,       city,       StringComparison.OrdinalIgnoreCase)
-                || !string.Equals(cache.Country,    country,    StringComparison.OrdinalIgnoreCase)
-                || !string.Equals(cache.CalcMethod, CalcMethod, StringComparison.OrdinalIgnoreCase))
+                || !string.Equals(cache.City,    city,    StringComparison.OrdinalIgnoreCase)
+                || !string.Equals(cache.Country, country, StringComparison.OrdinalIgnoreCase)
+                || cache.CalcMethodId != CalcMethodId)
                 return null;
 
             return cache;

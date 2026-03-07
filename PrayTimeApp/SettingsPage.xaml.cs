@@ -30,7 +30,7 @@ public partial class SettingsPage : ContentPage
         _loading = true;
 
         LanguageBadgeLabel.Text  = LocalizationService.CurrentLanguageDisplay;
-        CalcMethodBadgeLabel.Text = CalcMethodDisplay(PrayerTimesService.CalcMethod);
+        CalcMethodBadgeLabel.Text = CalcMethodDisplay(PrayerTimesService.CalcMethodId);
         ThresholdValueLabel.Text = $"{LocationService.ThresholdKm} km";
 
         // ── Before Prayer Time ────────────────────────────────────────────────
@@ -92,36 +92,31 @@ public partial class SettingsPage : ContentPage
 
     // ── Calculation method ────────────────────────────────────────────────────
 
-    private static string CalcMethodDisplay(string method) => method switch
+    private static string CalcMethodDisplay(int methodId)
     {
-        "qmi" => LocalizationService.GetString("CalcMethodQMI"),
-        _     => LocalizationService.GetString("CalcMethodDiyanet"),
-    };
+        var def = PrayerTimesService.AllMethods.FirstOrDefault(m => m.DisplayId == methodId);
+        return def is null ? $"Method {methodId}" : LocalizationService.GetString(def.NameKey);
+    }
 
     private async void OnChangeCalcMethodTapped(object sender, TappedEventArgs e)
     {
-        var S       = LocalizationService.GetString;
-        var diyanet = S("CalcMethodDiyanet");
-        var qmi     = S("CalcMethodQMI");
-
+        var options = PrayerTimesService.AllMethods.Select(m => LocalizationService.GetString(m.NameKey)).ToArray();
         string result = await DisplayActionSheet(
-            S("CalcMethod"), S("Cancel"), null,
-            diyanet, qmi);
-
-        string? newMethod = result switch
-        {
-            var r when r == diyanet => "diyanet",
-            var r when r == qmi     => "qmi",
-            _                       => null
-        };
-
-        if (newMethod is null || newMethod == PrayerTimesService.CalcMethod) return;
-
-        PrayerTimesService.CalcMethod = newMethod;
-        PrayerTimesService.ClearDiskCache();        // force re-fetch with new method
-        CalcMethodBadgeLabel.Text = CalcMethodDisplay(newMethod);
-        MainPage.PendingCityReload = true;          // reload times on home tab
+            LocalizationService.GetString("CalcMethod"),
+            LocalizationService.GetString("Cancel"),
+            null,
+            options);
+        var chosen = PrayerTimesService.AllMethods.FirstOrDefault(m => LocalizationService.GetString(m.NameKey) == result);
+        if (chosen is null || chosen.DisplayId == PrayerTimesService.CalcMethodId) return;
+        PrayerTimesService.CalcMethodId = chosen.DisplayId;
+        PrayerTimesService.ApplyMethodDefaults(chosen);
+        PrayerTimesService.ClearDiskCache();
+        MainPage.PendingCityReload = true;
+        CalcMethodBadgeLabel.Text = CalcMethodDisplay(chosen.DisplayId);
     }
+
+    private async void OnConfigureCalcMethodTapped(object sender, TappedEventArgs e)
+        => await Shell.Current.GoToAsync(nameof(CalcMethodConfigPage));
 
     // ── Location threshold ────────────────────────────────────────────────────
 

@@ -24,7 +24,7 @@ namespace Nooria
                 {
 #if ANDROID
                     events.AddAndroid(android => android.OnCreate((activity, _) =>
-                        CrossFirebase.Initialize(activity, () => Platform.CurrentActivity!)));
+                        CrossFirebase.Initialize(activity)));
 #elif IOS
                     events.AddiOS(iOS => iOS.WillFinishLaunching((_, __) =>
                     {

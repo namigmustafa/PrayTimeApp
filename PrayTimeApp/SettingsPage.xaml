@@ -130,16 +130,38 @@
                         </VerticalStackLayout>
                     </Grid>
 
-                    <Border BackgroundColor="{StaticResource GoldAccent}"
-                            StrokeThickness="0" Padding="0,14">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnChangeCalcMethodTapped"/>
-                        </Border.GestureRecognizers>
-                        <Label Text="{i18n:Translate Change}"
-                               TextColor="#0D1623" FontSize="14" FontAttributes="Bold"
-                               CharacterSpacing="1.5" HorizontalOptions="Center"/>
-                    </Border>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource GoldAccent}"
+                                Stroke="Transparent"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 8">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnChangeCalcMethodTapped"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="{i18n:Translate Change}"
+                                   TextColor="#1a1a1a"
+                                   FontSize="13"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Margin="16,10"/>
+                        </Border>
+                        <Border Grid.Column="1"
+                                BackgroundColor="Transparent"
+                                Stroke="{StaticResource GoldAccent}"
+                                StrokeThickness="1.5"
+                                StrokeShape="RoundRectangle 8">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnConfigureCalcMethodTapped"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="⚙️"
+                                   FontSize="16"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Margin="10,10"/>
+                        </Border>
+                    </Grid>
 
                 </VerticalStackLayout>
             </Border>
