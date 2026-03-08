@@ -65,6 +65,7 @@ public static class CalcMethodConfigService
         { 22, new() { Shafaq = "general", Tune = "0,0,0,0,0,0,0,0,0", School = 0, Midnight = 0, LatAdj = 0, Calendar = "HJCoSA" } },
         { 23, new() { Shafaq = "general", Tune = "0,0,0,0,0,0,0,0,0", School = 0, Midnight = 0, LatAdj = 0, Calendar = "HJCoSA" } },
         { 24, new() { Shafaq = "general", Tune = "1,5,-1,0,1,15,0,-10,9", School = 1, Midnight = 0, LatAdj = 0, Calendar = "UAQ" } },
+        { 25, new() { Shafaq = "general", Tune = "0,12,0,0,0,0,0,-19,0", School = 0, Midnight = 0, LatAdj = 0, Calendar = "HJCoSA" } },
         { 99, new() { Shafaq = "general", Tune = "0,0,0,0,0,0,0,0,0", School = 0, Midnight = 0, LatAdj = 0, Calendar = "HJCoSA" } },
     };
 

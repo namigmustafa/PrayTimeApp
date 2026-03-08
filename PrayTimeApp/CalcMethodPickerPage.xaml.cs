@@ -30,6 +30,7 @@ public partial class CalcMethodPickerPage : ContentPage
         { 22, "Users in Portugal." },
         { 23, "Users in Jordan (Ministry of Awqaf)." },
         { 24, "Users in Azerbaijan. Note: These timings are calculated mathematically and are not directly sourced from the Caucasian Muslims Office; a variance of ±2 minutes may occur." },
+        { 25, "Muslims in the United Kingdom following the UK Unified Islamic Prayer Timetable (UUIPT). Uses MWL base method with adjusted offsets (+12 min Fajr, −19 min Isha)." },
         { 99, "For advanced users who need to set custom calculation angles." },
     };
 

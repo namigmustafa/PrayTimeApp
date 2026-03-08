@@ -6,7 +6,7 @@
              BackgroundColor="{StaticResource AppBg}"
              Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="20,16,20,20">
+    <Grid x:Name="RootGrid" RowDefinitions="Auto,Auto,*" Padding="20,16,20,20">
 
         <!-- ── Header ──────────────────────────────────────────── -->
         <Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="12" Margin="0,8,0,16">

@@ -149,6 +149,7 @@ public static class LocalizationService
             ["CalcMethod_22"]        = "Comunidade Islamica de Lisboa",
             ["CalcMethod_23"]        = "Ministry of Awqaf and Islamic Affairs, Algeria",
             ["CalcMethod_24"]        = "Caucasus Muslims Board (QMI)",
+            ["CalcMethod_25"]        = "UK Unified Islamic Prayer Timetable",
             ["CalcMethod_99"]        = "Custom",
 
             // Calc config page
@@ -321,6 +322,7 @@ public static class LocalizationService
             ["CalcMethod_22"]        = "Comunidade Islamica de Lisboa",
             ["CalcMethod_23"]        = "Ministry of Awqaf and Islamic Affairs, Algeria",
             ["CalcMethod_24"]        = "Kafkasya M\u00fcsl\u00fcmanlar\u0131 \u0130daresi",
+            ["CalcMethod_25"]        = "UK Unified Islamic Prayer Timetable",
             ["CalcMethod_99"]        = "\u00d6zel",
 
             // Calc config page
@@ -493,6 +495,7 @@ public static class LocalizationService
             ["CalcMethod_22"]        = "Comunidade Islamica de Lisboa",
             ["CalcMethod_23"]        = "Ministry of Awqaf and Islamic Affairs, Algeria",
             ["CalcMethod_24"]        = "Qafqaz M\u00fcs\u0259lmanlar\u0131 \u0130dar\u0259si",
+            ["CalcMethod_25"]        = "UK Unified Islamic Prayer Timetable",
             ["CalcMethod_99"]        = "X\u00fcsusi",
 
             // Calc config page
@@ -635,6 +638,7 @@ public static class LocalizationService
             ["CalcMethod_22"]        = "Comunidade Islamica de Lisboa",
             ["CalcMethod_23"]        = "Ministry of Awqaf and Islamic Affairs, Algeria",
             ["CalcMethod_24"]        = "\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043c\u0443\u0441\u0443\u043b\u044c\u043c\u0430\u043d \u041a\u0430\u0432\u043a\u0430\u0437\u0430",
+            ["CalcMethod_25"]        = "UK Unified Islamic Prayer Timetable",
             ["CalcMethod_99"]        = "\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u0441\u043a\u0438\u0439",
 
             // Calc config page
@@ -784,6 +788,7 @@ public static class LocalizationService
             ["CalcMethod_22"]        = "Comunidade Islamica de Lisboa",
             ["CalcMethod_23"]        = "Ministry of Awqaf and Islamic Affairs, Algeria",
             ["CalcMethod_24"]        = "Caucasus Muslims Board (QMI)",
+            ["CalcMethod_25"]        = "UK Unified Islamic Prayer Timetable",
             ["CalcMethod_99"]        = "\u0645\u062e\u0635\u0635",
 
             // Calc config page
@@ -933,6 +938,7 @@ public static class LocalizationService
             ["CalcMethod_22"]        = "Comunidade Islamica de Lisboa",
             ["CalcMethod_23"]        = "Ministry of Awqaf and Islamic Affairs, Algeria",
             ["CalcMethod_24"]        = "Caucasus Muslims Board (QMI)",
+            ["CalcMethod_25"]        = "UK Unified Islamic Prayer Timetable",
             ["CalcMethod_99"]        = "Personalizado",
 
             // Calc config page
@@ -1082,6 +1088,7 @@ public static class LocalizationService
             ["CalcMethod_22"]        = "Comunidade Islamica de Lisboa",
             ["CalcMethod_23"]        = "Ministry of Awqaf and Islamic Affairs, Algeria",
             ["CalcMethod_24"]        = "Caucasus Muslims Board (QMI)",
+            ["CalcMethod_25"]        = "UK Unified Islamic Prayer Timetable",
             ["CalcMethod_99"]        = "Personnalis\u00e9",
 
             // Calc config page
@@ -1231,6 +1238,7 @@ public static class LocalizationService
             ["CalcMethod_22"]        = "Comunidade Islamica de Lisboa",
             ["CalcMethod_23"]        = "Ministry of Awqaf and Islamic Affairs, Algeria",
             ["CalcMethod_24"]        = "Caucasus Muslims Board (QMI)",
+            ["CalcMethod_25"]        = "UK Unified Islamic Prayer Timetable",
             ["CalcMethod_99"]        = "Benutzerdefiniert",
 
             // Calc config page

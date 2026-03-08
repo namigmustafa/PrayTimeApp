@@ -5,10 +5,38 @@ namespace Nooria;
 public partial class CitySearchPage : ContentPage
 {
     private CancellationTokenSource? _debounce;
+#if IOS
+    NSObject? _kbShowObs, _kbHideObs;
+#endif
 
     public CitySearchPage()
     {
         InitializeComponent();
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+#if IOS
+        _kbShowObs = UIKit.UIKeyboard.Notifications.ObserveWillShow((_, e) =>
+        {
+            var kbHeight = e.FrameEnd.Height;
+            RootGrid.Padding = new Thickness(20, 16, 20, kbHeight);
+        });
+        _kbHideObs = UIKit.UIKeyboard.Notifications.ObserveWillHide((_, _) =>
+        {
+            RootGrid.Padding = new Thickness(20, 16, 20, 20);
+        });
+#endif
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+#if IOS
+        _kbShowObs?.Dispose();
+        _kbHideObs?.Dispose();
+#endif
     }
 
     // ── Back ──────────────────────────────────────────────────────────────────

@@ -78,6 +78,7 @@ public static class PrayerTimesService
         new(22, 22, "CalcMethod_22"),
         new(23, 23, "CalcMethod_23"),
         new(24, 3,  "CalcMethod_24"),
+        new(25, 3,  "CalcMethod_25"),
         new(99, 99, "CalcMethod_99"),
     ];
 
