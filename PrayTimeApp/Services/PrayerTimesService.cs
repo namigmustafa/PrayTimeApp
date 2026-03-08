@@ -101,15 +101,13 @@ public static class PrayerTimesService
 
             var sb = new System.Text.StringBuilder();
             sb.Append($"method={apiMethod}");
-            if (!string.IsNullOrEmpty(cfg.Shafaq) && cfg.Shafaq != "general")
-                sb.Append($"&shafaq={cfg.Shafaq}");
+            sb.Append($"&shafaq={cfg.Shafaq}");
             if (!string.IsNullOrEmpty(cfg.Tune) && cfg.Tune != "0,0,0,0,0,0,0,0,0")
                 sb.Append($"&tune={cfg.Tune.Replace(",", "%2C")}");
-            if (cfg.School   != 0) sb.Append($"&school={cfg.School}");
-            if (cfg.Midnight != 0) sb.Append($"&midnightMode={cfg.Midnight}");
-            if (cfg.LatAdj   != 0) sb.Append($"&latitudeAdjustmentMethod={cfg.LatAdj}");
-            if (!string.IsNullOrEmpty(cfg.Calendar) && cfg.Calendar != "HJCoSA")
-                sb.Append($"&calendarMethod={cfg.Calendar}");
+            sb.Append($"&school={cfg.School}");
+            sb.Append($"&midnightMode={cfg.Midnight}");
+            sb.Append($"&latitudeAdjustmentMethod={cfg.LatAdj}");
+            sb.Append($"&calendarMethod={cfg.Calendar}");
             return sb.ToString();
         }
     }
