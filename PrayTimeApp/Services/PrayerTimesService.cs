@@ -1,6 +1,5 @@
 using System.Globalization;
 using System.Text.Json;
-using Microsoft.Maui.Storage;
 
 namespace Nooria.Services;
 
@@ -43,15 +42,9 @@ public class PrayerMonthCache
 }
 
 public record CalcMethodDefinition(
-    int     DisplayId,
-    int     ApiMethodId,
-    string  NameKey,
-    string? DefaultShafaq   = null,
-    string? DefaultTune     = null,
-    int?    DefaultSchool   = null,
-    int?    DefaultMidnight = null,
-    int?    DefaultLatAdj   = null,
-    string? DefaultCalendar = null
+    int    DisplayId,
+    int    ApiMethodId,
+    string NameKey
 );
 
 // ── Service ───────────────────────────────────────────────────────────────────
@@ -73,7 +66,7 @@ public static class PrayerTimesService
         new(10, 10, "CalcMethod_10"),
         new(11, 11, "CalcMethod_11"),
         new(12, 12, "CalcMethod_12"),
-        new(13, 13, "CalcMethod_13", DefaultTune: "0,0,0,0,0,0,0,0,0", DefaultSchool: 0, DefaultMidnight: 0, DefaultLatAdj: 3),
+        new(13, 13, "CalcMethod_13"),
         new(14, 14, "CalcMethod_14"),
         new(15, 15, "CalcMethod_15"),
         new(16, 16, "CalcMethod_16"),
@@ -84,76 +77,39 @@ public static class PrayerTimesService
         new(21, 21, "CalcMethod_21"),
         new(22, 22, "CalcMethod_22"),
         new(23, 23, "CalcMethod_23"),
-        new(24, 3,  "CalcMethod_24", DefaultShafaq: "general", DefaultTune: "1,5,-1,0,1,15,0,-10,9", DefaultSchool: 1, DefaultCalendar: "UAQ"),
+        new(24, 3,  "CalcMethod_24"),
         new(99, 99, "CalcMethod_99"),
     ];
 
     public static CalcMethodDefinition? CurrentMethodDef
         => AllMethods.FirstOrDefault(m => m.DisplayId == CalcMethodId);
 
-    // ── Calculation method ID (with migration from old string pref) ───────────
-    private const string MethodIdPrefKey = "calc_method_id";
-
+    // ── Calculation method ID — backed by JSON ────────────────────────────────
     public static int CalcMethodId
     {
-        get => MigrateAndGetMethodId();
-        set => Preferences.Set(MethodIdPrefKey, value);
-    }
-
-    private static int MigrateAndGetMethodId()
-    {
-        if (Preferences.ContainsKey(MethodIdPrefKey))
-            return Preferences.Get(MethodIdPrefKey, 13);
-        var old = Preferences.Get("calc_method", "diyanet");
-        int migrated = old == "qmi" ? 24 : 13;
-        Preferences.Set(MethodIdPrefKey, migrated);
-        Preferences.Remove("calc_method");
-        return migrated;
-    }
-
-    // ── Individual calculation parameters ─────────────────────────────────────
-    public static string CalcShafaq   { get => Preferences.Get("calc_shafaq",   "general");           set => Preferences.Set("calc_shafaq",   value); }
-    public static string CalcTune     { get => Preferences.Get("calc_tune",     "0,0,0,0,0,0,0,0,0"); set => Preferences.Set("calc_tune",     value); }
-    public static int    CalcSchool   { get => Preferences.Get("calc_school",   0);                    set => Preferences.Set("calc_school",   value); }
-    public static int    CalcMidnight { get => Preferences.Get("calc_midnight", 0);                    set => Preferences.Set("calc_midnight", value); }
-    public static int    CalcLatAdj   { get => Preferences.Get("calc_lat_adj",  0);                    set => Preferences.Set("calc_lat_adj",  value); }
-    public static string CalcCalendar { get => Preferences.Get("calc_calendar", "HJCoSA");             set => Preferences.Set("calc_calendar", value); }
-
-    // Apply the default parameter values for a given method definition.
-    public static void ApplyMethodDefaults(CalcMethodDefinition def)
-    {
-        if (def.DefaultShafaq   is not null) CalcShafaq   = def.DefaultShafaq;
-        if (def.DefaultTune     is not null) CalcTune     = def.DefaultTune;
-        if (def.DefaultSchool   is not null) CalcSchool   = def.DefaultSchool.Value;
-        if (def.DefaultMidnight is not null) CalcMidnight = def.DefaultMidnight.Value;
-        if (def.DefaultLatAdj   is not null) CalcLatAdj   = def.DefaultLatAdj.Value;
-        if (def.DefaultCalendar is not null) CalcCalendar = def.DefaultCalendar;
+        get => CalcMethodConfigService.SelectedMethodId;
+        set => CalcMethodConfigService.SelectedMethodId = value;
     }
 
     private static string MethodParams
     {
         get
         {
-            var def      = CurrentMethodDef;
+            var def = AllMethods.FirstOrDefault(m => m.DisplayId == CalcMethodId);
             int apiMethod = def?.ApiMethodId ?? 13;
-            string shafaq   = def?.DefaultShafaq   ?? CalcShafaq;
-            string tune     = def?.DefaultTune     ?? CalcTune;
-            int    school   = def?.DefaultSchool   ?? CalcSchool;
-            int    midnight = def?.DefaultMidnight ?? CalcMidnight;
-            int    latAdj   = def?.DefaultLatAdj   ?? CalcLatAdj;
-            string calendar = def?.DefaultCalendar ?? CalcCalendar;
+            var cfg = CalcMethodConfigService.CurrentConfig;
 
             var sb = new System.Text.StringBuilder();
             sb.Append($"method={apiMethod}");
-            if (!string.IsNullOrEmpty(shafaq) && shafaq != "general")
-                sb.Append($"&shafaq={shafaq}");
-            if (!string.IsNullOrEmpty(tune) && tune != "0,0,0,0,0,0,0,0,0")
-                sb.Append($"&tune={tune.Replace(",", "%2C")}");
-            if (school   != 0) sb.Append($"&school={school}");
-            if (midnight != 0) sb.Append($"&midnightMode={midnight}");
-            if (latAdj   != 0) sb.Append($"&latitudeAdjustmentMethod={latAdj}");
-            if (!string.IsNullOrEmpty(calendar) && calendar != "HJCoSA")
-                sb.Append($"&calendarMethod={calendar}");
+            if (!string.IsNullOrEmpty(cfg.Shafaq) && cfg.Shafaq != "general")
+                sb.Append($"&shafaq={cfg.Shafaq}");
+            if (!string.IsNullOrEmpty(cfg.Tune) && cfg.Tune != "0,0,0,0,0,0,0,0,0")
+                sb.Append($"&tune={cfg.Tune.Replace(",", "%2C")}");
+            if (cfg.School   != 0) sb.Append($"&school={cfg.School}");
+            if (cfg.Midnight != 0) sb.Append($"&midnightMode={cfg.Midnight}");
+            if (cfg.LatAdj   != 0) sb.Append($"&latitudeAdjustmentMethod={cfg.LatAdj}");
+            if (!string.IsNullOrEmpty(cfg.Calendar) && cfg.Calendar != "HJCoSA")
+                sb.Append($"&calendarMethod={cfg.Calendar}");
             return sb.ToString();
         }
     }

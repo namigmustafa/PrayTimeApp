@@ -4,6 +4,12 @@ namespace Nooria;
 
 public partial class TuneConfigPage : ContentPage
 {
+    private int[] _vals = new int[9];
+
+    // Sıra: imsak, fajr, sunrise, dhuhr, asr, maghrib, sunset, isha, midnight
+    private Label[] ValueLabels => [ImsakValue, FajrValue, SunriseValue, DhuhrValue,
+                                     AsrValue, MaghribValue, SunsetValue, IshaValue, MidnightValue];
+
     public TuneConfigPage()
     {
         InitializeComponent();
@@ -12,41 +18,65 @@ public partial class TuneConfigPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        LoadValues(PrayerTimesService.CalcTune);
+        var cfg = CalcMethodConfigService.GetConfig(PrayerTimesService.CalcMethodId);
+        LoadValues(cfg.Tune);
     }
 
     private void LoadValues(string tune)
     {
         var parts = tune.Split(',');
-        int[] vals = new int[9];
         for (int i = 0; i < 9; i++)
-            vals[i] = i < parts.Length && int.TryParse(parts[i].Trim(), out int v) ? v : 0;
-
-        ImsakEntry.Text        = vals[0].ToString();
-        FajrEntry.Text         = vals[1].ToString();
-        SunriseEntry.Text      = vals[2].ToString();
-        DhuhrEntry.Text        = vals[3].ToString();
-        AsrEntry.Text          = vals[4].ToString();
-        MaghribEntry.Text      = vals[5].ToString();
-        SunsetEntry.Text       = vals[6].ToString();
-        IshaEntry.Text         = vals[7].ToString();
-        MidnightTuneEntry.Text = vals[8].ToString();
+            _vals[i] = i < parts.Length && int.TryParse(parts[i].Trim(), out int v) ? v : 0;
+        RefreshLabels();
     }
+
+    private void RefreshLabels()
+    {
+        var labels = ValueLabels;
+        for (int i = 0; i < 9; i++)
+            labels[i].Text = _vals[i].ToString();
+    }
+
+    private void Step(int index, int delta)
+    {
+        _vals[index] += delta;
+        ValueLabels[index].Text = _vals[index].ToString();
+    }
+
+    // Imsak
+    private void OnImsakMinus(object s, TappedEventArgs e)   => Step(0, -1);
+    private void OnImsakPlus(object s, TappedEventArgs e)    => Step(0,  1);
+    // Fajr
+    private void OnFajrMinus(object s, TappedEventArgs e)    => Step(1, -1);
+    private void OnFajrPlus(object s, TappedEventArgs e)     => Step(1,  1);
+    // Sunrise
+    private void OnSunriseMinus(object s, TappedEventArgs e) => Step(2, -1);
+    private void OnSunrisePlus(object s, TappedEventArgs e)  => Step(2,  1);
+    // Dhuhr
+    private void OnDhuhrMinus(object s, TappedEventArgs e)   => Step(3, -1);
+    private void OnDhuhrPlus(object s, TappedEventArgs e)    => Step(3,  1);
+    // Asr
+    private void OnAsrMinus(object s, TappedEventArgs e)     => Step(4, -1);
+    private void OnAsrPlus(object s, TappedEventArgs e)      => Step(4,  1);
+    // Maghrib
+    private void OnMaghribMinus(object s, TappedEventArgs e) => Step(5, -1);
+    private void OnMaghribPlus(object s, TappedEventArgs e)  => Step(5,  1);
+    // Sunset
+    private void OnSunsetMinus(object s, TappedEventArgs e)  => Step(6, -1);
+    private void OnSunsetPlus(object s, TappedEventArgs e)   => Step(6,  1);
+    // Isha
+    private void OnIshaMinus(object s, TappedEventArgs e)    => Step(7, -1);
+    private void OnIshaPlus(object s, TappedEventArgs e)     => Step(7,  1);
+    // Midnight
+    private void OnMidnightMinus(object s, TappedEventArgs e) => Step(8, -1);
+    private void OnMidnightPlus(object s, TappedEventArgs e)  => Step(8,  1);
 
     private async void OnApplyTapped(object sender, TappedEventArgs e)
     {
-        var entries = new[] { ImsakEntry, FajrEntry, SunriseEntry, DhuhrEntry, AsrEntry,
-                              MaghribEntry, SunsetEntry, IshaEntry, MidnightTuneEntry };
-        var vals = new int[9];
-        for (int i = 0; i < 9; i++)
-        {
-            if (!int.TryParse(entries[i].Text?.Trim() ?? "0", out vals[i]))
-            {
-                await DisplayAlert("Error", $"Invalid value for field {i + 1}. Must be an integer.", "OK");
-                return;
-            }
-        }
-        PrayerTimesService.CalcTune = string.Join(",", vals);
+        var tune = string.Join(",", _vals);
+        var cfg = CalcMethodConfigService.GetConfig(PrayerTimesService.CalcMethodId);
+        cfg.Tune = tune;
+        CalcMethodConfigService.SaveConfig(PrayerTimesService.CalcMethodId, cfg);
         PrayerTimesService.ClearDiskCache();
         MainPage.PendingCityReload = true;
         await Shell.Current.GoToAsync("..");
@@ -54,18 +84,8 @@ public partial class TuneConfigPage : ContentPage
 
     private void OnResetTapped(object sender, TappedEventArgs e)
     {
-        var def = PrayerTimesService.CurrentMethodDef;
-        string defaults = def?.DefaultTune ?? "0,0,0,0,0,0,0,0,0";
-        LoadValues(defaults);
-    }
-
-    private void OnPageTapped(object sender, TappedEventArgs e)
-    {
-        // Dismiss keyboard when tapping outside any Entry
-        var entries = new[] { ImsakEntry, FajrEntry, SunriseEntry, DhuhrEntry, AsrEntry,
-                              MaghribEntry, SunsetEntry, IshaEntry, MidnightTuneEntry };
-        foreach (var entry in entries)
-            if (entry.IsFocused) { entry.Unfocus(); break; }
+        var def = CalcMethodConfigService.GetDefaultConfig(PrayerTimesService.CalcMethodId);
+        LoadValues(def.Tune);
     }
 
     private async void OnBackTapped(object sender, TappedEventArgs e)

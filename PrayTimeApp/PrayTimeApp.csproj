@@ -20,8 +20,8 @@
 		<ApplicationId>com.nooria.app</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.2.2</ApplicationDisplayVersion>
-		<ApplicationVersion>17</ApplicationVersion>
+		<ApplicationDisplayVersion>1.3.0</ApplicationDisplayVersion>
+		<ApplicationVersion>18</ApplicationVersion>
 
 		<WindowsPackageType>None</WindowsPackageType>
 
@@ -61,6 +61,8 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.png" Color="#0D1623" />
+		<!-- Exclude the default MAUI foreground SVG so it doesn't get composited over appicon.png -->
+		<MauiIcon Remove="Resources\AppIcon\appiconfg.svg" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\n_logo_transparent.png" Color="#FFFFFF" BaseSize="140,140" />

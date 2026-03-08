@@ -6,9 +6,6 @@
              Shell.NavBarIsVisible="False">
 
     <Grid RowDefinitions="Auto,*,Auto">
-        <Grid.GestureRecognizers>
-            <TapGestureRecognizer Tapped="OnPageTapped"/>
-        </Grid.GestureRecognizers>
         <!-- Header -->
         <Grid Grid.Row="0" ColumnDefinitions="Auto,*" Padding="16,50,16,12" BackgroundColor="{StaticResource AppBg}">
             <Border Grid.Column="0"
@@ -38,100 +35,235 @@
 
                 <!-- Imsak -->
                 <Border BackgroundColor="{StaticResource CardBg}" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="16,12">
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
                         <Label Grid.Column="0" Text="Imsak" TextColor="White" FontSize="15" VerticalOptions="Center"/>
-                        <Entry x:Name="ImsakEntry" Grid.Column="1"
+                        <Border Grid.Column="1" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnImsakMinus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="−" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label x:Name="ImsakValue" Grid.Column="2" Text="0"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
-                               HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
+                               WidthRequest="36" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Border Grid.Column="3" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnImsakPlus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="+" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
                     </Grid>
                 </Border>
 
                 <!-- Fajr -->
                 <Border BackgroundColor="{StaticResource CardBg}" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="16,12">
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
                         <Label Grid.Column="0" Text="Fajr" TextColor="White" FontSize="15" VerticalOptions="Center"/>
-                        <Entry x:Name="FajrEntry" Grid.Column="1"
+                        <Border Grid.Column="1" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnFajrMinus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="−" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label x:Name="FajrValue" Grid.Column="2" Text="0"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
-                               HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
+                               WidthRequest="36" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Border Grid.Column="3" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnFajrPlus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="+" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
                     </Grid>
                 </Border>
 
                 <!-- Sunrise -->
                 <Border BackgroundColor="{StaticResource CardBg}" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="16,12">
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
                         <Label Grid.Column="0" Text="Sunrise" TextColor="White" FontSize="15" VerticalOptions="Center"/>
-                        <Entry x:Name="SunriseEntry" Grid.Column="1"
+                        <Border Grid.Column="1" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnSunriseMinus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="−" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label x:Name="SunriseValue" Grid.Column="2" Text="0"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
-                               HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
+                               WidthRequest="36" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Border Grid.Column="3" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnSunrisePlus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="+" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
                     </Grid>
                 </Border>
 
                 <!-- Dhuhr -->
                 <Border BackgroundColor="{StaticResource CardBg}" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="16,12">
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
                         <Label Grid.Column="0" Text="Dhuhr" TextColor="White" FontSize="15" VerticalOptions="Center"/>
-                        <Entry x:Name="DhuhrEntry" Grid.Column="1"
+                        <Border Grid.Column="1" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnDhuhrMinus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="−" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label x:Name="DhuhrValue" Grid.Column="2" Text="0"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
-                               HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
+                               WidthRequest="36" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Border Grid.Column="3" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnDhuhrPlus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="+" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
                     </Grid>
                 </Border>
 
                 <!-- Asr -->
                 <Border BackgroundColor="{StaticResource CardBg}" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="16,12">
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
                         <Label Grid.Column="0" Text="Asr" TextColor="White" FontSize="15" VerticalOptions="Center"/>
-                        <Entry x:Name="AsrEntry" Grid.Column="1"
+                        <Border Grid.Column="1" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnAsrMinus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="−" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label x:Name="AsrValue" Grid.Column="2" Text="0"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
-                               HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
+                               WidthRequest="36" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Border Grid.Column="3" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnAsrPlus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="+" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
                     </Grid>
                 </Border>
 
                 <!-- Maghrib -->
                 <Border BackgroundColor="{StaticResource CardBg}" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="16,12">
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
                         <Label Grid.Column="0" Text="Maghrib" TextColor="White" FontSize="15" VerticalOptions="Center"/>
-                        <Entry x:Name="MaghribEntry" Grid.Column="1"
+                        <Border Grid.Column="1" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnMaghribMinus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="−" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label x:Name="MaghribValue" Grid.Column="2" Text="0"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
-                               HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
+                               WidthRequest="36" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Border Grid.Column="3" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnMaghribPlus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="+" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
                     </Grid>
                 </Border>
 
                 <!-- Sunset -->
                 <Border BackgroundColor="{StaticResource CardBg}" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="16,12">
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
                         <Label Grid.Column="0" Text="Sunset" TextColor="White" FontSize="15" VerticalOptions="Center"/>
-                        <Entry x:Name="SunsetEntry" Grid.Column="1"
+                        <Border Grid.Column="1" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnSunsetMinus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="−" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label x:Name="SunsetValue" Grid.Column="2" Text="0"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
-                               HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
+                               WidthRequest="36" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Border Grid.Column="3" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnSunsetPlus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="+" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
                     </Grid>
                 </Border>
 
                 <!-- Isha -->
                 <Border BackgroundColor="{StaticResource CardBg}" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="16,12">
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
                         <Label Grid.Column="0" Text="Isha" TextColor="White" FontSize="15" VerticalOptions="Center"/>
-                        <Entry x:Name="IshaEntry" Grid.Column="1"
+                        <Border Grid.Column="1" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnIshaMinus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="−" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label x:Name="IshaValue" Grid.Column="2" Text="0"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
-                               HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
+                               WidthRequest="36" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Border Grid.Column="3" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnIshaPlus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="+" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
                     </Grid>
                 </Border>
 
                 <!-- Midnight -->
                 <Border BackgroundColor="{StaticResource CardBg}" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="16,12">
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
                         <Label Grid.Column="0" Text="Midnight" TextColor="White" FontSize="15" VerticalOptions="Center"/>
-                        <Entry x:Name="MidnightTuneEntry" Grid.Column="1"
+                        <Border Grid.Column="1" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnMidnightMinus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="−" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label x:Name="MidnightValue" Grid.Column="2" Text="0"
                                TextColor="{StaticResource GoldAccent}" FontSize="15" FontAttributes="Bold"
-                               BackgroundColor="Transparent" Keyboard="Text" ReturnType="Next"
-                               HorizontalOptions="End" WidthRequest="70" HorizontalTextAlignment="End"/>
+                               WidthRequest="36" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                        <Border Grid.Column="3" BackgroundColor="{StaticResource AppBg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                WidthRequest="38" HeightRequest="38" Margin="4,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnMidnightPlus"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="+" TextColor="{StaticResource GoldAccent}" FontSize="20" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
                     </Grid>
                 </Border>
 

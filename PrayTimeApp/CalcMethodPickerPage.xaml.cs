@@ -123,7 +123,10 @@ public partial class CalcMethodPickerPage : ContentPage
             return;
         }
         PrayerTimesService.CalcMethodId = def.DisplayId;
-        PrayerTimesService.ApplyMethodDefaults(def);
+        // Eğer bu metod için daha önce config kaydedilmemişse factory default'u yaz
+        var existing = CalcMethodConfigService.GetConfig(def.DisplayId);
+        // GetConfig zaten default döndürür ama JSON'a kayıt etmek için:
+        CalcMethodConfigService.SaveConfig(def.DisplayId, existing);
         PrayerTimesService.ClearDiskCache();
         MainPage.PendingCityReload = true;
         await Shell.Current.GoToAsync("..");

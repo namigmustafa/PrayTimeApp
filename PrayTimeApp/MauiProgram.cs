@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
+using Nooria.Services;
 #if ANDROID
 using Plugin.Firebase.Core.Platforms.Android;
 using Plugin.LocalNotification;
@@ -14,6 +15,7 @@ namespace Nooria
     {
         public static MauiApp CreateMauiApp()
         {
+            CalcMethodConfigService.EnsureInitialized();
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()

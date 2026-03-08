@@ -19,12 +19,13 @@ public partial class CalcMethodConfigPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        _shafaq   = PrayerTimesService.CalcShafaq;
-        _tune     = PrayerTimesService.CalcTune;
-        _school   = PrayerTimesService.CalcSchool;
-        _midnight = PrayerTimesService.CalcMidnight;
-        _latAdj   = PrayerTimesService.CalcLatAdj;
-        _calendar = PrayerTimesService.CalcCalendar;
+        var cfg = CalcMethodConfigService.GetConfig(PrayerTimesService.CalcMethodId);
+        _shafaq   = cfg.Shafaq;
+        _tune     = cfg.Tune;
+        _school   = cfg.School;
+        _midnight = cfg.Midnight;
+        _latAdj   = cfg.LatAdj;
+        _calendar = cfg.Calendar;
         RefreshAllLabels();
     }
 
@@ -150,11 +151,16 @@ public partial class CalcMethodConfigPage : ContentPage
 
     private async void OnApplyTapped(object sender, TappedEventArgs e)
     {
-        PrayerTimesService.CalcShafaq   = _shafaq;
-        PrayerTimesService.CalcSchool   = _school;
-        PrayerTimesService.CalcMidnight = _midnight;
-        PrayerTimesService.CalcLatAdj   = _latAdj;
-        PrayerTimesService.CalcCalendar = _calendar;
+        var cfg = new CalcMethodConfig
+        {
+            Shafaq   = _shafaq,
+            Tune     = _tune,
+            School   = _school,
+            Midnight = _midnight,
+            LatAdj   = _latAdj,
+            Calendar = _calendar,
+        };
+        CalcMethodConfigService.SaveConfig(PrayerTimesService.CalcMethodId, cfg);
         PrayerTimesService.ClearDiskCache();
         MainPage.PendingCityReload = true;
         await Shell.Current.GoToAsync("..");
@@ -162,13 +168,13 @@ public partial class CalcMethodConfigPage : ContentPage
 
     private void OnResetTapped(object sender, TappedEventArgs e)
     {
-        var def = PrayerTimesService.CurrentMethodDef;
-        _shafaq   = def?.DefaultShafaq   ?? "general";
-        _tune     = def?.DefaultTune     ?? "0,0,0,0,0,0,0,0,0";
-        _school   = def?.DefaultSchool   ?? 0;
-        _midnight = def?.DefaultMidnight ?? 0;
-        _latAdj   = def?.DefaultLatAdj   ?? 0;
-        _calendar = def?.DefaultCalendar ?? "HJCoSA";
+        var def = CalcMethodConfigService.GetDefaultConfig(PrayerTimesService.CalcMethodId);
+        _shafaq   = def.Shafaq;
+        _tune     = def.Tune;
+        _school   = def.School;
+        _midnight = def.Midnight;
+        _latAdj   = def.LatAdj;
+        _calendar = def.Calendar;
         RefreshAllLabels();
     }
 
