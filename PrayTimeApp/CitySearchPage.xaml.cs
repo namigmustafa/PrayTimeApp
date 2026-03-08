@@ -6,7 +6,7 @@ public partial class CitySearchPage : ContentPage
 {
     private CancellationTokenSource? _debounce;
 #if IOS
-    NSObject? _kbShowObs, _kbHideObs;
+    Foundation.NSObject? _kbShowObs, _kbHideObs;
 #endif
 
     public CitySearchPage()
