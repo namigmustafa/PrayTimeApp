@@ -259,6 +259,31 @@ public partial class MainPage : ContentPage
         if (next is not null)
             _countdownTarget = next.Value.Target;
 
+#if ANDROID
+        // Update home-screen widget
+        if (next is not null)
+        {
+            string nextTimeStr = next.Value.Name switch
+            {
+                "Sunrise" => today.Timings.Sunrise,
+                "Dhuhr"   => today.Timings.Dhuhr,
+                "Asr"     => today.Timings.Asr,
+                "Maghrib" => today.Timings.Maghrib,
+                "Isha"    => today.Timings.Isha,
+                "Fajr"    => tomorrow?.Timings.Fajr ?? today.Timings.Fajr,
+                _         => "—",
+            };
+            long nextUtcMs = new DateTimeOffset(
+                DateTime.SpecifyKind(next.Value.Target, DateTimeKind.Utc)).ToUnixTimeMilliseconds();
+            Nooria.Platforms.Android.PrayerWidget.WriteDataAndUpdate(
+                global::Android.App.Application.Context,
+                current?.Value.Name ?? "—",
+                next.Value.Name,
+                nextTimeStr,
+                nextUtcMs);
+        }
+#endif
+
         // (Re-)schedule all alarms for the next 7 days
         PrayerMonthCache? nextMonthCache = null;
         if (now.Day > DateTime.DaysInMonth(year, month) - 6)
